@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GDB on Freedom Book</title>
+    <link>https://swifteen.github.io/categories/GDB/</link>
+    <description>Recent content in GDB on Freedom Book</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 17 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://swifteen.github.io/categories/GDB/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>浮点数计算误差分析</title>
+      <link>https://swifteen.github.io/posts/%E6%B5%AE%E7%82%B9%E6%95%B0%E8%AE%A1%E7%AE%97%E8%AF%AF%E5%B7%AE%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sun, 17 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/posts/%E6%B5%AE%E7%82%B9%E6%95%B0%E8%AE%A1%E7%AE%97%E8%AF%AF%E5%B7%AE%E5%88%86%E6%9E%90/</guid>
+      <description>版本说明 #   内容: 浮点数计算误差分析 时间: 2022/02/28 版本: V 0.1  浮点数计算误差分析 #  通过分析汇编代码，分析浮点数运行产生的误差
+测试程序 #  例子 1 #  #include &amp;lt;stdio.h&amp;gt;int main() { 	int a = 33800; 	long long b = 13*sizeof(short)*(a); 	printf(&amp;#34;[%lld]\n&amp;#34;,b); } 例子 2 #  #include &amp;lt;stdio.h&amp;gt;int main() { 	int a = 33800; 	long long b = 13*1000*sizeof(short)* (double)(a/1000.0); 	printf(&amp;#34;[%lld]\n&amp;#34;,b); } 例子1输出878800 例子2输出878799
+为何会产生差异呢，只能从汇编代码入手，一点一点分析浮点计算的过程
+例子1汇编代码 #  例子1不涉及浮点数，因此汇编代码比较简单，先通过例子1的汇编代码进行了解。</description>
+    </item>
+    
+  </channel>
+</rss>

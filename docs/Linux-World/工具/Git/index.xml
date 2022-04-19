@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Freedom Book</title>
+    <link>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/</link>
+    <description>Recent content on Freedom Book</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Git常用配置</title>
+      <link>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/</guid>
+      <description>Github国内加速克隆及下载 #  fastgit.org https://doc.fastgit.org/
+gitclone.com https://gitclone.com/
+gitee https://gitee.com/mirrors
+cnpmjs.org https://github.com.cnpmjs.org/
+Github documentation contains a script that replaces the committer info for all commits in a branch (now irretrievable, this is the last snapshot).
+git代理 #  git config --global https.proxy &amp;#39;socks5://192.168.31.181:10808&amp;#39; git config --global http.proxy &amp;#39;socks5://192.168.31.181:10808&amp;#39; 基本配置 #  Git的设置文件为.gitconfig，它可以在用户主目录下（全局配置），也可以在项目目录下（项目配置）。
+ # 显示当前的Git配置 $ git config --list  # 编辑Git配置文件 $ git config -e [--global]  # 设置提交代码时的用户信息 $ git config [--global] user.</description>
+    </item>
+    
+    <item>
+      <title>git基本使用</title>
+      <link>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</guid>
+      <description>版本说明 #   git基本使用    日期 版本 修改内容     2021/02/19 V0.3 创建      Git对比SVN #   1.小步提交，互不干扰 #  并行开发过程中各开发人员可以随时多次commit代码且互不影响，最后在merage到主分支，并且能记录所有成员的所有commint记录。SVN只能大量的一次性提交到中心库。
+2.打断开发：在开发新功能过程中，突然需要你去修复一个Bug #  使用Git，你可以直接stash/commit当前改动，然后switch到主分支去修复Bug，之后在pop/switch回你原来的分支继续开发。
+3.Git分支切换-指针移动，SVN分支切换-Copy项目 #  Git支持本地无限Branches，当我们个体在本地创建多个branches用于不同目的的时候（修改，新增，探索），分支轻量化，秒创分支，创建分支满足客户定制化需求
+4.Git Tag-指针标示，SVN Tag-Copy项目 #  Git管理的项目要比SVN小得多。Git初次拉取代码的速度也远小于SVN。
+5.两级提交 #  本地创建分支开发，本地提交，需要合并时再提交到远程
+6.日志查看 #  Git本地包含了完整的日志，闪电的速度查看（并且无需网络)。SVN需要从服务拉取。
+7.安全 #  Git是分布式版本控制系统，每个用户都相当于一份备份， 管理员无需为数据备份而担心。SVN作为集中式版本控制系统，存在单点故障的风险。备份版本库的任务非常繁重。
+linus在google的演讲感悟 链接：https://www.zhihu.com/question/19601997/answer/95363587
+ 自洽的、最少依赖的个人工作得到支持。1000多人的Linux开发团队是分布在世界各地的，使用git也就不必依赖中心服务器、不必需要很少的网络。就在自己的电脑上就有完整的仓库，可以做任何版本管理，除了分享代码。SVN显然是不合适的，因为单点故障大家甚至无法提交，更加无法开分支，这是无法忍受的。 剔除害群之马很简单。如果Linus经过观察，发现有些程序员特别容易出漏子，那么封杀的办法就是不必拉取即可。实际上Linus就是这样干过。如果是SVN，就变成了撤销惹麻烦的开发者的账号或者限定他的访问范围，并且从仓库中移除麻烦的代码提交。就是说，封杀的方法在git而言，是不做某事即可，SVN是做一系列事情才可以。一正一反，大家可以体会一下。Linus喜欢前者，并且得心应手。这样的工作流程就避开了很多“政治”问题，让他的集成代码过程变得主动。 可以使用信任网络。Linux太大了，不可能完全看完补丁代码的方式来识别信任，这个Linus曾经干过，最后的结果当然是放弃。如果发现有些程序员特别优秀，他只要选择拉取他们的实现。这些程序员也只是拉取他们信任的程序员的实现。这样的信任网络是可以层次化的，因此对应于1000多人的开发者来说，这样做确实可以通过分层的信任网络达成大规模的团队协作。如果是SVN，我不知道如何做可以更好 轻量的分支开销鼓励大量被使用。对于这样的团队，为了敏捷的迭代，如果有想法就分支（这样的开发隔离想法是很有价值的），那么在svn上分支是海量的并且全局的大家互相影响，因此是要命的。而对于Git总数当然是海量，但是每个人的分支都在自己的仓库内，不会影响到他人。且分支无需连接服务器，因此是飞速的。  Git工作流 #   http://www.</description>
+    </item>
+    
+    <item>
+      <title>git高级使用</title>
+      <link>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8/</guid>
+      <description>版本说明 #   git基本使用    日期 版本 修改内容     2021/02/19 V0.3 创建      个人使用总结 #  Merge节点 #  Git有两种合并：一种是&amp;quot;直进式合并&amp;quot;（fast forward），不生成单独的合并节点；另一种是&amp;quot;非直进式合并&amp;quot;（none fast-forword），会生成单独节点。
+前者不利于保持commit信息的清晰，也不利于以后的回滚，建议总是采用后者（即使用--no-ff参数）。只要发生合并，就要有一个单独的合并节点。
+ push策略 #  不带任何参数的git push，默认只推送当前分支，这叫做simple方式。此外，还有一种matching方式，会推送所有有对应的远程分支的本地分支。Git 2.0版本之前，默认采用matching方法，现在改为默认采用simple方式。如果要修改这个设置，可以采用git config命令。
+$ git config --global push.default matching # 或者 $ git config --global push.default simple 解决merge 和 rebase 合并冲突 #  #merge 和 rebase 对于 ours 和 theirs 的定义是完全相反的。在 merge 时，ours 指代的是当前分支，theirs 代表需要被合并的分支。而在 rebase 过程中，ours 指向了修改参考分支，theirs 却是当前分支 git checkout --ours src/MyFile.</description>
+    </item>
+    
+  </channel>
+</rss>

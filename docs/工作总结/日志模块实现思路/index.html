@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="版本说明 #   日志模块实现    日期 版本 修改内容     2022/03/01 V0.1 创建      实现目标 #    整个上层日志最后能导出到一个文件中，方便根据日志记录顺序，查找问题。避免多日志文件不好查时序的麻烦
+  整个程序运行后，一直往内存中写日志，只在用户想要导出日志时，才写U盘，尽量减少程序运行时耗时
+  能做到内存中始终能导出最近的日志到U盘中
+  程序崩溃后，发生崩溃点的日志保存处理(在DEBUG版本中，将日志输出缓冲设置为0)
+  参考实现 #  Qt5官方日志QLoggingCategory测试 #  QLoggingCategory represents a certain logging category - identified by a string - at runtime. A category can be configured to enable or disable logging of messages per message type.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="版本说明 #   日志模块实现    日期 版本 修改内容     2022/03/01 V0.1 创建      实现目标 #    整个上层日志最后能导出到一个文件中，方便根据日志记录顺序，查找问题。避免多日志文件不好查时序的麻烦
+  整个程序运行后，一直往内存中写日志，只在用户想要导出日志时，才写U盘，尽量减少程序运行时耗时
+  能做到内存中始终能导出最近的日志到U盘中
+  程序崩溃后，发生崩溃点的日志保存处理(在DEBUG版本中，将日志输出缓冲设置为0)
+  参考实现 #  Qt5官方日志QLoggingCategory测试 #  QLoggingCategory represents a certain logging category - identified by a string - at runtime. A category can be configured to enable or disable logging of messages per message type." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://swifteen.github.io/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF/" /><meta property="article:section" content="docs" />
+
+
+
+<title>日志模块实现思路 | Freedom Book</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.8af359f8b4ff91864838b7225239a34a4ca449e60ef99ab88e33c978c8685391.css" integrity="sha256-ivNZ&#43;LT/kYZIOLciUjmjSkykSeYO&#43;Zq4jjPJeMhoU5E=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.d45c0ffc37a24fca2ef007edb1d82d27449127aa5b68259acea105adc08ba9ea.js" integrity="sha256-1FwP/DeiT8ou8AftsdgtJ0SRJ6pbaCWazqEFrcCLqeo=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Freedom Book</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+  
+
+
+
+  
+    
+  
+    
+  
+
+
+
+<ul class="book-languages">
+  <li>
+    <input type="checkbox" id="languages" class="toggle" />
+    <label for="languages" class="flex justify-between">
+      <a role="button" class="flex align-center">
+        <img src="/svg/translate.svg" class="book-icon" alt="Languages" />
+        English
+      </a>
+    </label>
+
+    <ul>
+      
+      <li>
+        <a href="https://swifteen.github.io/ru/">
+          Russian
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://swifteen.github.io/zh/">
+          Chinese
+        </a>
+      </li>
+      
+    </ul>
+  </li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" class="">读书笔记</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="toggle"  />
+    <label for="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="flex justify-between">
+      <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/" class="">深入理解计算机系统</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/" class="">第一章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/4th-level/" class="">4th Level</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/" class="">5th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/6th-level/" class="">6th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/" class="">第二章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/" class="">7th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/12th-level/" class="">12th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/8th-level/" class="">8th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/" class="">工程实践</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/FalconMode/" class="">FalconMode模式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/BBB%E6%9D%BF%E4%BD%BF%E7%94%A8NFS%E6%8C%82%E8%BD%BD%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" class="">BBB板使用NFS挂载文件系统</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/" class="">工作总结</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">数据库</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF/" class=" active">日志模块实现思路</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/" class="">Linux World</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/" class="">工具</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="toggle"  />
+    <label for="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Git常用配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" class="">git基本使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8/" class="">git高级使用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-d5b311234c6410083508e37cc63fc1b6" class="toggle"  />
+    <label for="section-d5b311234c6410083508e37cc63fc1b6" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/" class="">Vim</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/%E9%85%8D%E7%BD%AE/" class="">配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/" class="">常用 Linux命令</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4a2fe1f775a45aa533a141965b5ef749" class="toggle"  />
+    <label for="section-4a2fe1f775a45aa533a141965b5ef749" class="flex justify-between">
+      <a href="/docs/Linux-World/Raspberry/" class="">Raspberry</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Raspberry/%E5%B8%B8%E7%94%A8/" class="">常用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-23ec4bc7089b12961617b50da77ae792" class="toggle"  />
+    <label for="section-23ec4bc7089b12961617b50da77ae792" class="flex justify-between">
+      <a href="/docs/Linux-World/Ubuntu/" class="">Ubuntu</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%9B%AE%E5%BD%95%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE/" class="">目录共享配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%90%86%E5%92%8C%E8%AF%81%E4%B9%A6/" class="">系统代理和证书</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E5%85%B6%E5%AE%83/" class="">其它</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://github.com/swifteen/" target="_blank" rel="noopener">
+        Github
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://themes.gohugo.io/hugo-book/" target="_blank" rel="noopener">
+        Hugo Themes
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>日志模块实现思路</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#版本说明">版本说明</a></li>
+    <li><a href="#实现目标">实现目标</a></li>
+    <li><a href="#参考实现">参考实现</a>
+      <ul>
+        <li><a href="#qt5官方日志qloggingcategory测试">Qt5官方日志QLoggingCategory测试</a>
+          <ul>
+            <li><a href="#improving-logging-output">Improving Logging Output</a></li>
+            <li><a href="#内部实现代码">内部实现代码</a></li>
+          </ul>
+        </li>
+        <li><a href="#moduo日志实现参考20210901">moduo日志实现参考20210901</a></li>
+        <li><a href="#syslog日志实现">syslog日志实现</a>
+          <ul>
+            <li><a href="#日志消息级别syslog-level">日志消息级别syslog Level</a></li>
+            <li><a href="#syslog与qdebug配合">syslog与QDebug配合</a></li>
+          </ul>
+        </li>
+        <li><a href="#logging-kernel-oops-to-mtd">Logging kernel oops to MTD</a></li>
+        <li><a href="#journald">journald</a>
+          <ul>
+            <li><a href="#systemd-journaldservice">systemd-journald.service</a></li>
+            <li><a href="#默认配置-journaldconf">默认配置 journald.conf</a></li>
+            <li><a href="#测试日志轮转">测试日志轮转</a></li>
+            <li><a href="#备份日志脚本参考">备份日志脚本参考</a></li>
+            <li><a href="#测试syslog关联">测试syslog关联</a></li>
+            <li><a href="#常用命令">常用命令</a></li>
+            <li><a href="#应用程序日志重定向">应用程序日志重定向</a></li>
+            <li><a href="#日志集中管理">日志集中管理</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+    <li><a href="#参考链接">参考链接</a>
+      <ul>
+        <li><a href="#鸟叔systemd-journaldservice-简介">鸟叔systemd-journald.service 简介</a></li>
+        <li><a href="#journald-logging-tutorial">journald-logging-tutorial</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="版本说明">
+  版本说明
+  <a class="anchor" href="#%e7%89%88%e6%9c%ac%e8%af%b4%e6%98%8e">#</a>
+</h1>
+<ul>
+<li>日志模块实现
+<table>
+<thead>
+<tr>
+<th>日期</th>
+<th>版本</th>
+<th>修改内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2022/03/01</td>
+<td>V0.1</td>
+<td>创建</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<h1 id="实现目标">
+  实现目标
+  <a class="anchor" href="#%e5%ae%9e%e7%8e%b0%e7%9b%ae%e6%a0%87">#</a>
+</h1>
+<ul>
+<li>
+<p><input checked="" disabled="" type="checkbox"> 整个上层日志最后能导出到一个文件中，方便根据日志记录顺序，查找问题。避免多日志文件不好查时序的麻烦</p>
+</li>
+<li>
+<p><input checked="" disabled="" type="checkbox"> 整个程序运行后，一直往内存中写日志，只在用户想要导出日志时，才写U盘，尽量减少程序运行时耗时</p>
+</li>
+<li>
+<p><input checked="" disabled="" type="checkbox"> 能做到内存中始终能导出最近的日志到U盘中</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> 程序崩溃后，发生崩溃点的日志保存处理(在DEBUG版本中，将日志输出缓冲设置为0)</p>
+</li>
+</ul>
+<h1 id="参考实现">
+  参考实现
+  <a class="anchor" href="#%e5%8f%82%e8%80%83%e5%ae%9e%e7%8e%b0">#</a>
+</h1>
+<h2 id="qt5官方日志qloggingcategory测试">
+  Qt5官方日志QLoggingCategory测试
+  <a class="anchor" href="#qt5%e5%ae%98%e6%96%b9%e6%97%a5%e5%bf%97qloggingcategory%e6%b5%8b%e8%af%95">#</a>
+</h2>
+<p>QLoggingCategory represents a certain logging category - identified by a string - at runtime. A category can be configured to enable or disable logging of messages per message type.</p>
+<p>Split up logging messages in hierarchical categories.Category is identified by it&rsquo;s name
+category.subcategory.subsubcategory[&hellip;]
+Logging of messages can be enabled or disabled based on the category and message type, at runtime.</p>
+<p>优点：</p>
+<p>1、可以将各个模块日志通过各自的Debug Level进行控制</p>
+<p>2、运行时，动态修改各个模块的Debug Level</p>
+<h3 id="improving-logging-output">
+  Improving Logging Output
+  <a class="anchor" href="#improving-logging-output">#</a>
+</h3>
+<p>
+  <a href="https://community.kde.org/Guidelines_and_HOWTOs/Debugging/Using_Error_Messages">https://community.kde.org/Guidelines_and_HOWTOs/Debugging/Using_Error_Messages</a></p>
+<p>Qt provides a way of controlling the output of the logging methods via an environment variable. You can tell it to include the application name and PID, as well as the debugging category, and color-code the text. For example, running the following lines in your shell will produce something that looks quite like <code>kDebug</code>&rsquo;s colored output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>c<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>echo -e <span style="color:#e6db74">&#34;\033&#34;</span><span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>export QT_MESSAGE_PATTERN<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;%{appname}(%{pid})/(%{category}) </span>$c<span style="color:#e6db74">\[31m%{if-debug}</span>$c<span style="color:#e6db74">\[34m%{endif}%{function}</span>$c<span style="color:#e6db74">\[0m: %{message}&#34;</span>
+</span></span><span style="display:flex;"><span>unset c
+</span></span></code></pre></div><p>See 
+  <a href="https://doc.qt.io/qt-5/qtglobal.html#qSetMessagePattern">qSetMessagePattern documentation</a> for the full list of placeholders.</p>
+<h3 id="内部实现代码">
+  内部实现代码
+  <a class="anchor" href="#%e5%86%85%e9%83%a8%e5%ae%9e%e7%8e%b0%e4%bb%a3%e7%a0%81">#</a>
+</h3>
+<p>
+  <a href="https://stackoverflow.com/questions/55520757/how-to-use-q-logging-category-and-reference-the-category-in-a-templated-function">https://stackoverflow.com/questions/55520757/how-to-use-q-logging-category-and-reference-the-category-in-a-templated-function</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#define Q_DECLARE_LOGGING_CATEGORY(name) \
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    extern const QLoggingCategory &amp;name();
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define Q_LOGGING_CATEGORY(name, ...) \
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    const QLoggingCategory &amp;name() \
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    { \
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">        static const QLoggingCategory category(__VA_ARGS__); \
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">        return category; \
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    }
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//使用
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#define qCDebug(category, ...) \
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    for (bool qt_category_enabled = category().isDebugEnabled(); qt_category_enabled; qt_category_enabled = false) \
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">        QMessageLogger(QT_MESSAGELOG_FILE, QT_MESSAGELOG_LINE, QT_MESSAGELOG_FUNC, category().categoryName()).debug(__VA_ARGS__)
+</span></span></span></code></pre></div><h2 id="moduo日志实现参考20210901">
+  moduo日志实现参考20210901
+  <a class="anchor" href="#moduo%e6%97%a5%e5%bf%97%e5%ae%9e%e7%8e%b0%e5%8f%82%e8%80%8320210901">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#define LOG_TRACE if (muduo::Logger::logLevel() &lt;= muduo::Logger::TRACE) \
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  muduo::Logger(__FILE__, __LINE__, muduo::Logger::TRACE, __func__).stream()
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define LOG_DEBUG if (muduo::Logger::logLevel() &lt;= muduo::Logger::DEBUG) \
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  muduo::Logger(__FILE__, __LINE__, muduo::Logger::DEBUG, __func__).stream()
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define LOG_INFO if (muduo::Logger::logLevel() &lt;= muduo::Logger::INFO) \
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  muduo::Logger(__FILE__, __LINE__).stream()
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define LOG_WARN muduo::Logger(__FILE__, __LINE__, muduo::Logger::WARN).stream()
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define LOG_ERROR muduo::Logger(__FILE__, __LINE__, muduo::Logger::ERROR).stream()
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define LOG_FATAL muduo::Logger(__FILE__, __LINE__, muduo::Logger::FATAL).stream()
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define LOG_SYSERR muduo::Logger(__FILE__, __LINE__, false).stream()
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define LOG_SYSFATAL muduo::Logger(__FILE__, __LINE__, true).stream()
+</span></span></span></code></pre></div><h2 id="syslog日志实现">
+  syslog日志实现
+  <a class="anchor" href="#syslog%e6%97%a5%e5%bf%97%e5%ae%9e%e7%8e%b0">#</a>
+</h2>
+<h3 id="日志消息级别syslog-level">
+  日志消息级别syslog Level
+  <a class="anchor" href="#%e6%97%a5%e5%bf%97%e6%b6%88%e6%81%af%e7%ba%a7%e5%88%absyslog-level">#</a>
+</h3>
+<ul>
+<li>0 EMERG（紧急）：会导致主机系统不可用的情况</li>
+<li>1 ALERT（警告）：必须马上采取措施解决的问题</li>
+<li>2 CRIT（严重）：比较严重的情况</li>
+<li>3 ERR（错误）：运行出现错误</li>
+<li>4 WARNING（提醒）：可能会影响系统功能的事件</li>
+<li>5 NOTICE（注意）：不会影响系统但值得注意</li>
+<li>6 INFO（信息）：一般信息</li>
+<li>7 DEBUG（调试）：程序或系统调试信息等</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>syslog</th>
+<th>journald priority level</th>
+<th>QtMsgType</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LOG_EMERG</td>
+<td>emerg</td>
+<td>QtFatalMsg</td>
+<td>System is unusable</td>
+</tr>
+<tr>
+<td>LOG_ALERT</td>
+<td>alert</td>
+<td></td>
+<td>Should be corrected immediately</td>
+</tr>
+<tr>
+<td>LOG_CRIT</td>
+<td>crit</td>
+<td>QtCriticalMsg</td>
+<td>Critical conditions</td>
+</tr>
+<tr>
+<td>LOG_ERR</td>
+<td>err</td>
+<td></td>
+<td>Error conditions</td>
+</tr>
+<tr>
+<td>LOG_WARNING</td>
+<td>warning</td>
+<td>QtWarningMsg</td>
+<td>May indicate that an error will occur if action is not taken.</td>
+</tr>
+<tr>
+<td>LOG_NOTICE</td>
+<td>notice</td>
+<td></td>
+<td>Events that are unusual, but not error conditions.</td>
+</tr>
+<tr>
+<td>LOG_INFO</td>
+<td>info</td>
+<td>QtInfoMsg</td>
+<td>Normal operational messages that require no action.</td>
+</tr>
+<tr>
+<td>LOG_DEBUG</td>
+<td>debug</td>
+<td>QtDebugMsg</td>
+<td>Information useful to developers for debugging the application.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="syslog与qdebug配合">
+  syslog与QDebug配合
+  <a class="anchor" href="#syslog%e4%b8%8eqdebug%e9%85%8d%e5%90%88">#</a>
+</h3>
+<p>Qt4封装</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;QApplication&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;syslog.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">customMessageHandler</span>(QtMsgType type, <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> msg)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">switch</span>(type)
+</span></span><span style="display:flex;"><span>    {   
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> QtDebugMsg:
+</span></span><span style="display:flex;"><span>            syslog(LOG_DEBUG, <span style="color:#e6db74">&#34;%s&#34;</span>, msg);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> QtInfoMsg:
+</span></span><span style="display:flex;"><span>            syslog(LOG_INFO, <span style="color:#e6db74">&#34;%s&#34;</span>, msg);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>;    		
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> QtWarningMsg:
+</span></span><span style="display:flex;"><span>            syslog(LOG_WARNING, <span style="color:#e6db74">&#34;%s&#34;</span>, msg);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> QtCriticalMsg:
+</span></span><span style="display:flex;"><span>            syslog(LOG_CRIT, <span style="color:#e6db74">&#34;%s&#34;</span>, msg);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> QtFatalMsg:
+</span></span><span style="display:flex;"><span>            syslog(LOG_ERR, <span style="color:#e6db74">&#34;%s&#34;</span>, msg);
+</span></span><span style="display:flex;"><span>            abort();<span style="color:#75715e">//这里退出进程了
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>            syslog(LOG_DEBUG, <span style="color:#e6db74">&#34;%s&#34;</span>, msg);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> argv[])
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    QApplication a(argc, argv);
+</span></span><span style="display:flex;"><span>    qInstallMsgHandler(customMessageHandler);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a.exec();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Qt5封装</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;QApplication&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;syslog.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> LOG_LEVEL_CHAR[<span style="color:#ae81ff">8</span>] <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;!&#39;</span>, <span style="color:#e6db74">&#39;A&#39;</span>, <span style="color:#e6db74">&#39;C&#39;</span>, <span style="color:#e6db74">&#39;E&#39;</span>, <span style="color:#e6db74">&#39;W&#39;</span>, <span style="color:#e6db74">&#39;N&#39;</span>, <span style="color:#e6db74">&#39;I&#39;</span>, <span style="color:#e6db74">&#39;D&#39;</span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">customMessageHandler</span>(QtMsgType type, <span style="color:#66d9ef">const</span> QMessageLogContext <span style="color:#f92672">&amp;</span>context, <span style="color:#66d9ef">const</span> QString <span style="color:#f92672">&amp;</span>msg)
+</span></span><span style="display:flex;"><span> {
+</span></span><span style="display:flex;"><span>     QByteArray localMsg <span style="color:#f92672">=</span> msg.toLocal8Bit();
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>file <span style="color:#f92672">=</span> context.file <span style="color:#f92672">?</span> context.file : <span style="color:#e6db74">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>function <span style="color:#f92672">=</span> context.function <span style="color:#f92672">?</span> context.function : <span style="color:#e6db74">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>category <span style="color:#f92672">=</span> context.category <span style="color:#f92672">?</span> context.category : <span style="color:#e6db74">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">int</span> level <span style="color:#f92672">=</span> LOG_INFO;
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">switch</span> (type) {
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">case</span> QtDebugMsg:
+</span></span><span style="display:flex;"><span>         level <span style="color:#f92672">=</span> LOG_DEBUG;
+</span></span><span style="display:flex;"><span>         <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">case</span> QtInfoMsg:
+</span></span><span style="display:flex;"><span>         level <span style="color:#f92672">=</span> LOG_INFO;
+</span></span><span style="display:flex;"><span>         <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">case</span> QtWarningMsg:
+</span></span><span style="display:flex;"><span>         level <span style="color:#f92672">=</span> LOG_WARNING;
+</span></span><span style="display:flex;"><span>         <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">case</span> QtCriticalMsg:
+</span></span><span style="display:flex;"><span>         level <span style="color:#f92672">=</span> LOG_CRIT;
+</span></span><span style="display:flex;"><span>         <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">case</span> QtFatalMsg:
+</span></span><span style="display:flex;"><span>         level <span style="color:#f92672">=</span> LOG_ERR;
+</span></span><span style="display:flex;"><span>         <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>     }
+</span></span><span style="display:flex;"><span>     syslog(level, <span style="color:#e6db74">&#34;[%c](%s,%s:%u, %s): %s </span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, LOG_LEVEL_CHAR[level],category,file, context.line, function, localMsg.constData());
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>argv[])
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    QApplication a(argc, argv);
+</span></span><span style="display:flex;"><span>    qInstallMessageHandler(customMessageHandler);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a.exec();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Qt4中的qInstallMsgHandler函数被Qt5的qInstallMessageHandler替代了，增加了QMessageLogContext类，可以输出函数名、行号、文件路径信息</p>
+<p>测试结果如下，可以看出并没有显示函数名、行号等信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 09:43:23 am335x-evm test_log_category<span style="color:#f92672">[</span>954<span style="color:#f92672">]</span>: Debug: Log something:qCDebug  <span style="color:#ae81ff">74</span> <span style="color:#f92672">(</span>:0, , awesomecategory<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 09:43:23 am335x-evm test_log_category<span style="color:#f92672">[</span>954<span style="color:#f92672">]</span>: Info: Log something:qCInfo  <span style="color:#ae81ff">74</span> <span style="color:#f92672">(</span>:0, , awesomecategory<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 09:43:23 am335x-evm test_log_category<span style="color:#f92672">[</span>954<span style="color:#f92672">]</span>: Warning: Log something:qCWarning  <span style="color:#ae81ff">74</span> <span style="color:#f92672">(</span>:0, , awesomecategory<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 09:43:23 am335x-evm test_log_category<span style="color:#f92672">[</span>954<span style="color:#f92672">]</span>: Critical: Log something:qCCritical  <span style="color:#ae81ff">74</span> <span style="color:#f92672">(</span>:0, , awesomecategory<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 09:43:23 am335x-evm test_log_category<span style="color:#f92672">[</span>954<span style="color:#f92672">]</span>: Debug: Log something:qDebug  <span style="color:#ae81ff">74</span> <span style="color:#f92672">(</span>:0, , default<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 09:43:23 am335x-evm test_log_category<span style="color:#f92672">[</span>954<span style="color:#f92672">]</span>: Info: Log something:qInfo  <span style="color:#ae81ff">74</span> <span style="color:#f92672">(</span>:0, , default<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 09:43:23 am335x-evm test_log_category<span style="color:#f92672">[</span>954<span style="color:#f92672">]</span>: Warning: Log something:qWarning  <span style="color:#ae81ff">74</span> <span style="color:#f92672">(</span>:0, , default<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 09:43:23 am335x-evm test_log_category<span style="color:#f92672">[</span>954<span style="color:#f92672">]</span>: Critical: Log something:qCritical  <span style="color:#ae81ff">74</span> <span style="color:#f92672">(</span>:0, , default<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>通过以下两种方式修改pro文件后，可以开启函数名、行号等信息显示</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#方式1</span>
+</span></span><span style="display:flex;"><span>CONFIG <span style="color:#f92672">+=</span> debug
+</span></span><span style="display:flex;"><span>CONFIG<span style="color:#f92672">(</span>debug, debug|release<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    DESTDIR <span style="color:#f92672">=</span> build/debug
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>CONFIG<span style="color:#f92672">(</span>release, debug|release<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    DESTDIR <span style="color:#f92672">=</span> build/release
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#方式2</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#Note: By default, this information is recorded only in debug builds.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#You can overwrite this explicitly by defining QT_MESSAGELOGCONTEXT or QT_NO_MESSAGELOGCONTEXT.</span>
+</span></span><span style="display:flex;"><span>DEFINES <span style="color:#f92672">+=</span>QT_MESSAGELOGCONTEXT
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 10:14:49 am335x-evm test_log_category<span style="color:#f92672">[</span>916<span style="color:#f92672">]</span>: <span style="color:#f92672">[</span>D<span style="color:#f92672">](</span>category1,../widget.cpp:28, virtual void Widget::timerEvent<span style="color:#f92672">(</span>QTimerEvent*<span style="color:#f92672">))</span>: Log something:qCDebug1  <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 10:14:49 am335x-evm test_log_category<span style="color:#f92672">[</span>916<span style="color:#f92672">]</span>: <span style="color:#f92672">[</span>I<span style="color:#f92672">](</span>category1,../widget.cpp:29, virtual void Widget::timerEvent<span style="color:#f92672">(</span>QTimerEvent*<span style="color:#f92672">))</span>: Log something:qCInfo1  <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 10:14:49 am335x-evm test_log_category<span style="color:#f92672">[</span>916<span style="color:#f92672">]</span>: <span style="color:#f92672">[</span>W<span style="color:#f92672">](</span>category1,../widget.cpp:30, virtual void Widget::timerEvent<span style="color:#f92672">(</span>QTimerEvent*<span style="color:#f92672">))</span>: Log something:qCWarning1  <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 10:14:49 am335x-evm test_log_category<span style="color:#f92672">[</span>916<span style="color:#f92672">]</span>: <span style="color:#f92672">[</span>C<span style="color:#f92672">](</span>category1,../widget.cpp:31, virtual void Widget::timerEvent<span style="color:#f92672">(</span>QTimerEvent*<span style="color:#f92672">))</span>: Log something:qCCritical1  <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 10:14:49 am335x-evm test_log_category<span style="color:#f92672">[</span>916<span style="color:#f92672">]</span>: <span style="color:#f92672">[</span>D<span style="color:#f92672">](</span>category2,../widget.cpp:34, virtual void Widget::timerEvent<span style="color:#f92672">(</span>QTimerEvent*<span style="color:#f92672">))</span>: Log something:qCDebug2 <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 10:14:49 am335x-evm test_log_category<span style="color:#f92672">[</span>916<span style="color:#f92672">]</span>: <span style="color:#f92672">[</span>I<span style="color:#f92672">](</span>category2,../widget.cpp:35, virtual void Widget::timerEvent<span style="color:#f92672">(</span>QTimerEvent*<span style="color:#f92672">))</span>: Log something:qCInfo2 <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 10:14:49 am335x-evm test_log_category<span style="color:#f92672">[</span>916<span style="color:#f92672">]</span>: <span style="color:#f92672">[</span>W<span style="color:#f92672">](</span>category2,../widget.cpp:36, virtual void Widget::timerEvent<span style="color:#f92672">(</span>QTimerEvent*<span style="color:#f92672">))</span>: Log something:qCWarning2 <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 10:14:49 am335x-evm test_log_category<span style="color:#f92672">[</span>916<span style="color:#f92672">]</span>: <span style="color:#f92672">[</span>C<span style="color:#f92672">](</span>category2,../widget.cpp:37, virtual void Widget::timerEvent<span style="color:#f92672">(</span>QTimerEvent*<span style="color:#f92672">))</span>: Log something:qCCritical2 <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 10:14:49 am335x-evm test_log_category<span style="color:#f92672">[</span>916<span style="color:#f92672">]</span>: <span style="color:#f92672">[</span>D<span style="color:#f92672">](</span>default,../widget.cpp:39, virtual void Widget::timerEvent<span style="color:#f92672">(</span>QTimerEvent*<span style="color:#f92672">))</span>: Log something:qDebug3  <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 10:14:49 am335x-evm test_log_category<span style="color:#f92672">[</span>916<span style="color:#f92672">]</span>: <span style="color:#f92672">[</span>I<span style="color:#f92672">](</span>default,../widget.cpp:40, virtual void Widget::timerEvent<span style="color:#f92672">(</span>QTimerEvent*<span style="color:#f92672">))</span>: Log something:qInfo3  <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 10:14:49 am335x-evm test_log_category<span style="color:#f92672">[</span>916<span style="color:#f92672">]</span>: <span style="color:#f92672">[</span>W<span style="color:#f92672">](</span>default,../widget.cpp:41, virtual void Widget::timerEvent<span style="color:#f92672">(</span>QTimerEvent*<span style="color:#f92672">))</span>: Log something:qWarning3  <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 10:14:49 am335x-evm test_log_category<span style="color:#f92672">[</span>916<span style="color:#f92672">]</span>: <span style="color:#f92672">[</span>C<span style="color:#f92672">](</span>default,../widget.cpp:42, virtual void Widget::timerEvent<span style="color:#f92672">(</span>QTimerEvent*<span style="color:#f92672">))</span>: Log something:qCritical3  <span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><p>为了区分同一个进程内的不同模块日志，可使用QLoggingCategory类</p>
+<h2 id="logging-kernel-oops-to-mtd">
+  Logging kernel oops to MTD
+  <a class="anchor" href="#logging-kernel-oops-to-mtd">#</a>
+</h2>
+<p>A kernel error, or oops, is normally logged via the klogd and syslogd daemons to a circular memory buffer or a file.</p>
+<p>Following a reboot, the log will be lost in the case of a ring buffer, and even in the case of a file, it may not have been properly written to before the system crashed.</p>
+<p>A more reliable method is to write oops and kernel panics to an MTD partition as a circular log buffer.</p>
+<p>You can enable it with CONFIG_MTD_OOPS and add console=ttyMTDN to the kernel command line, with N being the MTD device number to write the messages to.</p>
+<p>• /var/log
+Generally, logging to flash memory is not desirable because of the many small write cycles it generates.
+A simple solution is to mount /var/log using tmpfs, making all log messages volatile.
+In the case of syslogd, BusyBox has a version that can log to a circular ring buffer.</p>
+<h2 id="journald">
+  journald
+  <a class="anchor" href="#journald">#</a>
+</h2>
+<p>The journal collects:</p>
+<ol>
+<li>All data logged via libc <code>syslog()</code></li>
+<li>The data from the kernel logged with <code>printk()</code></li>
+<li>Everything written to STDOUT/STDERR of any system service</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>root@am335x-evm:~# systemctl status systemd-journald
+</span></span><span style="display:flex;"><span>* systemd-journald.service - Journal Service
+</span></span><span style="display:flex;"><span>     Loaded: loaded <span style="color:#f92672">(</span>/lib/systemd/system/systemd-journald.service; static; vendor preset: disabled<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>     Active: active <span style="color:#f92672">(</span>running<span style="color:#f92672">)</span> since Mon 2021-05-24 08:05:14 UTC; 11min ago
+</span></span><span style="display:flex;"><span>TriggeredBy: * systemd-journald.socket
+</span></span><span style="display:flex;"><span>             * systemd-journald-dev-log.socket
+</span></span><span style="display:flex;"><span>             * systemd-journald-audit.socket
+</span></span><span style="display:flex;"><span>       Docs: man:systemd-journald.service<span style="color:#f92672">(</span>8<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>             man:journald.conf<span style="color:#f92672">(</span>5<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   Main PID: <span style="color:#ae81ff">95</span> <span style="color:#f92672">(</span>systemd-journal<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>     Status: <span style="color:#e6db74">&#34;Processing requests...&#34;</span>
+</span></span><span style="display:flex;"><span>      Tasks: <span style="color:#ae81ff">1</span> <span style="color:#f92672">(</span>limit: 454<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>     Memory: 8.9M
+</span></span><span style="display:flex;"><span>     CGroup: /system.slice/systemd-journald.service
+</span></span><span style="display:flex;"><span>             <span style="color:#e6db74">`</span>-95 /lib/systemd/systemd-journald
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 08:05:14 am335x-evm systemd-journald<span style="color:#f92672">[</span>95<span style="color:#f92672">]</span>: Journal started
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 08:05:14 am335x-evm systemd-journald<span style="color:#f92672">[</span>95<span style="color:#f92672">]</span>: Runtime Journal <span style="color:#f92672">(</span>/run/log/journal/d962f275af8b4c3ca16323491f1b0a43<span style="color:#f92672">)</span> is 8.0M, max 64.0M, 56.0M free.
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 08:05:15 am335x-evm systemd-journald<span style="color:#f92672">[</span>95<span style="color:#f92672">]</span>: Runtime Journal <span style="color:#f92672">(</span>/run/log/journal/d962f275af8b4c3ca16323491f1b0a43<span style="color:#f92672">)</span> is 8.0M, max 64.0M, 56.0M free.
+</span></span><span style="display:flex;"><span>Warning: Journal has been rotated since unit was started. Log output is incomplete or unavailable.
+</span></span></code></pre></div><h3 id="systemd-journaldservice">
+  systemd-journald.service
+  <a class="anchor" href="#systemd-journaldservice">#</a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>root@am335x-evm:~# cat /lib/systemd/system/systemd-journald.service
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  SPDX-License-Identifier: LGPL-2.1+</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  This file is part of systemd.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  systemd is free software; you can redistribute it and/or modify it</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  under the terms of the GNU Lesser General Public License as published by</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  the Free Software Foundation; either version 2.1 of the License, or</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  (at your option) any later version.</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Description<span style="color:#f92672">=</span>Journal Service
+</span></span><span style="display:flex;"><span>Documentation<span style="color:#f92672">=</span>man:systemd-journald.service<span style="color:#f92672">(</span>8<span style="color:#f92672">)</span> man:journald.conf<span style="color:#f92672">(</span>5<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>DefaultDependencies<span style="color:#f92672">=</span>no
+</span></span><span style="display:flex;"><span>Requires<span style="color:#f92672">=</span>systemd-journald.socket
+</span></span><span style="display:flex;"><span>After<span style="color:#f92672">=</span>systemd-journald.socket systemd-journald-dev-log.socket systemd-journald-audit.socket syslog.socket
+</span></span><span style="display:flex;"><span>Before<span style="color:#f92672">=</span>sysinit.target
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>OOMScoreAdjust<span style="color:#f92672">=</span>-250
+</span></span><span style="display:flex;"><span>CapabilityBoundingSet<span style="color:#f92672">=</span>CAP_SYS_ADMIN CAP_DAC_OVERRIDE CAP_SYS_PTRACE CAP_SYSLOG CAP_AUDIT_CONTROL CAP_AUDIT_READ CAP_CHOWN CAP_DAC_READ_SEARCH CAP_FOWNER CAP_SETUID CAP_SETGID CAP_MAC_OVERRIDE
+</span></span><span style="display:flex;"><span>DeviceAllow<span style="color:#f92672">=</span>char-* rw
+</span></span><span style="display:flex;"><span>ExecStart<span style="color:#f92672">=</span>/lib/systemd/systemd-journald
+</span></span><span style="display:flex;"><span>FileDescriptorStoreMax<span style="color:#f92672">=</span><span style="color:#ae81ff">4224</span>
+</span></span><span style="display:flex;"><span>IPAddressDeny<span style="color:#f92672">=</span>any
+</span></span><span style="display:flex;"><span>LockPersonality<span style="color:#f92672">=</span>yes
+</span></span><span style="display:flex;"><span>MemoryDenyWriteExecute<span style="color:#f92672">=</span>yes
+</span></span><span style="display:flex;"><span>NoNewPrivileges<span style="color:#f92672">=</span>yes
+</span></span><span style="display:flex;"><span>Restart<span style="color:#f92672">=</span>always
+</span></span><span style="display:flex;"><span>RestartSec<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>RestrictAddressFamilies<span style="color:#f92672">=</span>AF_UNIX AF_NETLINK
+</span></span><span style="display:flex;"><span>RestrictNamespaces<span style="color:#f92672">=</span>yes
+</span></span><span style="display:flex;"><span>RestrictRealtime<span style="color:#f92672">=</span>yes
+</span></span><span style="display:flex;"><span>RestrictSUIDSGID<span style="color:#f92672">=</span>yes
+</span></span><span style="display:flex;"><span>Sockets<span style="color:#f92672">=</span>systemd-journald.socket systemd-journald-dev-log.socket systemd-journald-audit.socket
+</span></span><span style="display:flex;"><span>StandardOutput<span style="color:#f92672">=</span>null
+</span></span><span style="display:flex;"><span>SystemCallArchitectures<span style="color:#f92672">=</span>native
+</span></span><span style="display:flex;"><span>SystemCallErrorNumber<span style="color:#f92672">=</span>EPERM
+</span></span><span style="display:flex;"><span>SystemCallFilter<span style="color:#f92672">=</span>@system-service
+</span></span><span style="display:flex;"><span>Type<span style="color:#f92672">=</span>notify
+</span></span><span style="display:flex;"><span>WatchdogSec<span style="color:#f92672">=</span>3min
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># If there are many split up journal files we need a lot of fds to access them</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># all in parallel.</span>
+</span></span><span style="display:flex;"><span>LimitNOFILE<span style="color:#f92672">=</span><span style="color:#ae81ff">524288</span>
+</span></span></code></pre></div><h3 id="默认配置-journaldconf">
+  默认配置 journald.conf
+  <a class="anchor" href="#%e9%bb%98%e8%ae%a4%e9%85%8d%e7%bd%ae-journaldconf">#</a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#  This file is part of systemd.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  systemd is free software; you can redistribute it and/or modify it</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  under the terms of the GNU Lesser General Public License as published by</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  the Free Software Foundation; either version 2.1 of the License, or</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  (at your option) any later version.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Entries in this file show the compile time defaults.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># You can change settings by editing this file.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Defaults can be restored by simply deleting this file.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># See journald.conf(5) for details.</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Journal<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#Storage=auto</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#Compress=yes</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#Seal=yes</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SplitMode=uid</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SyncIntervalSec=5m</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#RateLimitIntervalSec=30s</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#RateLimitBurst=10000</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SystemMaxUse=</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SystemKeepFree=</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SystemMaxFileSize=</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#SystemMaxFiles=100</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#RuntimeMaxUse=</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#RuntimeKeepFree=</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#RuntimeMaxFileSize=</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#RuntimeMaxFiles=100</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#MaxRetentionSec=</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#MaxFileSec=1month</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#ForwardToSyslog=no</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#ForwardToKMsg=no</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#ForwardToConsole=no</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#ForwardToWall=yes</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#TTYPath=/dev/console</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#MaxLevelStore=debug</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#MaxLevelSyslog=debug</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#MaxLevelKMsg=notice</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#MaxLevelConsole=info</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#MaxLevelWall=emerg</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#LineMax=48K</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#ReadKMsg=yes</span>
+</span></span></code></pre></div><p>Storage=</p>
+<p>/run/log/journal目录存在则保存到内存中，the existence of the directory controls the storage mode</p>
+<p>Note that journald will initially use volatile storage, until a call to <strong>journalctl &ndash;flush</strong> (or sending <code>SIGUSR1</code> to journald) will cause it to switch to persistent logging (under the conditions mentioned above). This is done automatically on boot via &ldquo;<code>systemd-journal-flush.service</code>&rdquo;.</p>
+<pre tabindex="0"><code>MaxLevelStore=`, `MaxLevelSyslog=`, `MaxLevelKMsg=`, `MaxLevelConsole=`, `MaxLevelWall=
+</code></pre><p>Controls the maximum log level of messages that are stored in the journal, forwarded to syslog, kmsg, the console or wall (if that is enabled, see above). As argument, takes one of &ldquo;<code>emerg</code>&rdquo;, &ldquo;<code>alert</code>&rdquo;, &ldquo;<code>crit</code>&rdquo;, &ldquo;<code>err</code>&rdquo;, &ldquo;<code>warning</code>&rdquo;, &ldquo;<code>notice</code>&rdquo;, &ldquo;<code>info</code>&rdquo;, &ldquo;<code>debug</code>&rdquo;, or integer values in the range of 0–7 (corresponding to the same levels). Messages equal or below the log level specified are stored/forwarded, messages above are dropped. Defaults to &ldquo;<code>debug</code>&rdquo; for <code>MaxLevelStore=</code> and <code>MaxLevelSyslog=</code>, to ensure that the all messages are stored in the journal and forwarded to syslog. Defaults to &ldquo;<code>notice</code>&rdquo; for <code>MaxLevelKMsg=</code>, &ldquo;<code>info</code>&rdquo; for <code>MaxLevelConsole=</code>, and &ldquo;<code>emerg</code>&rdquo; for <code>MaxLevelWall=</code>. These settings may be overridden at boot time with the kernel command line options &ldquo;<code>systemd.journald.max_level_store=</code>&rdquo;, &ldquo;<code>systemd.journald.max_level_syslog=</code>&rdquo;, &ldquo;<code>systemd.journald.max_level_kmsg=</code>&rdquo;, &ldquo;<code>systemd.journald.max_level_console=</code>&rdquo;, &ldquo;<code>systemd.journald.max_level_wall=</code>&rdquo;.</p>
+<p>通过查看man journald.conf手册，为了满足需要，只需要/etc/systemd/journald.conf 做如下配置</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>RuntimeMaxUse<span style="color:#f92672">=</span>16M
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#重启日志模块</span>
+</span></span><span style="display:flex;"><span>$ systemctl restart systemd-journald
+</span></span></code></pre></div><p>测试发现，设置为8M时，能导出的日志文件大概在176KB，里面包含1673行日志</p>
+<p>测试发现，占用为72M时，能导出的日志文件大概在3726KB，里面包含29888行日志</p>
+<p>如果只设置RuntimeMaxUse=16M，发现最后占用的空间会超过设定的空间16M，，于是测试同时设置RuntimeKeepFree=100M，仍然会超过预想的16M</p>
+<p>如果同时设置RuntimeMaxUse=16M和RuntimeMaxFiles=2这两个配置项，才能达到预想的16M，最终的配置如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>RuntimeMaxUse<span style="color:#f92672">=</span>16M
+</span></span><span style="display:flex;"><span>RuntimeMaxFiles<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>
+</span></span></code></pre></div><h3 id="测试日志轮转">
+  测试日志轮转
+  <a class="anchor" href="#%e6%b5%8b%e8%af%95%e6%97%a5%e5%bf%97%e8%bd%ae%e8%bd%ac">#</a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#66d9ef">while</span> true; <span style="color:#66d9ef">do</span> echo testing <span style="color:#ae81ff">1234567890</span> | systemd-cat; <span style="color:#66d9ef">done</span>
+</span></span></code></pre></div><h3 id="备份日志脚本参考">
+  备份日志脚本参考
+  <a class="anchor" href="#%e5%a4%87%e4%bb%bd%e6%97%a5%e5%bf%97%e8%84%9a%e6%9c%ac%e5%8f%82%e8%80%83">#</a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@study ~<span style="color:#f92672">]</span><span style="color:#75715e"># vim /backups/backup.sh</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>1<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;log&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>        logger -p syslog.info <span style="color:#e6db74">&#34;backup.sh is starting&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>source<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/etc /home /root /var/lib /var/spool/{cron,at,mail}&#34;</span>
+</span></span><span style="display:flex;"><span>target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/backups/backup-system-</span>$<span style="color:#e6db74">（date +%Y-%m-%d）.tar.gz&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> ! -d /backups <span style="color:#f92672">]</span> <span style="color:#f92672">&amp;&amp;</span> mkdir /backups
+</span></span><span style="display:flex;"><span>tar -zcvf <span style="color:#e6db74">${</span>target<span style="color:#e6db74">}</span> <span style="color:#e6db74">${</span>source<span style="color:#e6db74">}</span> <span style="color:#f92672">&amp;&amp;</span>gt; /backups/backup.log
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>1<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;log&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>        logger -p syslog.info <span style="color:#e6db74">&#34;backup.sh is finished&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@study ~<span style="color:#f92672">]</span><span style="color:#75715e"># /backups/backup.sh log</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>root@study ~<span style="color:#f92672">]</span><span style="color:#75715e"># journalctl SYSLOG_FACILITY=5 -n 3</span>
+</span></span><span style="display:flex;"><span>Aug <span style="color:#ae81ff">19</span> 18:09:37 study.centos.vbird dmtsai<span style="color:#f92672">[</span>29850<span style="color:#f92672">]</span>: backup.sh is starting
+</span></span><span style="display:flex;"><span>Aug <span style="color:#ae81ff">19</span> 18:09:54 study.centos.vbird dmtsai<span style="color:#f92672">[</span>29855<span style="color:#f92672">]</span>: backup.sh is finished
+</span></span></code></pre></div><h3 id="测试syslog关联">
+  测试syslog关联
+  <a class="anchor" href="#%e6%b5%8b%e8%af%95syslog%e5%85%b3%e8%81%94">#</a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;syslog.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    printf(<span style="color:#e6db74">&#34;hello world1</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    syslog(LOG_INFO, <span style="color:#e6db74">&#34;hello world2</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    fprintf(stdout,<span style="color:#e6db74">&#34;this is fprintf stdout test!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    fprintf(stderr,<span style="color:#e6db74">&#34;this is fprintf stderr test!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;    
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>测试1：直接运行测试程序，可以看出syslog方式输出的日志被记录到journald日志系统中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 09:57:30 am335x-evm test_journald<span style="color:#f92672">[</span>1918<span style="color:#f92672">]</span>: hello world2
+</span></span></code></pre></div><p>测试2：将测试程序添加到systemd中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>root@am335x-evm:~# cat /etc/systemd/system/test_journald.service                     
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Description<span style="color:#f92672">=</span>test_journald
+</span></span><span style="display:flex;"><span>After<span style="color:#f92672">=</span>network-online.target
+</span></span><span style="display:flex;"><span>Wants<span style="color:#f92672">=</span>network-online.target
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>ExecStart<span style="color:#f92672">=</span>/home/root/test_journald
+</span></span><span style="display:flex;"><span>Restart<span style="color:#f92672">=</span>always
+</span></span><span style="display:flex;"><span>KillMode<span style="color:#f92672">=</span>process
+</span></span></code></pre></div><p>可以看出，如果通过service方式启动，不管是printf,stdout,stderr,还是syslog方式，全部都被记录到journald日志系统中了</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>root@am335x-evm:~# systemctl restart test_journald 
+</span></span><span style="display:flex;"><span>root@am335x-evm:~# journalctl  /home/root/test_journald 
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:01:12 am335x-evm test_journald<span style="color:#f92672">[</span>3799<span style="color:#f92672">]</span>: hello world2
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:01:12 am335x-evm test_journald<span style="color:#f92672">[</span>3799<span style="color:#f92672">]</span>: this is fprintf stderr test!
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:01:12 am335x-evm test_journald<span style="color:#f92672">[</span>3799<span style="color:#f92672">]</span>: hello world1
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:01:12 am335x-evm test_journald<span style="color:#f92672">[</span>3799<span style="color:#f92672">]</span>: this is fprintf stdout test!
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:01:12 am335x-evm test_journald<span style="color:#f92672">[</span>3801<span style="color:#f92672">]</span>: hello world2
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:01:12 am335x-evm test_journald<span style="color:#f92672">[</span>3801<span style="color:#f92672">]</span>: this is fprintf stderr test!
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:01:12 am335x-evm test_journald<span style="color:#f92672">[</span>3801<span style="color:#f92672">]</span>: hello world1
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:01:12 am335x-evm test_journald<span style="color:#f92672">[</span>3801<span style="color:#f92672">]</span>: this is fprintf stdout test!
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:01:12 am335x-evm test_journald<span style="color:#f92672">[</span>3802<span style="color:#f92672">]</span>: hello world2
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:01:12 am335x-evm test_journald<span style="color:#f92672">[</span>3802<span style="color:#f92672">]</span>: this is fprintf stderr test!
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:01:12 am335x-evm test_journald<span style="color:#f92672">[</span>3802<span style="color:#f92672">]</span>: hello world1
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:01:12 am335x-evm test_journald<span style="color:#f92672">[</span>3802<span style="color:#f92672">]</span>: this is fprintf stdout test!
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:01:12 am335x-evm test_journald<span style="color:#f92672">[</span>3803<span style="color:#f92672">]</span>: hello world2
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:01:12 am335x-evm test_journald<span style="color:#f92672">[</span>3803<span style="color:#f92672">]</span>: this is fprintf stderr test!
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:01:12 am335x-evm test_journald<span style="color:#f92672">[</span>3803<span style="color:#f92672">]</span>: hello world1
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:01:12 am335x-evm test_journald<span style="color:#f92672">[</span>3803<span style="color:#f92672">]</span>: this is fprintf stdout test!
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:01:12 am335x-evm test_journald<span style="color:#f92672">[</span>3804<span style="color:#f92672">]</span>: hello world2
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:01:12 am335x-evm test_journald<span style="color:#f92672">[</span>3804<span style="color:#f92672">]</span>: this is fprintf stderr test!
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:01:12 am335x-evm test_journald<span style="color:#f92672">[</span>3804<span style="color:#f92672">]</span>: hello world1
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:01:12 am335x-evm test_journald<span style="color:#f92672">[</span>3804<span style="color:#f92672">]</span>: this is fprintf stdout test!
+</span></span></code></pre></div><h3 id="常用命令">
+  常用命令
+  <a class="anchor" href="#%e5%b8%b8%e7%94%a8%e5%91%bd%e4%bb%a4">#</a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ journalctl --since<span style="color:#f92672">=</span>2012-10-15 --until<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;2011-10-16 23:59:59&#34;</span>
+</span></span><span style="display:flex;"><span>$ journalctl -u httpd --since<span style="color:#f92672">=</span>00:00 --until<span style="color:#f92672">=</span>9:30
+</span></span><span style="display:flex;"><span>$ journalctl /usr/sbin/vpnc /usr/sbin/dhclient
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#The + is an explicit OR you can use in addition to the implied OR</span>
+</span></span><span style="display:flex;"><span>$ journalctl _HOSTNAME<span style="color:#f92672">=</span>theta _UID<span style="color:#f92672">=</span><span style="color:#ae81ff">70</span> + _HOSTNAME<span style="color:#f92672">=</span>epsilon _COMM<span style="color:#f92672">=</span>avahi-daemon
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#显示特定程序的所有消息</span>
+</span></span><span style="display:flex;"><span>$ journalctl /usr/lib/systemd/systemd
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#查看特定位置的日志</span>
+</span></span><span style="display:flex;"><span>$ journalctl -D /mnt/var/log/journal -xe
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#Displaying Logs by Process ID</span>
+</span></span><span style="display:flex;"><span>$ journalctl _PID<span style="color:#f92672">=</span><span style="color:#ae81ff">1221</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#只展示内核日志</span>
+</span></span><span style="display:flex;"><span>$ journalctl -k
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#显示毫秒</span>
+</span></span><span style="display:flex;"><span>$ journalctl -o short-precise
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 显示Priority level</span>
+</span></span><span style="display:flex;"><span>$ journalctl -p err..alert
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#手动清理日志，会保留最新的日志，从旧的日志开始删除</span>
+</span></span><span style="display:flex;"><span>$ journalctl --vacuum-size<span style="color:#f92672">=</span>10M
+</span></span><span style="display:flex;"><span>$ journalctl --vacuum-time<span style="color:#f92672">=</span>2weeks
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#查看当前使用空间</span>
+</span></span><span style="display:flex;"><span>$ journalctl --disk-usage
+</span></span><span style="display:flex;"><span>Archived and active journals take up 8.0M in the file system.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#修改/etc/systemd/journald.conf配置文件后，重启systemd-journald日志服务</span>
+</span></span><span style="display:flex;"><span>$ systemctl restart systemd-journald
+</span></span></code></pre></div><h3 id="应用程序日志重定向">
+  应用程序日志重定向
+  <a class="anchor" href="#%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%e6%97%a5%e5%bf%97%e9%87%8d%e5%ae%9a%e5%90%91">#</a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;syslog.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;QDebug&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    qDebug()<span style="color:#f92672">&lt;&lt;</span> __FILE__ <span style="color:#f92672">&lt;&lt;</span> __FUNCTION__ <span style="color:#f92672">&lt;&lt;</span> __LINE__ <span style="color:#f92672">&lt;&lt;</span><span style="color:#e6db74">&#34;this is QDebug test1&#34;</span>;
+</span></span><span style="display:flex;"><span>    printf(<span style="color:#e6db74">&#34;this is printf test ,hello world1</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    syslog(LOG_INFO, <span style="color:#e6db74">&#34;this is syslog test,hello world2</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    fprintf(stdout,<span style="color:#e6db74">&#34;this is fprintf stdout test!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    fprintf(stderr,<span style="color:#e6db74">&#34;this is fprintf stderr test!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    qDebug()<span style="color:#f92672">&lt;&lt;</span> __FILE__ <span style="color:#f92672">&lt;&lt;</span> __FUNCTION__ <span style="color:#f92672">&lt;&lt;</span> __LINE__ <span style="color:#f92672">&lt;&lt;</span><span style="color:#e6db74">&#34;this is QDebug test2&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;    
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>通过管道和systemd-cat程序，将程序中的所有日志重定向到journald中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>./test_journald 2&gt;&amp;<span style="color:#ae81ff">1</span> |systemd-cat
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 13:02:31.141452 am335x-evm cat<span style="color:#f92672">[</span>1438<span style="color:#f92672">]</span>: ../test.cpp main <span style="color:#ae81ff">6</span> this is QDebug test1
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 13:02:31.145114 am335x-evm test_journald<span style="color:#f92672">[</span>1437<span style="color:#f92672">]</span>: this is syslog test,hello world2
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 13:02:31.147729 am335x-evm cat<span style="color:#f92672">[</span>1438<span style="color:#f92672">]</span>: this is fprintf stderr test!
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 13:02:31.152862 am335x-evm cat<span style="color:#f92672">[</span>1438<span style="color:#f92672">]</span>: ../test.cpp main <span style="color:#ae81ff">11</span> this is QDebug test2
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 13:02:31.152862 am335x-evm cat<span style="color:#f92672">[</span>1438<span style="color:#f92672">]</span>: this is printf test ,hello world1
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 13:02:31.152862 am335x-evm cat<span style="color:#f92672">[</span>1438<span style="color:#f92672">]</span>: this is fprintf stdout test!
+</span></span></code></pre></div><p>从输出结果可以看出：</p>
+<p>1、通过systemd-cat导入到journald后，日志中的进程名为cat，而使用syslog后，能正确显示进程名</p>
+<p>2、QDebug和syslog的优先级比printf和fprintf stdout方式要高，并且QDebug和syslog会按照出现的顺序进行输出</p>
+<h3 id="日志集中管理">
+  日志集中管理
+  <a class="anchor" href="#%e6%97%a5%e5%bf%97%e9%9b%86%e4%b8%ad%e7%ae%a1%e7%90%86">#</a>
+</h3>
+<p>利用rsyslog，将日志发送到远程服务器，可以使前期调试阶段更方便</p>
+<h1 id="总结">
+  总结
+  <a class="anchor" href="#%e6%80%bb%e7%bb%93">#</a>
+</h1>
+<p>1、为了将上层应用和内核的日志统一输出，便于定位问题，需要利用systemd中的强大的journald日志管理程序</p>
+<p>2、为了保证日志统一输出到journald中，针对Qt程序和非Qt程序调用统一封装日志接口宏，在日志接口宏中统一调用syslog接口</p>
+<p>3、对于Qt程序，可以利用QLoggingCategory类，可以控制日志按模块输出</p>
+<h1 id="参考链接">
+  参考链接
+  <a class="anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">#</a>
+</h1>
+<p>
+  <a href="http://highscalability.com/log-everything-all-time">http://highscalability.com/log-everything-all-time</a></p>
+<p>
+  <a href="http://jinke.me/2018-05-10-muduo-logger/">http://jinke.me/2018-05-10-muduo-logger/</a></p>
+<p>
+  <a href="https://riccoqu.github.io/2016/03/24/Linux%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E4%B8%8ESyslog%E5%87%BD%E6%95%B0%E4%BB%8B%E7%BB%8D/">https://riccoqu.github.io/2016/03/24/Linux%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E4%B8%8ESyslog%E5%87%BD%E6%95%B0%E4%BB%8B%E7%BB%8D/</a></p>
+<h2 id="鸟叔systemd-journaldservice-简介">
+  鸟叔systemd-journald.service 简介
+  <a class="anchor" href="#%e9%b8%9f%e5%8f%94systemd-journaldservice-%e7%ae%80%e4%bb%8b">#</a>
+</h2>
+<p>
+  <a href="https://wizardforcel.gitbooks.io/vbird-linux-basic-4e/content/160.html">https://wizardforcel.gitbooks.io/vbird-linux-basic-4e/content/160.html</a></p>
+<h2 id="journald-logging-tutorial">
+  journald-logging-tutorial
+  <a class="anchor" href="#journald-logging-tutorial">#</a>
+</h2>
+<p>
+  <a href="https://sematext.com/blog/journald-logging-tutorial/">https://sematext.com/blog/journald-logging-tutorial/</a></p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/swifteen/swifteen.github.io/edit/main/exampleSite/content/docs/%e5%b7%a5%e4%bd%9c%e6%80%bb%e7%bb%93/%e6%97%a5%e5%bf%97%e6%a8%a1%e5%9d%97%e5%ae%9e%e7%8e%b0%e6%80%9d%e8%b7%af.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function e(n){const e=window.getSelection(),t=document.createRange();t.selectNodeContents(n),e.removeAllRanges(),e.addRange(t)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#版本说明">版本说明</a></li>
+    <li><a href="#实现目标">实现目标</a></li>
+    <li><a href="#参考实现">参考实现</a>
+      <ul>
+        <li><a href="#qt5官方日志qloggingcategory测试">Qt5官方日志QLoggingCategory测试</a>
+          <ul>
+            <li><a href="#improving-logging-output">Improving Logging Output</a></li>
+            <li><a href="#内部实现代码">内部实现代码</a></li>
+          </ul>
+        </li>
+        <li><a href="#moduo日志实现参考20210901">moduo日志实现参考20210901</a></li>
+        <li><a href="#syslog日志实现">syslog日志实现</a>
+          <ul>
+            <li><a href="#日志消息级别syslog-level">日志消息级别syslog Level</a></li>
+            <li><a href="#syslog与qdebug配合">syslog与QDebug配合</a></li>
+          </ul>
+        </li>
+        <li><a href="#logging-kernel-oops-to-mtd">Logging kernel oops to MTD</a></li>
+        <li><a href="#journald">journald</a>
+          <ul>
+            <li><a href="#systemd-journaldservice">systemd-journald.service</a></li>
+            <li><a href="#默认配置-journaldconf">默认配置 journald.conf</a></li>
+            <li><a href="#测试日志轮转">测试日志轮转</a></li>
+            <li><a href="#备份日志脚本参考">备份日志脚本参考</a></li>
+            <li><a href="#测试syslog关联">测试syslog关联</a></li>
+            <li><a href="#常用命令">常用命令</a></li>
+            <li><a href="#应用程序日志重定向">应用程序日志重定向</a></li>
+            <li><a href="#日志集中管理">日志集中管理</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+    <li><a href="#参考链接">参考链接</a>
+      <ul>
+        <li><a href="#鸟叔systemd-journaldservice-简介">鸟叔systemd-journald.service 简介</a></li>
+        <li><a href="#journald-logging-tutorial">journald-logging-tutorial</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

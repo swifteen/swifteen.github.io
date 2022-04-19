@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Github国内加速克隆及下载 #  fastgit.org https://doc.fastgit.org/
+gitclone.com https://gitclone.com/
+gitee https://gitee.com/mirrors
+cnpmjs.org https://github.com.cnpmjs.org/
+Github documentation contains a script that replaces the committer info for all commits in a branch (now irretrievable, this is the last snapshot).
+git代理 #  git config --global https.proxy &#39;socks5://192.168.31.181:10808&#39; git config --global http.proxy &#39;socks5://192.168.31.181:10808&#39; 基本配置 #  Git的设置文件为.gitconfig，它可以在用户主目录下（全局配置），也可以在项目目录下（项目配置）。
+ # 显示当前的Git配置 $ git config --list  # 编辑Git配置文件 $ git config -e [--global]  # 设置提交代码时的用户信息 $ git config [--global] user.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Git常用配置" />
+<meta property="og:description" content="Github国内加速克隆及下载 #  fastgit.org https://doc.fastgit.org/
+gitclone.com https://gitclone.com/
+gitee https://gitee.com/mirrors
+cnpmjs.org https://github.com.cnpmjs.org/
+Github documentation contains a script that replaces the committer info for all commits in a branch (now irretrievable, this is the last snapshot).
+git代理 #  git config --global https.proxy &#39;socks5://192.168.31.181:10808&#39; git config --global http.proxy &#39;socks5://192.168.31.181:10808&#39; 基本配置 #  Git的设置文件为.gitconfig，它可以在用户主目录下（全局配置），也可以在项目目录下（项目配置）。
+ # 显示当前的Git配置 $ git config --list  # 编辑Git配置文件 $ git config -e [--global]  # 设置提交代码时的用户信息 $ git config [--global] user." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Git常用配置 | Freedom Book</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.8af359f8b4ff91864838b7225239a34a4ca449e60ef99ab88e33c978c8685391.css" integrity="sha256-ivNZ&#43;LT/kYZIOLciUjmjSkykSeYO&#43;Zq4jjPJeMhoU5E=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.d45c0ffc37a24fca2ef007edb1d82d27449127aa5b68259acea105adc08ba9ea.js" integrity="sha256-1FwP/DeiT8ou8AftsdgtJ0SRJ6pbaCWazqEFrcCLqeo=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Freedom Book</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+  
+
+
+
+  
+    
+  
+    
+  
+
+
+
+<ul class="book-languages">
+  <li>
+    <input type="checkbox" id="languages" class="toggle" />
+    <label for="languages" class="flex justify-between">
+      <a role="button" class="flex align-center">
+        <img src="/svg/translate.svg" class="book-icon" alt="Languages" />
+        English
+      </a>
+    </label>
+
+    <ul>
+      
+      <li>
+        <a href="https://swifteen.github.io/ru/">
+          Russian
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://swifteen.github.io/zh/">
+          Chinese
+        </a>
+      </li>
+      
+    </ul>
+  </li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" class="">读书笔记</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="toggle"  />
+    <label for="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="flex justify-between">
+      <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/" class="">深入理解计算机系统</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/" class="">第一章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/4th-level/" class="">4th Level</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/" class="">5th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/6th-level/" class="">6th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/" class="">第二章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/" class="">7th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/12th-level/" class="">12th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/8th-level/" class="">8th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/" class="">工程实践</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/FalconMode/" class="">FalconMode模式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/BBB%E6%9D%BF%E4%BD%BF%E7%94%A8NFS%E6%8C%82%E8%BD%BD%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" class="">BBB板使用NFS挂载文件系统</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/" class="">工作总结</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">数据库</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF/" class="">日志模块实现思路</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/" class="">Linux World</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/" class="">工具</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="toggle" checked />
+    <label for="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class=" active">Git常用配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" class="">git基本使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8/" class="">git高级使用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-d5b311234c6410083508e37cc63fc1b6" class="toggle"  />
+    <label for="section-d5b311234c6410083508e37cc63fc1b6" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/" class="">Vim</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/%E9%85%8D%E7%BD%AE/" class="">配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/" class="">常用 Linux命令</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4a2fe1f775a45aa533a141965b5ef749" class="toggle"  />
+    <label for="section-4a2fe1f775a45aa533a141965b5ef749" class="flex justify-between">
+      <a href="/docs/Linux-World/Raspberry/" class="">Raspberry</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Raspberry/%E5%B8%B8%E7%94%A8/" class="">常用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-23ec4bc7089b12961617b50da77ae792" class="toggle"  />
+    <label for="section-23ec4bc7089b12961617b50da77ae792" class="flex justify-between">
+      <a href="/docs/Linux-World/Ubuntu/" class="">Ubuntu</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%9B%AE%E5%BD%95%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE/" class="">目录共享配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%90%86%E5%92%8C%E8%AF%81%E4%B9%A6/" class="">系统代理和证书</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E5%85%B6%E5%AE%83/" class="">其它</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://github.com/swifteen/" target="_blank" rel="noopener">
+        Github
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://themes.gohugo.io/hugo-book/" target="_blank" rel="noopener">
+        Hugo Themes
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Git常用配置</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#github国内加速克隆及下载">Github国内加速克隆及下载</a></li>
+    <li><a href="#git代理">git代理</a></li>
+    <li><a href="#基本配置">基本配置</a></li>
+    <li><a href="#自定义配置">自定义配置：</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="github国内加速克隆及下载">
+  Github国内加速克隆及下载
+  <a class="anchor" href="#github%e5%9b%bd%e5%86%85%e5%8a%a0%e9%80%9f%e5%85%8b%e9%9a%86%e5%8f%8a%e4%b8%8b%e8%bd%bd">#</a>
+</h1>
+<p>fastgit.org
+
+  <a href="https://doc.fastgit.org/">https://doc.fastgit.org/</a></p>
+<p>gitclone.com
+
+  <a href="https://gitclone.com/">https://gitclone.com/</a></p>
+<p>gitee
+
+  <a href="https://gitee.com/mirrors">https://gitee.com/mirrors</a></p>
+<p>cnpmjs.org
+
+  <a href="https://github.com.cnpmjs.org/">https://github.com.cnpmjs.org/</a></p>
+<p>Github documentation contains 
+  <a href="https://help.github.com/articles/changing-author-info/">a script that replaces the committer info for all commits in a branch</a> (now irretrievable, this is the 
+  <a href="https://web.archive.org/web/20200823163529/https://docs.github.com/en/github/using-git/changing-author-info#changing-the-git-history-of-your-repository-using-a-script">last snapshot</a>).</p>
+<h1 id="git代理">
+  git代理
+  <a class="anchor" href="#git%e4%bb%a3%e7%90%86">#</a>
+</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git config --global https.proxy <span style="color:#e6db74">&#39;socks5://192.168.31.181:10808&#39;</span>
+</span></span><span style="display:flex;"><span>git config --global http.proxy <span style="color:#e6db74">&#39;socks5://192.168.31.181:10808&#39;</span>
+</span></span></code></pre></div><h1 id="基本配置">
+  基本配置
+  <a class="anchor" href="#%e5%9f%ba%e6%9c%ac%e9%85%8d%e7%bd%ae">#</a>
+</h1>
+<p>Git的设置文件为<code>.gitconfig</code>，它可以在用户主目录下（全局配置），也可以在项目目录下（项目配置）。</p>
+<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 显示当前的Git配置</span>
+</span></span><span style="display:flex;"><span>$ git config --list
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 编辑Git配置文件</span>
+</span></span><span style="display:flex;"><span>$ git config -e <span style="color:#f92672">[</span>--global<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置提交代码时的用户信息</span>
+</span></span><span style="display:flex;"><span>$ git config <span style="color:#f92672">[</span>--global<span style="color:#f92672">]</span> user.name <span style="color:#e6db74">&#34;[name]&#34;</span>
+</span></span><span style="display:flex;"><span>$ git config <span style="color:#f92672">[</span>--global<span style="color:#f92672">]</span> user.email <span style="color:#e6db74">&#34;[email address]&#34;</span>
+</span></span></code></pre></div></blockquote>
+<h1 id="自定义配置">
+  自定义配置：
+  <a class="anchor" href="#%e8%87%aa%e5%ae%9a%e4%b9%89%e9%85%8d%e7%bd%ae">#</a>
+</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global core.editor <span style="color:#e6db74">&#34;vim&#34;</span>
+</span></span><span style="display:flex;"><span>git config --global alias.unstage <span style="color:#e6db74">&#34;reset HEAD&#34;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#chmod产生的变化应该忽略</span>
+</span></span><span style="display:flex;"><span>git config --global core.filemode false
+</span></span><span style="display:flex;"><span>git config --global core.autocrlf true
+</span></span><span style="display:flex;"><span>git config --global gui.encoding utf-8
+</span></span><span style="display:flex;"><span>git config --global core.quotepath false
+</span></span><span style="display:flex;"><span>git config --global color.ui true
+</span></span><span style="display:flex;"><span>git config --global alias.co checkout
+</span></span><span style="display:flex;"><span>git config --global alias.ci commit
+</span></span><span style="display:flex;"><span>git config --global alias.st status
+</span></span><span style="display:flex;"><span>git config --global alias.br branch
+</span></span><span style="display:flex;"><span>git config --global alias.cp cherry-pick
+</span></span><span style="display:flex;"><span>git config --global alias.lg <span style="color:#e6db74">&#34;log --color --graph --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ad) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit --date=format:&#39;%Y-%m-%d %H:%M:%S&#39;&#34;</span>
+</span></span></code></pre></div><p>增加全局git配置文件/etc/gitconfig</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>root@3520f78b5030:/home/imac# cat /etc/gitconfig 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>color<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>        ui <span style="color:#f92672">=</span> true
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>alias<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>        co <span style="color:#f92672">=</span> checkout
+</span></span><span style="display:flex;"><span>        ci <span style="color:#f92672">=</span> commit
+</span></span><span style="display:flex;"><span>        br <span style="color:#f92672">=</span> branch
+</span></span><span style="display:flex;"><span>        lg <span style="color:#f92672">=</span> log --color --graph --pretty<span style="color:#f92672">=</span>format:<span style="color:#e6db74">&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(white blue bold)&lt;%an&gt;%Creset&#39;</span> --abbrev-commit --date<span style="color:#f92672">=</span>iso
+</span></span><span style="display:flex;"><span>        st <span style="color:#f92672">=</span> status
+</span></span><span style="display:flex;"><span>        unstage <span style="color:#f92672">=</span> reset HEAD
+</span></span><span style="display:flex;"><span>        cp <span style="color:#f92672">=</span> cherry-pick
+</span></span><span style="display:flex;"><span>        lgg <span style="color:#f92672">=</span> log --color --graph --pretty<span style="color:#f92672">=</span>format:<span style="color:#e6db74">&#39;%C(yellow)%d%Creset %s &#39;</span> --abbrev-commit
+</span></span><span style="display:flex;"><span>        alias <span style="color:#f92672">=</span> ! git config --get-regexp ^alias<span style="color:#ae81ff">\\</span>. | sed -e s/^alias<span style="color:#ae81ff">\\</span>.// -e s/<span style="color:#ae81ff">\\</span> /<span style="color:#ae81ff">\\</span> <span style="color:#f92672">=</span><span style="color:#ae81ff">\\</span> /
+</span></span><span style="display:flex;"><span>        lggg <span style="color:#f92672">=</span> log --color --graph --pretty<span style="color:#f92672">=</span>format:<span style="color:#e6db74">&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ad) %C(white blue bold)&lt;%an&gt;%Creset&#39;</span> --abbrev-commit
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>gui<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>        encoding <span style="color:#f92672">=</span> utf-8
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>push<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>        default <span style="color:#f92672">=</span> current
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>credential<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>        helper <span style="color:#f92672">=</span> store
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>core<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>        quotepath <span style="color:#f92672">=</span> false
+</span></span><span style="display:flex;"><span>        fileMode <span style="color:#f92672">=</span> false
+</span></span><span style="display:flex;"><span>        sharedRepository <span style="color:#f92672">=</span> true
+</span></span></code></pre></div></article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/swifteen/swifteen.github.io/edit/main/exampleSite/content/docs/Linux%20World/%e5%b7%a5%e5%85%b7/Git/git%e5%b8%b8%e7%94%a8%e9%85%8d%e7%bd%ae.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function e(n){const e=window.getSelection(),t=document.createRange();t.selectNodeContents(n),e.removeAllRanges(),e.addRange(t)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#github国内加速克隆及下载">Github国内加速克隆及下载</a></li>
+    <li><a href="#git代理">git代理</a></li>
+    <li><a href="#基本配置">基本配置</a></li>
+    <li><a href="#自定义配置">自定义配置：</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

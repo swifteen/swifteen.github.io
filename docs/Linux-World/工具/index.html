@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Linux必备工具
+  Git  Git常用配置 Github国内加速克隆及下载 # fastgit.org https://doc.fastgit.org/ gitclone.com https://gitclone.com/ gitee https://gitee.com/mirrors cnpmjs.org https://github.com.cnpmjs.org/ Github documentation contains a script that replaces the committer info for all commits in a branch (now irretrievable, this is the last snapshot). git代理 # git config --global https.proxy &#39;socks5://192.168.31.181:10808&#39; git config --global http.proxy &#39;socks5://192.168.31.181:10808&#39; 基本配置 # Git的设置文件为.gitconfig，它可以在用户主目录下（全局配置），也可以在项目目录下（项目配置）。 # 显示当前的Git配置 $ git config --list # 编辑Git配置文件 $ git config -e [--global] # 设置提交代码时的用户信息 $ git config [--global] user.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="工具" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/" />
+
+<title>工具 | Freedom Book</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.8af359f8b4ff91864838b7225239a34a4ca449e60ef99ab88e33c978c8685391.css" integrity="sha256-ivNZ&#43;LT/kYZIOLciUjmjSkykSeYO&#43;Zq4jjPJeMhoU5E=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.d45c0ffc37a24fca2ef007edb1d82d27449127aa5b68259acea105adc08ba9ea.js" integrity="sha256-1FwP/DeiT8ou8AftsdgtJ0SRJ6pbaCWazqEFrcCLqeo=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<link rel="alternate" type="application/rss+xml" href="https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/index.xml" title="Freedom Book" />
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Freedom Book</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+  
+
+
+
+  
+    
+  
+    
+  
+
+
+
+<ul class="book-languages">
+  <li>
+    <input type="checkbox" id="languages" class="toggle" />
+    <label for="languages" class="flex justify-between">
+      <a role="button" class="flex align-center">
+        <img src="/svg/translate.svg" class="book-icon" alt="Languages" />
+        English
+      </a>
+    </label>
+
+    <ul>
+      
+      <li>
+        <a href="https://swifteen.github.io/ru/">
+          Russian
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://swifteen.github.io/zh/">
+          Chinese
+        </a>
+      </li>
+      
+    </ul>
+  </li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" class="">读书笔记</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="toggle"  />
+    <label for="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="flex justify-between">
+      <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/" class="">深入理解计算机系统</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/" class="">第一章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/4th-level/" class="">4th Level</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/" class="">5th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/6th-level/" class="">6th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/" class="">第二章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/" class="">7th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/12th-level/" class="">12th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/8th-level/" class="">8th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/" class="">工程实践</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/FalconMode/" class="">FalconMode模式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/BBB%E6%9D%BF%E4%BD%BF%E7%94%A8NFS%E6%8C%82%E8%BD%BD%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" class="">BBB板使用NFS挂载文件系统</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/" class="">工作总结</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">数据库</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF/" class="">日志模块实现思路</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/" class="">Linux World</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/" class=" active">工具</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="toggle"  />
+    <label for="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Git常用配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" class="">git基本使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8/" class="">git高级使用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-d5b311234c6410083508e37cc63fc1b6" class="toggle"  />
+    <label for="section-d5b311234c6410083508e37cc63fc1b6" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/" class="">Vim</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/%E9%85%8D%E7%BD%AE/" class="">配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/" class="">常用 Linux命令</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4a2fe1f775a45aa533a141965b5ef749" class="toggle"  />
+    <label for="section-4a2fe1f775a45aa533a141965b5ef749" class="flex justify-between">
+      <a href="/docs/Linux-World/Raspberry/" class="">Raspberry</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Raspberry/%E5%B8%B8%E7%94%A8/" class="">常用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-23ec4bc7089b12961617b50da77ae792" class="toggle"  />
+    <label for="section-23ec4bc7089b12961617b50da77ae792" class="flex justify-between">
+      <a href="/docs/Linux-World/Ubuntu/" class="">Ubuntu</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%9B%AE%E5%BD%95%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE/" class="">目录共享配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%90%86%E5%92%8C%E8%AF%81%E4%B9%A6/" class="">系统代理和证书</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E5%85%B6%E5%AE%83/" class="">其它</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://github.com/swifteen/" target="_blank" rel="noopener">
+        Github
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://themes.gohugo.io/hugo-book/" target="_blank" rel="noopener">
+        Hugo Themes
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>工具</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents"></nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><p>Linux必备工具</p>
+<dl>
+
+  <dt>
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/">Git</a>
+  </dt>
+  <dd class="markdown-inner">
+    Git常用配置  Github国内加速克隆及下载 # fastgit.org https://doc.fastgit.org/ gitclone.com https://gitclone.com/ gitee https://gitee.com/mirrors cnpmjs.org https://github.com.cnpmjs.org/ Github documentation contains a script that replaces the committer info for all commits in a branch (now irretrievable, this is the last snapshot). git代理 # git config --global https.proxy &#39;socks5://192.168.31.181:10808&#39; git config --global http.proxy &#39;socks5://192.168.31.181:10808&#39; 基本配置 # Git的设置文件为.gitconfig，它可以在用户主目录下（全局配置），也可以在项目目录下（项目配置）。 # 显示当前的Git配置 $ git config --list # 编辑Git配置文件 $ git config -e [--global] # 设置提交代码时的用户信息 $ git config [--global] user.
+  </dd>
+
+  <dt>
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/">Vim</a>
+  </dt>
+  <dd class="markdown-inner">
+    配置  vim退出时不清除屏幕内容 # 1、编辑/etc/profile,然后在文件中添加：export TERM=linux，如下图所示： 2、然后执行source /etc/profile即可 vim设置colorSchema # mkdir -p ~/.vim/colors https://github.com/tomasr/molokai 设置蓝色 # eval `dircolors | sed -e &#39;s/;34:/;36:/&#39;` pi@raspberrypi:~ $ echo $LS_COLORS rs=0:di=01;36:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36: vi ~/.bashrc # enable color support of ls and also add handy aliases if [ -x /usr/bin/dircolors ]; then test -r ~/.dircolors &amp;&amp; eval &#34;$(dircolors -b ~/.dircolors)&#34; || eval &#34;$(dircolors -b)&#34; alias ls=&#39;ls --color=auto&#39; #alias dir=&#39;dir --color=auto&#39; #alias vdir=&#39;vdir --color=auto&#39; alias grep=&#39;grep --color=auto&#39; alias fgrep=&#39;fgrep --color=auto&#39; alias egrep=&#39;egrep --color=auto&#39; fi LS_COLORS=&#39;rs=0:di=01;36:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.
+  </dd>
+
+  <dt>
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/">常用 Linux命令</a>
+  </dt>
+  <dd class="markdown-inner">
+    find ./ -type d -name &#34;Backup&#34; -exec rm -rf {} \;  sed -i &#34;s/&lt;cups\/cups.h&gt;/\&#34;cups\/cups.h\&#34;/g&#34; `grep &#34;cups/cups.h&#34; -rl .`  find . -type f -size +100M -print0 | xargs -0 du -h | sort -nr  cat *.txt | sort | uniq &gt; test  #导出svn版本差异 for i in $(svn diff --summarize -r 248:276 svn://192.168.10.200/rootfs/ | awk &#39;{ print $2 }&#39;); do p=$(echo $i | sed -e &#39;s{svn://192.168.10.200/rootfs/{{&#39;); mkdir -p $(dirname $p); svn export $i $p; done  #获取awk .
+  </dd>
+
+</dl>
+
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/swifteen/swifteen.github.io/edit/main/exampleSite/content/docs/Linux%20World/%e5%b7%a5%e5%85%b7/_index.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function e(n){const e=window.getSelection(),t=document.createRange();t.selectNodeContents(n),e.removeAllRanges(),e.addRange(t)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents"></nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

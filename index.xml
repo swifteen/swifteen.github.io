@@ -1,207 +1,264 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Introduction on Hugo Book</title>
+    <title>Introduction on Freedom Book</title>
     <link>https://swifteen.github.io/</link>
-    <description>Recent content in Introduction on Hugo Book</description>
+    <description>Recent content in Introduction on Freedom Book</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 20 Apr 2022 00:22:16 +0800</lastBuildDate><atom:link href="https://swifteen.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 17 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://swifteen.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>With ToC</title>
-      <link>https://swifteen.github.io/docs/example/table-of-contents/with-toc/</link>
+      <title>ZeroTier内网穿透</title>
+      <link>https://swifteen.github.io/posts/zerotier%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/</link>
+      <pubDate>Sun, 17 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/posts/zerotier%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/</guid>
+      <description>ZeroTier内网穿透 #  安装方式1：脚本自动安装 #  sudo curl -s https://install.zerotier.com|sudo bash 在ubuntu下成功安装，在树莓派上可能失败
+安装方式2：源码安装 #  wget https://github.com/zerotier/ZeroTierOne/archive/refs/tags/1.8.4.tar.gz tar zxvf 1.8.4.tar.gz cd ZeroTierOne-1.8.4/ make -j make install 注册账号 #  申请ID,参考https://blog.csdn.net/kai3123919064/article/details/109662499
+运行 #  1、在每个设备端上运行服务端zerotier-one，并将每一个设备添加到相同的NetworkID组，这样同一下 NetworkID组下的所有成员就能相互穿透了
+先安装zerotier-one服务并运行，这样以后开机自动启动此服务
+#在源码目录下可以看到此文件 ~/Public/ZeroTierOne-1.8.4 $ cat debian/zerotier-one.service [Unit] Description=ZeroTier One After=network-online.target Wants=network-online.target  [Service] ExecStart=/usr/sbin/zerotier-one Restart=always KillMode=process  [Install] WantedBy=multi-user.target 注意检查上面的/usr/sbin/zerotier-one路径是否存在
+#将此文件 拷贝到/lib/systemd/system/目录下 $ cp debian/zerotier-one.service /lib/systemd/system/ #启动服务 $ systemctl start zerotier-one.service #查看服务状态 $ systemctl status zerotier-one.</description>
+    </item>
+    
+    <item>
+      <title>搭建HUGO博客</title>
+      <link>https://swifteen.github.io/posts/Hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%B5%81%E7%A8%8B/</link>
+      <pubDate>Sun, 17 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/posts/Hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%B5%81%E7%A8%8B/</guid>
+      <description>搭建HUGO博客 #  安装hugo #  进入 release页面下载，选择下载 hugo_extended_0.97.0_Linux-64bit.deb带extended后缀的安装包
+sudo dpkg -i hugo_extended_0.97.0_Linux-64bit.deb 创建hugo工程 #  mkdir ~/Public/Book cd ~/Public/Book hugo new site ./ 下载主题 #  git init git submodule add https://github.com/alex-shpak/hugo-book themes/hugo-book cp -R themes/hugo-book/exampleSite/content . 运行Web服务 #  ubuntu:~/Public/Book$ hugo server --minify --theme hugo-book --bind=&amp;#34;0.0.0.0&amp;#34; -p 8888 Start building sites … hugo v0.97.0-c07f3626e7c8160943591f4d209977efa02c3dca+extended linux/amd64 BuildDate=2022-04-14T08:45:07Z VendorInfo=gohugoio WARN 2022/04/16 01:47:16 Expand shortcode is deprecated. Use &amp;#39;details&amp;#39; instead. WARN 2022/04/16 01:47:16 Page &amp;#39;/layout/variables&amp;#39; not found in &amp;#39;posts/goisforlovers.</description>
+    </item>
+    
+    <item>
+      <title>浮点数计算误差分析</title>
+      <link>https://swifteen.github.io/posts/%E6%B5%AE%E7%82%B9%E6%95%B0%E8%AE%A1%E7%AE%97%E8%AF%AF%E5%B7%AE%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sun, 17 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/posts/%E6%B5%AE%E7%82%B9%E6%95%B0%E8%AE%A1%E7%AE%97%E8%AF%AF%E5%B7%AE%E5%88%86%E6%9E%90/</guid>
+      <description>版本说明 #   内容: 浮点数计算误差分析 时间: 2022/02/28 版本: V 0.1  浮点数计算误差分析 #  通过分析汇编代码，分析浮点数运行产生的误差
+测试程序 #  例子 1 #  #include &amp;lt;stdio.h&amp;gt;int main() { 	int a = 33800; 	long long b = 13*sizeof(short)*(a); 	printf(&amp;#34;[%lld]\n&amp;#34;,b); } 例子 2 #  #include &amp;lt;stdio.h&amp;gt;int main() { 	int a = 33800; 	long long b = 13*1000*sizeof(short)* (double)(a/1000.0); 	printf(&amp;#34;[%lld]\n&amp;#34;,b); } 例子1输出878800 例子2输出878799
+为何会产生差异呢，只能从汇编代码入手，一点一点分析浮点计算的过程
+例子1汇编代码 #  例子1不涉及浮点数，因此汇编代码比较简单，先通过例子1的汇编代码进行了解。</description>
+    </item>
+    
+    <item>
+      <title>Git常用配置</title>
+      <link>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://swifteen.github.io/docs/example/table-of-contents/with-toc/</guid>
-      <description>Caput vino delphine in tamen vias #  Cognita laeva illo fracta #  Lorem markdownum pavent auras, surgit nunc cingentibus libet Laomedonque que est. Pastor An arbor filia foedat, ne fugit aliter, per. Helicona illas et callida neptem est Oresitrophos caput, dentibus est venit. Tenet reddite famuli praesentem fortibus, quaeque vis foret si frondes gelidos gravidae circumtulit inpulit armenta nativum.
- Te at cruciabere vides rubentis manebo Maturuit in praetemptat ruborem ignara postquam habitasse Subitarum supplevit quoque fontesque venabula spretis modo Montis tot est mali quasque gravis Quinquennem domus arsit ipse Pellem turis pugnabant locavit  Natus quaerere #  Pectora et sine mulcere, coniuge dum tincta incurvae.</description>
+      <guid>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/</guid>
+      <description>Github国内加速克隆及下载 #  fastgit.org https://doc.fastgit.org/
+gitclone.com https://gitclone.com/
+gitee https://gitee.com/mirrors
+cnpmjs.org https://github.com.cnpmjs.org/
+Github documentation contains a script that replaces the committer info for all commits in a branch (now irretrievable, this is the last snapshot).
+git代理 #  git config --global https.proxy &amp;#39;socks5://192.168.31.181:10808&amp;#39; git config --global http.proxy &amp;#39;socks5://192.168.31.181:10808&amp;#39; 基本配置 #  Git的设置文件为.gitconfig，它可以在用户主目录下（全局配置），也可以在项目目录下（项目配置）。
+ # 显示当前的Git配置 $ git config --list  # 编辑Git配置文件 $ git config -e [--global]  # 设置提交代码时的用户信息 $ git config [--global] user.</description>
     </item>
     
     <item>
-      <title>Without ToC</title>
-      <link>https://swifteen.github.io/docs/example/table-of-contents/without-toc/</link>
+      <title>FalconMode模式</title>
+      <link>https://swifteen.github.io/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/FalconMode/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://swifteen.github.io/docs/example/table-of-contents/without-toc/</guid>
-      <description>At me ipso nepotibus nunc celebratior genus #  Tanto oblite #  Lorem markdownum pectora novis patenti igne sua opus aurae feras materiaque illic demersit imago et aristas questaque posset. Vomit quoque suo inhaesuro clara. Esse cumque, per referri triste. Ut exponit solisque communis in tendens vincetis agisque iamque huic bene ante vetat omina Thebae rates. Aeacus servat admonitu concidit, ad resimas vultus et rugas vultu dignamque Siphnon.
-Quam iugulum regia simulacra, plus meruit humo pecorumque haesit, ab discedunt dixit: ritu pharetramque.</description>
+      <guid>https://swifteen.github.io/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/FalconMode/</guid>
+      <description>版本说明 #   FalconMode模式    日期 版本 修改内容     2021/11/21 V0.1 创建      FalconMode模式 #  Normal mode: U-Boot SPL -&amp;gt; U-Boot -&amp;gt; Kernel
+Falcon mode: U-Boot SPL -&amp;gt; Kernel
+ https://forum.digikey.com/t/beaglebone-black-u-boot-overlays-and-falcon-mode/3008/7
+Once you are booted up into the Linux Kernel there should be NO difference.
+ 测试启动时间 #     模式 文件系统 tftp下载时间 内核到telnet时间     正常uBooty启动模式 tisdk-tiny-image-am335x-evm 6秒 10秒   正常uBooty启动模式 tisdk-base-image-am335x-evm 6秒 40~60秒   Falcon模式       Out-of-the-Box (OOB) boot times of the TI Processor Linux SDK</description>
     </item>
     
     <item>
-      <title>Creating a New Theme</title>
-      <link>https://swifteen.github.io/posts/creating-a-new-theme/</link>
-      <pubDate>Sun, 28 Sep 2014 00:00:00 +0000</pubDate>
+      <title>git基本使用</title>
+      <link>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://swifteen.github.io/posts/creating-a-new-theme/</guid>
-      <description>Introduction #  This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content. I&amp;rsquo;ll explain how Hugo uses templates and how you can organize your templates to create a theme. I won&amp;rsquo;t cover using CSS to style your theme.
-We&amp;rsquo;ll start with creating a new site with a very basic template.</description>
+      <guid>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</guid>
+      <description>版本说明 #   git基本使用    日期 版本 修改内容     2021/02/19 V0.3 创建      Git对比SVN #   1.小步提交，互不干扰 #  并行开发过程中各开发人员可以随时多次commit代码且互不影响，最后在merage到主分支，并且能记录所有成员的所有commint记录。SVN只能大量的一次性提交到中心库。
+2.打断开发：在开发新功能过程中，突然需要你去修复一个Bug #  使用Git，你可以直接stash/commit当前改动，然后switch到主分支去修复Bug，之后在pop/switch回你原来的分支继续开发。
+3.Git分支切换-指针移动，SVN分支切换-Copy项目 #  Git支持本地无限Branches，当我们个体在本地创建多个branches用于不同目的的时候（修改，新增，探索），分支轻量化，秒创分支，创建分支满足客户定制化需求
+4.Git Tag-指针标示，SVN Tag-Copy项目 #  Git管理的项目要比SVN小得多。Git初次拉取代码的速度也远小于SVN。
+5.两级提交 #  本地创建分支开发，本地提交，需要合并时再提交到远程
+6.日志查看 #  Git本地包含了完整的日志，闪电的速度查看（并且无需网络)。SVN需要从服务拉取。
+7.安全 #  Git是分布式版本控制系统，每个用户都相当于一份备份， 管理员无需为数据备份而担心。SVN作为集中式版本控制系统，存在单点故障的风险。备份版本库的任务非常繁重。
+linus在google的演讲感悟 链接：https://www.zhihu.com/question/19601997/answer/95363587
+ 自洽的、最少依赖的个人工作得到支持。1000多人的Linux开发团队是分布在世界各地的，使用git也就不必依赖中心服务器、不必需要很少的网络。就在自己的电脑上就有完整的仓库，可以做任何版本管理，除了分享代码。SVN显然是不合适的，因为单点故障大家甚至无法提交，更加无法开分支，这是无法忍受的。 剔除害群之马很简单。如果Linus经过观察，发现有些程序员特别容易出漏子，那么封杀的办法就是不必拉取即可。实际上Linus就是这样干过。如果是SVN，就变成了撤销惹麻烦的开发者的账号或者限定他的访问范围，并且从仓库中移除麻烦的代码提交。就是说，封杀的方法在git而言，是不做某事即可，SVN是做一系列事情才可以。一正一反，大家可以体会一下。Linus喜欢前者，并且得心应手。这样的工作流程就避开了很多“政治”问题，让他的集成代码过程变得主动。 可以使用信任网络。Linux太大了，不可能完全看完补丁代码的方式来识别信任，这个Linus曾经干过，最后的结果当然是放弃。如果发现有些程序员特别优秀，他只要选择拉取他们的实现。这些程序员也只是拉取他们信任的程序员的实现。这样的信任网络是可以层次化的，因此对应于1000多人的开发者来说，这样做确实可以通过分层的信任网络达成大规模的团队协作。如果是SVN，我不知道如何做可以更好 轻量的分支开销鼓励大量被使用。对于这样的团队，为了敏捷的迭代，如果有想法就分支（这样的开发隔离想法是很有价值的），那么在svn上分支是海量的并且全局的大家互相影响，因此是要命的。而对于Git总数当然是海量，但是每个人的分支都在自己的仓库内，不会影响到他人。且分支无需连接服务器，因此是飞速的。  Git工作流 #   http://www.</description>
     </item>
     
     <item>
-      <title>Migrate to Hugo from Jekyll</title>
-      <link>https://swifteen.github.io/posts/migrate-from-jekyll/</link>
-      <pubDate>Mon, 10 Mar 2014 00:00:00 +0000</pubDate>
+      <title>目录共享配置</title>
+      <link>https://swifteen.github.io/docs/Linux-World/Ubuntu/%E7%9B%AE%E5%BD%95%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://swifteen.github.io/posts/migrate-from-jekyll/</guid>
-      <description>Move static content to static #  Jekyll has a rule that any directory not starting with _ will be copied as-is to the _site output. Hugo keeps all static content under static. You should therefore move it all there. With Jekyll, something that looked like
-▾ &amp;lt;root&amp;gt;/ ▾ images/ logo.png  should become
-▾ &amp;lt;root&amp;gt;/ ▾ static/ ▾ images/ logo.png  Additionally, you&amp;rsquo;ll want any files that should reside at the root (such as CNAME) to be moved to static.</description>
+      <guid>https://swifteen.github.io/docs/Linux-World/Ubuntu/%E7%9B%AE%E5%BD%95%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE/</guid>
+      <description>Samba配置 #  samba配置后，仍然无法访问 #   https://blog.csdn.net/Panda_YinLP/article/details/104687438
+访问window共享目录 #  sudo mount -t cifs -l //192.168.31.181/raspberry /media/pi/win TFTP配置 #   https://linuxhint.com/install_tftp_server_ubuntu/
+ https://download.samba.org/pub/samba/
+NFS挂载 #   https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-ubuntu-20-04
+将文件系统目录导出 #  解压文件系统
+cd /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/ sudo mkdir tisdk-default-image-am335x-evm sudo tar -Jxf tisdk-default-image-am335x-evm.tar.xz -C tisdk-default-image-am335x-evm 修改/etc/exports增加NFS导出目录后，重新加载 #  $ vi /etc/exports #增加以下内容 /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/tisdk-default-image-am335x-evm *(rw,nohide,insecure,no_subtree_check,async,no_root_squash) 使NFS目录生效 #  $ sudo exportfs -a 查看NFS导出列表 #  #查看NFS导出列表 $ showmount -e Export list for ubuntu: /usr/local/ti-sdk-am335x-evm-07.</description>
     </item>
     
     <item>
-      <title>My First Post</title>
-      <link>https://swifteen.github.io/posts/my-first-post/</link>
-      <pubDate>Wed, 20 Apr 2022 00:22:16 +0800</pubDate>
+      <title>系统代理和证书</title>
+      <link>https://swifteen.github.io/docs/Linux-World/Ubuntu/%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%90%86%E5%92%8C%E8%AF%81%E4%B9%A6/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://swifteen.github.io/posts/my-first-post/</guid>
-      <description>test My First Post</description>
+      <guid>https://swifteen.github.io/docs/Linux-World/Ubuntu/%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%90%86%E5%92%8C%E8%AF%81%E4%B9%A6/</guid>
+      <description>透明代理 #   https://blog.a1253247.info/2020/01/shadowsocks.html
+代理转换 #  /etc/polipo/config
+/etc/polipo/config  systemctl status polipo  www.codevoila.com/post/16/convert-socks-proxy-to-http-proxy-using-polipo
+测试网速 #  # Server tankywoo@gentoo-local::~/ » iperf -s ------------------------------------------------------------ Server listening on TCP port 5001 TCP window size: 85.3 KByte (default) ------------------------------------------------------------ [ 4] local 127.0.0.1 port 5001 connected with 127.0.0.1 port 56071 [ ID] Interval Transfer Bandwidth [ 4] 0.0-10.0 sec 27.0 GBytes 23.2 Gbits/sec  # Client tankywoo@gentoo-local::~/ » iperf -c localhost ------------------------------------------------------------ Client connecting to localhost, TCP port 5001 TCP window size: 647 KByte (default) ------------------------------------------------------------ [ 3] local 127.</description>
     </item>
     
     <item>
-      <title>(Hu)go Template Primer</title>
-      <link>https://swifteen.github.io/posts/goisforlovers/</link>
-      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
+      <title>BBB板使用NFS挂载文件系统</title>
+      <link>https://swifteen.github.io/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/BBB%E6%9D%BF%E4%BD%BF%E7%94%A8NFS%E6%8C%82%E8%BD%BD%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://swifteen.github.io/posts/goisforlovers/</guid>
-      <description>Hugo uses the excellent Go html/template library for its template engine. It is an extremely lightweight engine that provides a very small amount of logic. In our experience that it is just the right amount of logic to be able to create a good static website. If you have used other template systems from different languages or frameworks you will find a lot of similarities in Go templates.
-This document is a brief primer on using Go templates.</description>
+      <guid>https://swifteen.github.io/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/BBB%E6%9D%BF%E4%BD%BF%E7%94%A8NFS%E6%8C%82%E8%BD%BD%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/</guid>
+      <description>版本说明 #   BBB板使用NFS挂载文件系统    日期 版本 修改内容     2022/03/03 V0.1 创建      将TI SDK中提供的文件系统目录NFS导出 #  解压文件系统
+cd /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/ sudo mkdir tisdk-default-image-am335x-evm sudo tar -Jxf tisdk-default-image-am335x-evm.tar.xz -C tisdk-default-image-am335x-evm 修改/etc/exports增加NFS导出目录后，重新加载 #  $ vi /etc/exports #增加以下内容 /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/tisdk-default-image-am335x-evm *(rw,nohide,insecure,no_subtree_check,async,no_root_squash) 使NFS目录生效 #  $ sudo exportfs -a 查看NFS导出列表 #  #查看NFS导出列表 $ showmount -e Export list for ubuntu: /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/tisdk-default-image-am335x-evm * /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/tisdk-tiny-image-am335x-evm * /usr/local/ti-sdk-am335x-evm-07.</description>
     </item>
     
     <item>
-      <title>Getting Started with Hugo</title>
-      <link>https://swifteen.github.io/posts/hugoisforlovers/</link>
-      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
+      <title>git高级使用</title>
+      <link>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://swifteen.github.io/posts/hugoisforlovers/</guid>
-      <description>Step 1. Install Hugo #  Go to Hugo releases and download the appropriate version for your OS and architecture.
-Save it somewhere specific as we will be using it in the next step.
-More complete instructions are available at Install Hugo
-Step 2. Build the Docs #  Hugo has its own example site which happens to also be the documentation site you are reading right now.
-Follow the following steps:</description>
+      <guid>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8/</guid>
+      <description>版本说明 #   git基本使用    日期 版本 修改内容     2021/02/19 V0.3 创建      个人使用总结 #  Merge节点 #  Git有两种合并：一种是&amp;quot;直进式合并&amp;quot;（fast forward），不生成单独的合并节点；另一种是&amp;quot;非直进式合并&amp;quot;（none fast-forword），会生成单独节点。
+前者不利于保持commit信息的清晰，也不利于以后的回滚，建议总是采用后者（即使用--no-ff参数）。只要发生合并，就要有一个单独的合并节点。
+ push策略 #  不带任何参数的git push，默认只推送当前分支，这叫做simple方式。此外，还有一种matching方式，会推送所有有对应的远程分支的本地分支。Git 2.0版本之前，默认采用matching方法，现在改为默认采用simple方式。如果要修改这个设置，可以采用git config命令。
+$ git config --global push.default matching # 或者 $ git config --global push.default simple 解决merge 和 rebase 合并冲突 #  #merge 和 rebase 对于 ours 和 theirs 的定义是完全相反的。在 merge 时，ours 指代的是当前分支，theirs 代表需要被合并的分支。而在 rebase 过程中，ours 指向了修改参考分支，theirs 却是当前分支 git checkout --ours src/MyFile.</description>
+    </item>
+    
+    <item>
+      <title>其它</title>
+      <link>https://swifteen.github.io/docs/Linux-World/Ubuntu/%E5%85%B6%E5%AE%83/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/Linux-World/Ubuntu/%E5%85%B6%E5%AE%83/</guid>
+      <description>ubuntu扩容 #   https://blog.csdn.net/qq_34160841/article/details/113058756
+linux命令 #   https://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/ldd.html
+安装armhf ubuntu #   https://wiki.ubuntu.com/ARM/RaspberryPi</description>
     </item>
     
     <item>
       <title></title>
-      <link>https://swifteen.github.io/docs/example/collapsed/3rd-level/4th-level/</link>
+      <link>https://swifteen.github.io/docs/Linux-World/Raspberry/%E5%B8%B8%E7%94%A8/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://swifteen.github.io/docs/example/collapsed/3rd-level/4th-level/</guid>
+      <guid>https://swifteen.github.io/docs/Linux-World/Raspberry/%E5%B8%B8%E7%94%A8/</guid>
+      <description>apt源 #  修改/etc/apt/sources.list，去掉自带的源，添加如下源（二选一即可）：
+清华源 deb http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ buster main contrib non-free rpi deb-src http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ buster main contrib non-free rpi
+阿里源 deb http://mirrors.aliyun.com/raspbian/raspbian/ buster main non-free contrib deb-src http://mirrors.aliyun.com/raspbian/raspbian/ buster main non-free contrib
+修改：/etc/apt/sources.list.d/raspi.list，去掉自带的源，添加如下源：
+deb http://mirrors.tuna.tsinghua.edu.cn/raspberrypi/ buster main ui deb-src http://mirrors.tuna.tsinghua.edu.cn/raspberrypi/ buster main ui
+使用代理
+apt update -o Acquire::http::proxy=&amp;#34;socks5h://192.168.31.181:10808/&amp;#34; raspberry-qt #   https://github.com/tranter/raspberry-pi-qt-builds/releases
+cd / sudo tar xf /home/pi/Qt5.10.1-RaspberryPi3-bin-full.tgz qtchooser -install qt-5.12.2 /usr/local/Qt-5.15.2/bin/qmake  https://blog.csdn.net/tianfour/article/details/76068656
+youtube-dl #  channel_url=&amp;#34;https://www.youtube.com/user/channelname/playlists&amp;#34;https://www.youtube.com/channel/UCNT5WLWYnSV30mlKLnPzHTg/playlistshttps://www.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/%E9%85%8D%E7%BD%AE/</guid>
+      <description>vim退出时不清除屏幕内容 #  1、编辑/etc/profile,然后在文件中添加：export TERM=linux，如下图所示：
+ 2、然后执行source /etc/profile即可
+vim设置colorSchema #  mkdir -p ~/.vim/colors  https://github.com/tomasr/molokai
+设置蓝色 #  eval `dircolors | sed -e &amp;#39;s/;34:/;36:/&amp;#39;` pi@raspberrypi:~ $ echo $LS_COLORS  rs=0:di=01;36:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36: vi ~/.bashrc # enable color support of ls and also add handy aliases if [ -x /usr/bin/dircolors ]; then  test -r ~/.dircolors &amp;amp;&amp;amp; eval &amp;#34;$(dircolors -b ~/.dircolors)&amp;#34; || eval &amp;#34;$(dircolors -b)&amp;#34;  alias ls=&amp;#39;ls --color=auto&amp;#39;  #alias dir=&amp;#39;dir --color=auto&amp;#39;  #alias vdir=&amp;#39;vdir --color=auto&amp;#39;   alias grep=&amp;#39;grep --color=auto&amp;#39;  alias fgrep=&amp;#39;fgrep --color=auto&amp;#39;  alias egrep=&amp;#39;egrep --color=auto&amp;#39; fi  LS_COLORS=&amp;#39;rs=0:di=01;36:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/</guid>
+      <description>find ./ -type d -name &amp;#34;Backup&amp;#34; -exec rm -rf {} \;  sed -i &amp;#34;s/&amp;lt;cups\/cups.h&amp;gt;/\&amp;#34;cups\/cups.h\&amp;#34;/g&amp;#34; `grep &amp;#34;cups/cups.h&amp;#34; -rl .`  find . -type f -size +100M -print0 | xargs -0 du -h | sort -nr  cat *.txt | sort | uniq &amp;gt; test  #导出svn版本差异 for i in $(svn diff --summarize -r 248:276 svn://192.168.10.200/rootfs/ | awk &amp;#39;{ print $2 }&amp;#39;); do p=$(echo $i | sed -e &amp;#39;s{svn://192.168.10.200/rootfs/{{&amp;#39;); mkdir -p $(dirname $p); svn export $i $p; done  #获取awk .</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://swifteen.github.io/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%95%B0%E6%8D%AE%E5%BA%93/</guid>
+      <description>附加数据库（Attach DB）https://blog.csdn.net/zhanglianyu00/article/details/78436764
+attach [database] filename as database_name;detach [database] database_name; Squeezing Performance from SQLite: Insertions #   https://medium.com/@JasonWyatt/squeezing-performance-from-sqlite-insertions-971aff98eef2
+CREATE INDEX tag_titles ON tags (title);EXPLAIN QUERY PLAN SELECT * FROM tags WHERE title = &amp;#34;Kotlin&amp;#34;; </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://swifteen.github.io/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF/</guid>
+      <description>版本说明 #   日志模块实现    日期 版本 修改内容     2022/03/01 V0.1 创建      实现目标 #    整个上层日志最后能导出到一个文件中，方便根据日志记录顺序，查找问题。避免多日志文件不好查时序的麻烦
+  整个程序运行后，一直往内存中写日志，只在用户想要导出日志时，才写U盘，尽量减少程序运行时耗时
+  能做到内存中始终能导出最近的日志到U盘中
+  程序崩溃后，发生崩溃点的日志保存处理(在DEBUG版本中，将日志输出缓冲设置为0)
+  参考实现 #  Qt5官方日志QLoggingCategory测试 #  QLoggingCategory represents a certain logging category - identified by a string - at runtime. A category can be configured to enable or disable logging of messages per message type.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/4th-level/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/4th-level/</guid>
       <description>4th Level of Menu #  Caesorum illa tu sentit micat vestes papyriferi #  Inde aderam facti; Theseus vis de tauri illa peream. Oculos uberaque non regisque vobis cursuque, opus venit quam vulnera. Et maiora necemque, lege modo; gestanda nitidi, vero? Dum ne pectoraque testantur.
 Venasque repulsa Samos qui, exspectatum eram animosque hinc, aut manes, Assyrii. Cupiens auctoribus pariter rubet, profana magni super nocens. Vos ius sibilat inpar turba visae iusto!</description>
     </item>
     
     <item>
       <title></title>
-      <link>https://swifteen.github.io/docs/example/hidden/</link>
+      <link>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/6th-level/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://swifteen.github.io/docs/example/hidden/</guid>
-      <description>This page is hidden in menu #  Quondam non pater est dignior ille Eurotas #  Latent te facies #  Lorem markdownum arma ignoscas vocavit quoque ille texit mandata mentis ultimus, frementes, qui in vel. Hippotades Peleus pennas conscia cuiquam Caeneus quas.
- Pater demittere evincitque reddunt Maxime adhuc pressit huc Danaas quid freta Soror ego Luctus linguam saxa ultroque prior Tatiumque inquit Saepe liquitur subita superata dederat Anius sudor  Cum honorum Latona #  O fallor in sustinui iussorum equidem.</description>
+      <guid>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/6th-level/</guid>
+      <description>4th Level of Menu #  Caesorum illa tu sentit micat vestes papyriferi #  Inde aderam facti; Theseus vis de tauri illa peream. Oculos uberaque non regisque vobis cursuque, opus venit quam vulnera. Et maiora necemque, lege modo; gestanda nitidi, vero? Dum ne pectoraque testantur.
+Venasque repulsa Samos qui, exspectatum eram animosque hinc, aut manes, Assyrii. Cupiens auctoribus pariter rubet, profana magni super nocens. Vos ius sibilat inpar turba visae iusto!</description>
     </item>
     
     <item>
       <title></title>
-      <link>https://swifteen.github.io/docs/shortcodes/buttons/</link>
+      <link>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/12th-level/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://swifteen.github.io/docs/shortcodes/buttons/</guid>
-      <description>Buttons #  Buttons are styled links that can lead to local page or external link.
-Example #  {{&amp;lt; button relref=&amp;#34;/&amp;#34; [class=&amp;#34;...&amp;#34;] &amp;gt;}}Get Home{{&amp;lt; /button &amp;gt;}} {{&amp;lt; button href=&amp;#34;https://github.com/alex-shpak/hugo-book&amp;#34; &amp;gt;}}Contribute{{&amp;lt; /button &amp;gt;}}  Get Home  Contribute  </description>
+      <guid>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/12th-level/</guid>
+      <description>11th Level of Menu #  Caesorum illa tu sentit micat vestes papyriferi #  Inde aderam facti; Theseus vis de tauri illa peream. Oculos uberaque non regisque vobis cursuque, opus venit quam vulnera. Et maiora necemque, lege modo; gestanda nitidi, vero? Dum ne pectoraque testantur.
+Venasque repulsa Samos qui, exspectatum eram animosque hinc, aut manes, Assyrii. Cupiens auctoribus pariter rubet, profana magni super nocens. Vos ius sibilat inpar turba visae iusto!</description>
     </item>
     
     <item>
       <title></title>
-      <link>https://swifteen.github.io/docs/shortcodes/columns/</link>
+      <link>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/8th-level/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://swifteen.github.io/docs/shortcodes/columns/</guid>
-      <description>Columns #  Columns help organize shorter pieces of content horizontally for readability.
-{{&amp;lt; columns &amp;gt;}} &amp;lt;!-- begin columns block --&amp;gt; # Left Content Lorem markdownum insigne...  &amp;lt;---&amp;gt; &amp;lt;!-- magic separator, between columns --&amp;gt;  # Mid Content Lorem markdownum insigne...  &amp;lt;---&amp;gt; &amp;lt;!-- magic separator, between columns --&amp;gt;  # Right Content Lorem markdownum insigne... {{&amp;lt; /columns &amp;gt;}} Example #  Left Content #  Lorem markdownum insigne. Olympo signis Delphis!</description>
+      <guid>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/8th-level/</guid>
+      <description>14th Level of Menu #  Caesorum illa tu sentit micat vestes papyriferi #  Inde aderam facti; Theseus vis de tauri illa peream. Oculos uberaque non regisque vobis cursuque, opus venit quam vulnera. Et maiora necemque, lege modo; gestanda nitidi, vero? Dum ne pectoraque testantur.
+Venasque repulsa Samos qui, exspectatum eram animosque hinc, aut manes, Assyrii. Cupiens auctoribus pariter rubet, profana magni super nocens. Vos ius sibilat inpar turba visae iusto!</description>
     </item>
     
     <item>
       <title></title>
-      <link>https://swifteen.github.io/docs/shortcodes/details/</link>
+      <link>https://swifteen.github.io/posts/Google%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83%E6%80%BB%E7%BB%93/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://swifteen.github.io/docs/shortcodes/details/</guid>
-      <description>Details #  Details shortcode is a helper for details html5 element. It is going to replace expand shortcode.
-Example #  {{&amp;lt; details &amp;#34;Title&amp;#34; [open] &amp;gt;}} ## Markdown content Lorem markdownum insigne... {{&amp;lt; /details &amp;gt;}} {{&amp;lt; details title=&amp;#34;Title&amp;#34; open=true &amp;gt;}} ## Markdown content Lorem markdownum insigne... {{&amp;lt; /details &amp;gt;}} Title Markdown content #  Lorem markdownum insigne&amp;hellip;   </description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://swifteen.github.io/docs/shortcodes/expand/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://swifteen.github.io/docs/shortcodes/expand/</guid>
-      <description>Expand #  Expand shortcode can help to decrease clutter on screen by hiding part of text. Expand content by clicking on it.
-Example #  Default #  {{&amp;lt; expand &amp;gt;}} ## Markdown content Lorem markdownum insigne... {{&amp;lt; /expand &amp;gt;}}   Expand ↕  Markdown content #  Lorem markdownum insigne&amp;hellip;    With Custom Label #  {{&amp;lt; expand &amp;#34;Custom Label&amp;#34; &amp;#34;...&amp;#34; &amp;gt;}} ## Markdown content Lorem markdownum insigne.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://swifteen.github.io/docs/shortcodes/hints/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://swifteen.github.io/docs/shortcodes/hints/</guid>
-      <description>Hints #  Hint shortcode can be used as hint/alerts/notification block.
-There are 3 colors to choose: info, warning and danger.
-{{&amp;lt; hint [info|warning|danger] &amp;gt;}} **Markdown content** Lorem markdownum insigne. Olympo signis Delphis! Retexi Nereius nova develat stringit, frustra Saturnius uteroque inter! Oculis non ritibus Telethusa {{&amp;lt; /hint &amp;gt;}} Example #  Markdown content
-Lorem markdownum insigne. Olympo signis Delphis! Retexi Nereius nova develat stringit, frustra Saturnius uteroque inter! Oculis non ritibus Telethusa  Markdown content</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://swifteen.github.io/docs/shortcodes/katex/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://swifteen.github.io/docs/shortcodes/katex/</guid>
-      <description>KaTeX #  KaTeX shortcode let you render math typesetting in markdown document. See KaTeX
-Example #  {{&amp;lt; katex [display] [class=&amp;#34;text-center&amp;#34;] &amp;gt;}} f(x) = \int_{-\infty}^\infty\hat f(\xi)\,e^{2 \pi i \xi x}\,d\xi {{&amp;lt; /katex &amp;gt;}}     \[f(x) = \int_{-\infty}^\infty\hat f(\xi)\,e^{2 \pi i \xi x}\,d\xi\]    Display Mode Example #  Here is some inline example:  \(\pi(x)\)  , rendered in the same line. And below is display example, having display: block  \[f(x) = \int_{-\infty}^\infty\hat f(\xi)\,e^{2 \pi i \xi x}\,d\xi\]  Text continues here.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://swifteen.github.io/docs/shortcodes/mermaid/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://swifteen.github.io/docs/shortcodes/mermaid/</guid>
-      <description>Mermaid Chart #   MermaidJS is library for generating svg charts and diagrams from text.
-Override Mermaid Initialization Config
-To override the initialization config for Mermaid, create a mermaid.json file in your assets folder!
- Example #  {{&amp;lt; mermaid [class=&amp;#34;text-center&amp;#34;]&amp;gt;}} stateDiagram-v2  State1: The state with a note  note right of State1  Important information! You can write  notes.  end note  State1 --&amp;gt; State2  note left of State2 : This is the note to the left.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://swifteen.github.io/docs/shortcodes/section/first-page/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://swifteen.github.io/docs/shortcodes/section/first-page/</guid>
-      <description>First page #  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
- Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://swifteen.github.io/docs/shortcodes/section/second-page/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://swifteen.github.io/docs/shortcodes/section/second-page/</guid>
-      <description>Second Page #  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
- Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://swifteen.github.io/docs/shortcodes/tabs/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://swifteen.github.io/docs/shortcodes/tabs/</guid>
-      <description>Tabs #  Tabs let you organize content by context, for example installation instructions for each supported platform.
-{{&amp;lt; tabs &amp;#34;uniqueid&amp;#34; &amp;gt;}} {{&amp;lt; tab &amp;#34;MacOS&amp;#34; &amp;gt;}} # MacOS Content {{&amp;lt; /tab &amp;gt;}} {{&amp;lt; tab &amp;#34;Linux&amp;#34; &amp;gt;}} # Linux Content {{&amp;lt; /tab &amp;gt;}} {{&amp;lt; tab &amp;#34;Windows&amp;#34; &amp;gt;}} # Windows Content {{&amp;lt; /tab &amp;gt;}} {{&amp;lt; /tabs &amp;gt;}} Example #  MacOS MacOS #  This is tab MacOS content.
-Lorem markdownum insigne. Olympo signis Delphis!</description>
+      <guid>https://swifteen.github.io/posts/Google%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83%E6%80%BB%E7%BB%93/</guid>
+      <description>版本说明 #   Google编译规范总结     日期 版本 修改内容     20211029 V0.1 创建    目的 #  使代码易于管理的方法之一是加强代码一致性. 让任何程序员都可以快速读懂你的代码这点非常重要.
+项目主页:
+  Google Style Guide  Google 开源项目风格指南 - 中文版  代码规范 #  头文件 #  前置声明 #    尽可能地避免使用前置声明。使用 #include 包含需要的头文件即可
+  前置声明的类是不完全类型（incomplete type），我们只能定义指向该类型的指针或引用，或者声明（但不能定义）以不完全类型作为参数或者返回类型的函数。毕竟编译器不知道不完全类型的定义，我们不能创建其类的任何对象，也不能声明成类内部的数据成员。
+ If a class only appears in the header as a pointer or reference, then a forward declaration is sufficient</description>
     </item>
     
   </channel>

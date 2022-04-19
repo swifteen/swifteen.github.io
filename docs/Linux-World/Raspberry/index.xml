@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Freedom Book</title>
+    <link>https://swifteen.github.io/docs/Linux-World/Raspberry/</link>
+    <description>Recent content on Freedom Book</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://swifteen.github.io/docs/Linux-World/Raspberry/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://swifteen.github.io/docs/Linux-World/Raspberry/%E5%B8%B8%E7%94%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/Linux-World/Raspberry/%E5%B8%B8%E7%94%A8/</guid>
+      <description>apt源 #  修改/etc/apt/sources.list，去掉自带的源，添加如下源（二选一即可）：
+清华源 deb http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ buster main contrib non-free rpi deb-src http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ buster main contrib non-free rpi
+阿里源 deb http://mirrors.aliyun.com/raspbian/raspbian/ buster main non-free contrib deb-src http://mirrors.aliyun.com/raspbian/raspbian/ buster main non-free contrib
+修改：/etc/apt/sources.list.d/raspi.list，去掉自带的源，添加如下源：
+deb http://mirrors.tuna.tsinghua.edu.cn/raspberrypi/ buster main ui deb-src http://mirrors.tuna.tsinghua.edu.cn/raspberrypi/ buster main ui
+使用代理
+apt update -o Acquire::http::proxy=&amp;#34;socks5h://192.168.31.181:10808/&amp;#34; raspberry-qt #   https://github.com/tranter/raspberry-pi-qt-builds/releases
+cd / sudo tar xf /home/pi/Qt5.10.1-RaspberryPi3-bin-full.tgz qtchooser -install qt-5.12.2 /usr/local/Qt-5.15.2/bin/qmake  https://blog.csdn.net/tianfour/article/details/76068656
+youtube-dl #  channel_url=&amp;#34;https://www.youtube.com/user/channelname/playlists&amp;#34;https://www.youtube.com/channel/UCNT5WLWYnSV30mlKLnPzHTg/playlistshttps://www.</description>
+    </item>
+    
+  </channel>
+</rss>

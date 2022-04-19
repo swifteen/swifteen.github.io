@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>工具 on Freedom Book</title>
+    <link>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/</link>
+    <description>Recent content in 工具 on Freedom Book</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/</guid>
+      <description>find ./ -type d -name &amp;#34;Backup&amp;#34; -exec rm -rf {} \;  sed -i &amp;#34;s/&amp;lt;cups\/cups.h&amp;gt;/\&amp;#34;cups\/cups.h\&amp;#34;/g&amp;#34; `grep &amp;#34;cups/cups.h&amp;#34; -rl .`  find . -type f -size +100M -print0 | xargs -0 du -h | sort -nr  cat *.txt | sort | uniq &amp;gt; test  #导出svn版本差异 for i in $(svn diff --summarize -r 248:276 svn://192.168.10.200/rootfs/ | awk &amp;#39;{ print $2 }&amp;#39;); do p=$(echo $i | sed -e &amp;#39;s{svn://192.168.10.200/rootfs/{{&amp;#39;); mkdir -p $(dirname $p); svn export $i $p; done  #获取awk .</description>
+    </item>
+    
+  </channel>
+</rss>

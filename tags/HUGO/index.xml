@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>HUGO on Freedom Book</title>
+    <link>https://swifteen.github.io/tags/HUGO/</link>
+    <description>Recent content in HUGO on Freedom Book</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 17 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://swifteen.github.io/tags/HUGO/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>搭建HUGO博客</title>
+      <link>https://swifteen.github.io/posts/Hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%B5%81%E7%A8%8B/</link>
+      <pubDate>Sun, 17 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/posts/Hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%B5%81%E7%A8%8B/</guid>
+      <description>搭建HUGO博客 #  安装hugo #  进入 release页面下载，选择下载 hugo_extended_0.97.0_Linux-64bit.deb带extended后缀的安装包
+sudo dpkg -i hugo_extended_0.97.0_Linux-64bit.deb 创建hugo工程 #  mkdir ~/Public/Book cd ~/Public/Book hugo new site ./ 下载主题 #  git init git submodule add https://github.com/alex-shpak/hugo-book themes/hugo-book cp -R themes/hugo-book/exampleSite/content . 运行Web服务 #  ubuntu:~/Public/Book$ hugo server --minify --theme hugo-book --bind=&amp;#34;0.0.0.0&amp;#34; -p 8888 Start building sites … hugo v0.97.0-c07f3626e7c8160943591f4d209977efa02c3dca+extended linux/amd64 BuildDate=2022-04-14T08:45:07Z VendorInfo=gohugoio WARN 2022/04/16 01:47:16 Expand shortcode is deprecated. Use &amp;#39;details&amp;#39; instead. WARN 2022/04/16 01:47:16 Page &amp;#39;/layout/variables&amp;#39; not found in &amp;#39;posts/goisforlovers.</description>
+    </item>
+    
+  </channel>
+</rss>

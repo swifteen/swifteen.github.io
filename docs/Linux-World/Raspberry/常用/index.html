@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="apt源 #  修改/etc/apt/sources.list，去掉自带的源，添加如下源（二选一即可）：
+清华源 deb http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ buster main contrib non-free rpi deb-src http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ buster main contrib non-free rpi
+阿里源 deb http://mirrors.aliyun.com/raspbian/raspbian/ buster main non-free contrib deb-src http://mirrors.aliyun.com/raspbian/raspbian/ buster main non-free contrib
+修改：/etc/apt/sources.list.d/raspi.list，去掉自带的源，添加如下源：
+deb http://mirrors.tuna.tsinghua.edu.cn/raspberrypi/ buster main ui deb-src http://mirrors.tuna.tsinghua.edu.cn/raspberrypi/ buster main ui
+使用代理
+apt update -o Acquire::http::proxy=&#34;socks5h://192.168.31.181:10808/&#34; raspberry-qt #   https://github.com/tranter/raspberry-pi-qt-builds/releases
+cd / sudo tar xf /home/pi/Qt5.10.1-RaspberryPi3-bin-full.tgz qtchooser -install qt-5.12.2 /usr/local/Qt-5.15.2/bin/qmake  https://blog.csdn.net/tianfour/article/details/76068656
+youtube-dl #  channel_url=&#34;https://www.youtube.com/user/channelname/playlists&#34;https://www.youtube.com/channel/UCNT5WLWYnSV30mlKLnPzHTg/playlistshttps://www.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="apt源 #  修改/etc/apt/sources.list，去掉自带的源，添加如下源（二选一即可）：
+清华源 deb http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ buster main contrib non-free rpi deb-src http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ buster main contrib non-free rpi
+阿里源 deb http://mirrors.aliyun.com/raspbian/raspbian/ buster main non-free contrib deb-src http://mirrors.aliyun.com/raspbian/raspbian/ buster main non-free contrib
+修改：/etc/apt/sources.list.d/raspi.list，去掉自带的源，添加如下源：
+deb http://mirrors.tuna.tsinghua.edu.cn/raspberrypi/ buster main ui deb-src http://mirrors.tuna.tsinghua.edu.cn/raspberrypi/ buster main ui
+使用代理
+apt update -o Acquire::http::proxy=&#34;socks5h://192.168.31.181:10808/&#34; raspberry-qt #   https://github.com/tranter/raspberry-pi-qt-builds/releases
+cd / sudo tar xf /home/pi/Qt5.10.1-RaspberryPi3-bin-full.tgz qtchooser -install qt-5.12.2 /usr/local/Qt-5.15.2/bin/qmake  https://blog.csdn.net/tianfour/article/details/76068656
+youtube-dl #  channel_url=&#34;https://www.youtube.com/user/channelname/playlists&#34;https://www.youtube.com/channel/UCNT5WLWYnSV30mlKLnPzHTg/playlistshttps://www." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://swifteen.github.io/docs/Linux-World/Raspberry/%E5%B8%B8%E7%94%A8/" /><meta property="article:section" content="docs" />
+
+
+
+<title>常用 | Freedom Book</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.8af359f8b4ff91864838b7225239a34a4ca449e60ef99ab88e33c978c8685391.css" integrity="sha256-ivNZ&#43;LT/kYZIOLciUjmjSkykSeYO&#43;Zq4jjPJeMhoU5E=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.d45c0ffc37a24fca2ef007edb1d82d27449127aa5b68259acea105adc08ba9ea.js" integrity="sha256-1FwP/DeiT8ou8AftsdgtJ0SRJ6pbaCWazqEFrcCLqeo=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Freedom Book</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+  
+
+
+
+  
+    
+  
+    
+  
+
+
+
+<ul class="book-languages">
+  <li>
+    <input type="checkbox" id="languages" class="toggle" />
+    <label for="languages" class="flex justify-between">
+      <a role="button" class="flex align-center">
+        <img src="/svg/translate.svg" class="book-icon" alt="Languages" />
+        English
+      </a>
+    </label>
+
+    <ul>
+      
+      <li>
+        <a href="https://swifteen.github.io/ru/">
+          Russian
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://swifteen.github.io/zh/">
+          Chinese
+        </a>
+      </li>
+      
+    </ul>
+  </li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" class="">读书笔记</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="toggle"  />
+    <label for="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="flex justify-between">
+      <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/" class="">深入理解计算机系统</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/" class="">第一章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/4th-level/" class="">4th Level</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/" class="">5th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/6th-level/" class="">6th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/" class="">第二章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/" class="">7th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/12th-level/" class="">12th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/8th-level/" class="">8th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/" class="">工程实践</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/FalconMode/" class="">FalconMode模式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/BBB%E6%9D%BF%E4%BD%BF%E7%94%A8NFS%E6%8C%82%E8%BD%BD%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" class="">BBB板使用NFS挂载文件系统</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/" class="">工作总结</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">数据库</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF/" class="">日志模块实现思路</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/" class="">Linux World</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/" class="">工具</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="toggle"  />
+    <label for="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Git常用配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" class="">git基本使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8/" class="">git高级使用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-d5b311234c6410083508e37cc63fc1b6" class="toggle"  />
+    <label for="section-d5b311234c6410083508e37cc63fc1b6" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/" class="">Vim</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/%E9%85%8D%E7%BD%AE/" class="">配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/" class="">常用 Linux命令</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4a2fe1f775a45aa533a141965b5ef749" class="toggle" checked />
+    <label for="section-4a2fe1f775a45aa533a141965b5ef749" class="flex justify-between">
+      <a href="/docs/Linux-World/Raspberry/" class="">Raspberry</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Raspberry/%E5%B8%B8%E7%94%A8/" class=" active">常用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-23ec4bc7089b12961617b50da77ae792" class="toggle"  />
+    <label for="section-23ec4bc7089b12961617b50da77ae792" class="flex justify-between">
+      <a href="/docs/Linux-World/Ubuntu/" class="">Ubuntu</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%9B%AE%E5%BD%95%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE/" class="">目录共享配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%90%86%E5%92%8C%E8%AF%81%E4%B9%A6/" class="">系统代理和证书</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E5%85%B6%E5%AE%83/" class="">其它</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://github.com/swifteen/" target="_blank" rel="noopener">
+        Github
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://themes.gohugo.io/hugo-book/" target="_blank" rel="noopener">
+        Hugo Themes
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>常用</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#apt源">apt源</a></li>
+        <li><a href="#raspberry-qt">raspberry-qt</a></li>
+        <li><a href="#youtube-dl">youtube-dl</a></li>
+        <li><a href="#开启wifi">开启wifi</a></li>
+        <li><a href="#升级固件">升级固件</a></li>
+        <li><a href="#how-to-get-back-to-safety">How to get back to safety</a></li>
+        <li><a href="#安装armhf-ubuntu">安装armhf ubuntu</a></li>
+        <li><a href="#raspberry-启动流程">raspberry 启动流程</a></li>
+      </ul>
+    </li>
+    <li><a href="#传感器">传感器</a>
+      <ul>
+        <li><a href="#mpu6050">MPU6050</a>
+          <ul>
+            <li><a href="#httpswwwstupid-projectscomcontrolling-a-3d-object-in-unity3d-with-teensy-and-mpu-6050"><a href="https://www.stupid-projects.com/controlling-a-3d-object-in-unity3d-with-teensy-and-mpu-6050/">https://www.stupid-projects.com/controlling-a-3d-object-in-unity3d-with-teensy-and-mpu-6050/</a></a></li>
+            <li><a href="#httpsbitbucketorgdimtassteensy-hid-with-unity3dsrcmaster"><a href="https://bitbucket.org/dimtass/teensy-hid-with-unity3d/src/master/">https://bitbucket.org/dimtass/teensy-hid-with-unity3d/src/master/</a></a></li>
+            <li><a href="#heading"></a></li>
+          </ul>
+        </li>
+        <li><a href="#esp8266">ESP8266</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h2 id="apt源">
+  apt源
+  <a class="anchor" href="#apt%e6%ba%90">#</a>
+</h2>
+<p>修改/etc/apt/sources.list，去掉自带的源，添加如下源（二选一即可）：</p>
+<p>清华源
+deb 
+  <a href="http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/">http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/</a> buster main contrib non-free rpi
+deb-src 
+  <a href="http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/">http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/</a> buster main contrib non-free rpi</p>
+<p>阿里源
+deb 
+  <a href="http://mirrors.aliyun.com/raspbian/raspbian/">http://mirrors.aliyun.com/raspbian/raspbian/</a> buster main non-free contrib
+deb-src 
+  <a href="http://mirrors.aliyun.com/raspbian/raspbian/">http://mirrors.aliyun.com/raspbian/raspbian/</a> buster main non-free contrib</p>
+<p>修改：/etc/apt/sources.list.d/raspi.list，去掉自带的源，添加如下源：</p>
+<p>deb 
+  <a href="http://mirrors.tuna.tsinghua.edu.cn/raspberrypi/">http://mirrors.tuna.tsinghua.edu.cn/raspberrypi/</a> buster main ui
+deb-src 
+  <a href="http://mirrors.tuna.tsinghua.edu.cn/raspberrypi/">http://mirrors.tuna.tsinghua.edu.cn/raspberrypi/</a> buster main ui</p>
+<p>使用代理</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>apt update  -o Acquire::http::proxy<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;socks5h://192.168.31.181:10808/&#34;</span>
+</span></span></code></pre></div><h2 id="raspberry-qt">
+  raspberry-qt
+  <a class="anchor" href="#raspberry-qt">#</a>
+</h2>
+<p>
+  <a href="https://github.com/tranter/raspberry-pi-qt-builds/releases">https://github.com/tranter/raspberry-pi-qt-builds/releases</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cd /
+</span></span><span style="display:flex;"><span>sudo tar xf /home/pi/Qt5.10.1-RaspberryPi3-bin-full.tgz
+</span></span><span style="display:flex;"><span>qtchooser -install  qt-5.12.2 /usr/local/Qt-5.15.2/bin/qmake
+</span></span></code></pre></div><p>
+  <a href="https://blog.csdn.net/tianfour/article/details/76068656">https://blog.csdn.net/tianfour/article/details/76068656</a></p>
+<h2 id="youtube-dl">
+  youtube-dl
+  <a class="anchor" href="#youtube-dl">#</a>
+</h2>
+<pre tabindex="0"><code>channel_url=&#34;https://www.youtube.com/user/channelname/playlists&#34;
+https://www.youtube.com/channel/UCNT5WLWYnSV30mlKLnPzHTg/playlists
+https://www.youtube.com/watch?v=Tu-vU4zFre0&amp;list=PLoZQ0sz6CBHGG1qoq-tISRs9tKCLwCyM
+https://www.youtube.com/user/numberblocks/playlists
+https://www.youtube.com/watch?v=2mQ0JtlddLI&amp;list=PL9swKX1PviEor1JJ9oiJwidaT-q69tYW2
+
+youtube-dl --yes-playlist -f best -ciw -o &#34;${outdir}/%(uploader)s/playlists/%(playlist)s/videos/%(playlist_index)s - %(title)s.%(ext)s&#34; -v $channel_url
+
+-c, --continue                       Force resume of partially downloaded files. By default, youtube-dl will resume downloads if possible.
+-i, --ignore-errors                  Continue on download errors, for example to skip unavailable videos in a playlist
+-w, --no-overwrites                  Do not overwrite files
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>url<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://www.youtube.com/playlist?list=&#34;</span>$1
+</span></span><span style="display:flex;"><span>channel_url<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://www.youtube.com/user/channelname/playlists&#34;</span>
+</span></span><span style="display:flex;"><span>proxy<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;--proxy socks5://localhost:1081&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#args=&#34;--no-check-certificate --restrict-filenames --no-warnings --ignore-errors&#34;</span>
+</span></span><span style="display:flex;"><span>args<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;--no-check-certificate --no-warnings --ignore-errors  --continue --no-overwrites &#34;</span>
+</span></span><span style="display:flex;"><span>get_info<span style="color:#f92672">=</span><span style="color:#e6db74">&#34; --get-id --get-filename --get-title&#34;</span>
+</span></span><span style="display:flex;"><span>get_sub<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;--write-auto-sub --skip-download&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>list_dir<span style="color:#f92672">=</span>$2
+</span></span><span style="display:flex;"><span>name<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>list_dir##*/<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>echo name
+</span></span><span style="display:flex;"><span>list_path<span style="color:#f92672">=</span>$2<span style="color:#e6db74">&#34;/</span>$name<span style="color:#e6db74">.txt&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> ! -d $list_dir <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>  mkdir $list_dir
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>echo $list_dir
+</span></span><span style="display:flex;"><span>echo $list_path
+</span></span><span style="display:flex;"><span>cd $list_dir
+</span></span><span style="display:flex;"><span>youtube-dl $url $args $proxy -o <span style="color:#e6db74">&#34;%(uploader)s/playlists/%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#youtube-dl $url $args $proxy -o &#34;${outdir}/%(uploader)s/playlists/%(playlist)s/videos/%(playlist_index)s - %(title)s.%(ext)s&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#youtube-dl $url $args $proxy -o &#34;%(playlist_index)s-%(title)s.%(ext)s&#34;</span>
+</span></span></code></pre></div><h2 id="开启wifi">
+  开启wifi
+  <a class="anchor" href="#%e5%bc%80%e5%90%afwifi">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>pi@raspberrypi:~ $ sudo rfkill list all
+</span></span><span style="display:flex;"><span>0: phy0: Wireless LAN
+</span></span><span style="display:flex;"><span>	Soft blocked: no
+</span></span><span style="display:flex;"><span>	Hard blocked: no
+</span></span><span style="display:flex;"><span>1: hci0: Bluetooth
+</span></span><span style="display:flex;"><span>	Soft blocked: yes
+</span></span><span style="display:flex;"><span>	Hard blocked: no
+</span></span><span style="display:flex;"><span>pi@raspberrypi:~ $ sudo rfkill unblock <span style="color:#ae81ff">0</span> 
+</span></span></code></pre></div><h2 id="升级固件">
+  升级固件
+  <a class="anchor" href="#%e5%8d%87%e7%ba%a7%e5%9b%ba%e4%bb%b6">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#安装CA证书</span>
+</span></span><span style="display:flex;"><span>sudo apt-get install ca-certificates
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#同步时间</span>
+</span></span><span style="display:flex;"><span>sudo apt-get install ntpdate
+</span></span><span style="display:flex;"><span>sudo ntpdate -u ntp.ubuntu.com
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>mkdir /root/.rpi-firmware
+</span></span><span style="display:flex;"><span>cd /root/.rpi-firmware
+</span></span><span style="display:flex;"><span>curl -L https://github.com/Hexxeh/rpi-firmware/archive/master.tar.gz -o master.tar.gz
+</span></span><span style="display:flex;"><span>tar -xvzf master.tar.gz
+</span></span><span style="display:flex;"><span>rm master.tar.gz
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 执行本地更新</span>
+</span></span><span style="display:flex;"><span>UPDATE_SELF<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> SKIP_DOWNLOAD<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> rpi-update
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 重启</span>
+</span></span><span style="display:flex;"><span>reboot
+</span></span></code></pre></div><h2 id="how-to-get-back-to-safety">
+  How to get back to safety
+  <a class="anchor" href="#how-to-get-back-to-safety">#</a>
+</h2>
+<p>If you have done an <code>rpi-update</code> and things are not working as you wish, if your Raspberry Pi is still bootable you can return to the stable release using:</p>
+<pre tabindex="0"><code>sudo apt-get update
+sudo apt install --reinstall libraspberrypi0 libraspberrypi-{bin,dev,doc} raspberrypi-bootloader raspberrypi-kernel
+</code></pre><p>
+  <a href="https://www.raspberrypi.org/documentation/">https://www.raspberrypi.org/documentation/</a></p>
+<p>
+  <a href="https://wiki.debian.org/DontBreakDebian#Don.27t_make_a_FrankenDebian">https://wiki.debian.org/DontBreakDebian#Don.27t_make_a_FrankenDebian</a></p>
+<h2 id="安装armhf-ubuntu">
+  安装armhf ubuntu
+  <a class="anchor" href="#%e5%ae%89%e8%a3%85armhf-ubuntu">#</a>
+</h2>
+<p>
+  <a href="https://wiki.ubuntu.com/ARM/RaspberryPi">https://wiki.ubuntu.com/ARM/RaspberryPi</a></p>
+<h2 id="raspberry-启动流程">
+  raspberry 启动流程
+  <a class="anchor" href="#raspberry-%e5%90%af%e5%8a%a8%e6%b5%81%e7%a8%8b">#</a>
+</h2>
+<p>
+  <a href="https://www.lions-wing.net/maker/raspberry-1/boot.html">https://www.lions-wing.net/maker/raspberry-1/boot.html</a></p>
+<h1 id="传感器">
+  传感器
+  <a class="anchor" href="#%e4%bc%a0%e6%84%9f%e5%99%a8">#</a>
+</h1>
+<h2 id="mpu6050">
+  MPU6050
+  <a class="anchor" href="#mpu6050">#</a>
+</h2>
+<p>
+  <a href="https://openest.io/en/2020/01/21/mpu6050-accelerometer-on-raspberry-pi/">https://openest.io/en/2020/01/21/mpu6050-accelerometer-on-raspberry-pi/</a></p>
+<p>
+  <a href="https://tutorials-raspberrypi.com/measuring-rotation-and-acceleration-raspberry-pi/">https://tutorials-raspberrypi.com/measuring-rotation-and-acceleration-raspberry-pi/</a></p>
+<p>
+  <a href="https://howtomechatronics.com/tutorials/arduino/arduino-and-mpu6050-accelerometer-and-gyroscope-tutorial/">https://howtomechatronics.com/tutorials/arduino/arduino-and-mpu6050-accelerometer-and-gyroscope-tutorial/</a></p>
+<h3 id="httpswwwstupid-projectscomcontrolling-a-3d-object-in-unity3d-with-teensy-and-mpu-6050">
+  
+  <a href="https://www.stupid-projects.com/controlling-a-3d-object-in-unity3d-with-teensy-and-mpu-6050/">https://www.stupid-projects.com/controlling-a-3d-object-in-unity3d-with-teensy-and-mpu-6050/</a>
+  <a class="anchor" href="#httpswwwstupid-projectscomcontrolling-a-3d-object-in-unity3d-with-teensy-and-mpu-6050">#</a>
+</h3>
+<h3 id="httpsbitbucketorgdimtassteensy-hid-with-unity3dsrcmaster">
+  
+  <a href="https://bitbucket.org/dimtass/teensy-hid-with-unity3d/src/master/">https://bitbucket.org/dimtass/teensy-hid-with-unity3d/src/master/</a>
+  <a class="anchor" href="#httpsbitbucketorgdimtassteensy-hid-with-unity3dsrcmaster">#</a>
+</h3>
+<p>
+  <a href="https://github.com/jrowberg/i2cdevlib/blob/master/RaspberryPi_bcm2835/MPU6050/examples/IMU_zero.cpp">https://github.com/jrowberg/i2cdevlib/blob/master/RaspberryPi_bcm2835/MPU6050/examples/IMU_zero.cpp</a></p>
+<p>
+  <a href="http://brettbeauregard.com/blog/2011/04/improving-the-beginner%e2%80%99s-pid-sample-time/">http://brettbeauregard.com/blog/2011/04/improving-the-beginner%e2%80%99s-pid-sample-time/</a></p>
+<h3 id="heading">
+  
+  <a class="anchor" href="#heading">#</a>
+</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th>字母名称</th>
+<th>国际音标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>俯仰角θ（pitch）</td>
+<td>Θ</td>
+<td>theta</td>
+<td>/&lsquo;θi:tə/</td>
+</tr>
+<tr>
+<td>偏航角ψ（yaw）</td>
+<td>Ψ</td>
+<td>psi</td>
+<td>/psaɪ/</td>
+</tr>
+<tr>
+<td>滚转角Φ（roll）</td>
+<td>φ</td>
+<td>phi</td>
+<td>/faɪ/</td>
+</tr>
+</tbody>
+</table>
+<p>
+  <img src="https://img-blog.csdn.net/20151125212621964" alt="这里写图片描述" /></p>
+<h2 id="esp8266">
+  ESP8266
+  <a class="anchor" href="#esp8266">#</a>
+</h2>
+<p>
+  <a href="https://blog.csdn.net/chentuo2000/article/details/105296166/?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-1&amp;spm=1001.2101.3001.4242">https://blog.csdn.net/chentuo2000/article/details/105296166/?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-1&spm=1001.2101.3001.4242</a></p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/swifteen/swifteen.github.io/edit/main/exampleSite/content/docs/Linux%20World/Raspberry/%e5%b8%b8%e7%94%a8.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function e(n){const e=window.getSelection(),t=document.createRange();t.selectNodeContents(n),e.removeAllRanges(),e.addRange(t)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#apt源">apt源</a></li>
+        <li><a href="#raspberry-qt">raspberry-qt</a></li>
+        <li><a href="#youtube-dl">youtube-dl</a></li>
+        <li><a href="#开启wifi">开启wifi</a></li>
+        <li><a href="#升级固件">升级固件</a></li>
+        <li><a href="#how-to-get-back-to-safety">How to get back to safety</a></li>
+        <li><a href="#安装armhf-ubuntu">安装armhf ubuntu</a></li>
+        <li><a href="#raspberry-启动流程">raspberry 启动流程</a></li>
+      </ul>
+    </li>
+    <li><a href="#传感器">传感器</a>
+      <ul>
+        <li><a href="#mpu6050">MPU6050</a>
+          <ul>
+            <li><a href="#httpswwwstupid-projectscomcontrolling-a-3d-object-in-unity3d-with-teensy-and-mpu-6050"><a href="https://www.stupid-projects.com/controlling-a-3d-object-in-unity3d-with-teensy-and-mpu-6050/">https://www.stupid-projects.com/controlling-a-3d-object-in-unity3d-with-teensy-and-mpu-6050/</a></a></li>
+            <li><a href="#httpsbitbucketorgdimtassteensy-hid-with-unity3dsrcmaster"><a href="https://bitbucket.org/dimtass/teensy-hid-with-unity3d/src/master/">https://bitbucket.org/dimtass/teensy-hid-with-unity3d/src/master/</a></a></li>
+            <li><a href="#heading"></a></li>
+          </ul>
+        </li>
+        <li><a href="#esp8266">ESP8266</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

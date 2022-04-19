@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="搭建HUGO博客 #  安装hugo #  进入 release页面下载，选择下载 hugo_extended_0.97.0_Linux-64bit.deb带extended后缀的安装包
+sudo dpkg -i hugo_extended_0.97.0_Linux-64bit.deb 创建hugo工程 #  mkdir ~/Public/Book cd ~/Public/Book hugo new site ./ 下载主题 #  git init git submodule add https://github.com/alex-shpak/hugo-book themes/hugo-book cp -R themes/hugo-book/exampleSite/content . 运行Web服务 #  ubuntu:~/Public/Book$ hugo server --minify --theme hugo-book --bind=&#34;0.0.0.0&#34; -p 8888 Start building sites … hugo v0.97.0-c07f3626e7c8160943591f4d209977efa02c3dca&#43;extended linux/amd64 BuildDate=2022-04-14T08:45:07Z VendorInfo=gohugoio WARN 2022/04/16 01:47:16 Expand shortcode is deprecated. Use &#39;details&#39; instead. WARN 2022/04/16 01:47:16 Page &#39;/layout/variables&#39; not found in &#39;posts/goisforlovers.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="搭建HUGO博客" />
+<meta property="og:description" content="搭建HUGO博客 #  安装hugo #  进入 release页面下载，选择下载 hugo_extended_0.97.0_Linux-64bit.deb带extended后缀的安装包
+sudo dpkg -i hugo_extended_0.97.0_Linux-64bit.deb 创建hugo工程 #  mkdir ~/Public/Book cd ~/Public/Book hugo new site ./ 下载主题 #  git init git submodule add https://github.com/alex-shpak/hugo-book themes/hugo-book cp -R themes/hugo-book/exampleSite/content . 运行Web服务 #  ubuntu:~/Public/Book$ hugo server --minify --theme hugo-book --bind=&#34;0.0.0.0&#34; -p 8888 Start building sites … hugo v0.97.0-c07f3626e7c8160943591f4d209977efa02c3dca&#43;extended linux/amd64 BuildDate=2022-04-14T08:45:07Z VendorInfo=gohugoio WARN 2022/04/16 01:47:16 Expand shortcode is deprecated. Use &#39;details&#39; instead. WARN 2022/04/16 01:47:16 Page &#39;/layout/variables&#39; not found in &#39;posts/goisforlovers." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://swifteen.github.io/posts/Hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%B5%81%E7%A8%8B/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-17T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-04-17T00:00:00+00:00" />
+
+<title>搭建HUGO博客 | Freedom Book</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.8af359f8b4ff91864838b7225239a34a4ca449e60ef99ab88e33c978c8685391.css" integrity="sha256-ivNZ&#43;LT/kYZIOLciUjmjSkykSeYO&#43;Zq4jjPJeMhoU5E=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.d45c0ffc37a24fca2ef007edb1d82d27449127aa5b68259acea105adc08ba9ea.js" integrity="sha256-1FwP/DeiT8ou8AftsdgtJ0SRJ6pbaCWazqEFrcCLqeo=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Freedom Book</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+  
+
+
+
+  
+    
+  
+    
+  
+
+
+
+<ul class="book-languages">
+  <li>
+    <input type="checkbox" id="languages" class="toggle" />
+    <label for="languages" class="flex justify-between">
+      <a role="button" class="flex align-center">
+        <img src="/svg/translate.svg" class="book-icon" alt="Languages" />
+        English
+      </a>
+    </label>
+
+    <ul>
+      
+      <li>
+        <a href="https://swifteen.github.io/ru/">
+          Russian
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://swifteen.github.io/zh/">
+          Chinese
+        </a>
+      </li>
+      
+    </ul>
+  </li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" class="">读书笔记</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="toggle"  />
+    <label for="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="flex justify-between">
+      <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/" class="">深入理解计算机系统</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/" class="">第一章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/4th-level/" class="">4th Level</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/" class="">5th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/6th-level/" class="">6th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/" class="">第二章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/" class="">7th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/12th-level/" class="">12th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/8th-level/" class="">8th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/" class="">工程实践</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/FalconMode/" class="">FalconMode模式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/BBB%E6%9D%BF%E4%BD%BF%E7%94%A8NFS%E6%8C%82%E8%BD%BD%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" class="">BBB板使用NFS挂载文件系统</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/" class="">工作总结</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">数据库</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF/" class="">日志模块实现思路</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/" class="">Linux World</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/" class="">工具</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="toggle"  />
+    <label for="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Git常用配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" class="">git基本使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8/" class="">git高级使用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-d5b311234c6410083508e37cc63fc1b6" class="toggle"  />
+    <label for="section-d5b311234c6410083508e37cc63fc1b6" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/" class="">Vim</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/%E9%85%8D%E7%BD%AE/" class="">配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/" class="">常用 Linux命令</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4a2fe1f775a45aa533a141965b5ef749" class="toggle"  />
+    <label for="section-4a2fe1f775a45aa533a141965b5ef749" class="flex justify-between">
+      <a href="/docs/Linux-World/Raspberry/" class="">Raspberry</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Raspberry/%E5%B8%B8%E7%94%A8/" class="">常用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-23ec4bc7089b12961617b50da77ae792" class="toggle"  />
+    <label for="section-23ec4bc7089b12961617b50da77ae792" class="flex justify-between">
+      <a href="/docs/Linux-World/Ubuntu/" class="">Ubuntu</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%9B%AE%E5%BD%95%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE/" class="">目录共享配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%90%86%E5%92%8C%E8%AF%81%E4%B9%A6/" class="">系统代理和证书</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E5%85%B6%E5%AE%83/" class="">其它</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://github.com/swifteen/" target="_blank" rel="noopener">
+        Github
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://themes.gohugo.io/hugo-book/" target="_blank" rel="noopener">
+        Hugo Themes
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>搭建HUGO博客</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#搭建hugo博客">搭建HUGO博客</a>
+      <ul>
+        <li><a href="#安装hugo">安装hugo</a></li>
+        <li><a href="#创建hugo工程">创建hugo工程</a></li>
+        <li><a href="#下载主题">下载主题</a></li>
+        <li><a href="#运行web服务">运行Web服务</a></li>
+      </ul>
+    </li>
+    <li><a href="#hugo主题宽屏设置">Hugo主题宽屏设置</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+<article class="markdown">
+  <h1>
+    <a href="/posts/Hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%B5%81%E7%A8%8B/">搭建HUGO博客</a>
+  </h1>
+  
+  <h5>April 17, 2022</h5>
+
+
+
+  
+  <div>
+    
+      <a href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+  </div>
+  
+
+  
+  <div>
+    
+      <a href="/tags/HUGO/">HUGO</a>, 
+      <a href="/tags/blog/">blog</a>
+  </div>
+  
+
+
+
+<h1 id="搭建hugo博客">
+  搭建HUGO博客
+  <a class="anchor" href="#%e6%90%ad%e5%bb%bahugo%e5%8d%9a%e5%ae%a2">#</a>
+</h1>
+<h2 id="安装hugo">
+  安装hugo
+  <a class="anchor" href="#%e5%ae%89%e8%a3%85hugo">#</a>
+</h2>
+<p>进入
+  <a href="https://github.com/gohugoio/hugo/releases">release页面下载</a>，选择下载
+  <a href="https://github.com/gohugoio/hugo/releases/download/v0.97.0/hugo_extended_0.97.0_Linux-64bit.deb">hugo_extended_0.97.0_Linux-64bit.deb</a>带extended后缀的安装包</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo dpkg -i hugo_extended_0.97.0_Linux-64bit.deb
+</span></span></code></pre></div><h2 id="创建hugo工程">
+  创建hugo工程
+  <a class="anchor" href="#%e5%88%9b%e5%bb%bahugo%e5%b7%a5%e7%a8%8b">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>mkdir ~/Public/Book
+</span></span><span style="display:flex;"><span>cd ~/Public/Book
+</span></span><span style="display:flex;"><span>hugo new site ./
+</span></span></code></pre></div><h2 id="下载主题">
+  下载主题
+  <a class="anchor" href="#%e4%b8%8b%e8%bd%bd%e4%b8%bb%e9%a2%98">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git init
+</span></span><span style="display:flex;"><span>git submodule add https://github.com/alex-shpak/hugo-book themes/hugo-book
+</span></span><span style="display:flex;"><span>cp -R themes/hugo-book/exampleSite/content .
+</span></span></code></pre></div><h2 id="运行web服务">
+  运行Web服务
+  <a class="anchor" href="#%e8%bf%90%e8%a1%8cweb%e6%9c%8d%e5%8a%a1">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ubuntu:~/Public/Book$ hugo server --minify --theme hugo-book --bind<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0.0.0.0&#34;</span> -p <span style="color:#ae81ff">8888</span>
+</span></span><span style="display:flex;"><span>Start building sites … 
+</span></span><span style="display:flex;"><span>hugo v0.97.0-c07f3626e7c8160943591f4d209977efa02c3dca+extended linux/amd64 BuildDate<span style="color:#f92672">=</span>2022-04-14T08:45:07Z VendorInfo<span style="color:#f92672">=</span>gohugoio
+</span></span><span style="display:flex;"><span>WARN 2022/04/16 01:47:16 Expand shortcode is deprecated. Use <span style="color:#e6db74">&#39;details&#39;</span> instead.
+</span></span><span style="display:flex;"><span>WARN 2022/04/16 01:47:16 Page <span style="color:#e6db74">&#39;/layout/variables&#39;</span> not found in <span style="color:#e6db74">&#39;posts/goisforlovers.md&#39;</span>
+</span></span><span style="display:flex;"><span>WARN 2022/04/16 01:47:16 Page <span style="color:#e6db74">&#39;/layout/functions&#39;</span> not found in <span style="color:#e6db74">&#39;posts/goisforlovers.md&#39;</span>
+</span></span><span style="display:flex;"><span>WARN 2022/04/16 01:47:16 Page <span style="color:#e6db74">&#39;/content/front-matter&#39;</span> not found in <span style="color:#e6db74">&#39;posts/goisforlovers.md&#39;</span>
+</span></span><span style="display:flex;"><span>WARN 2022/04/16 01:47:16 Page <span style="color:#e6db74">&#39;/overview/configuration/&#39;</span> not found in <span style="color:#e6db74">&#39;posts/migrate-from-jekyll.md&#39;</span>
+</span></span><span style="display:flex;"><span>WARN 2022/04/16 01:47:16 Page <span style="color:#e6db74">&#39;/layout/templates/&#39;</span> not found in <span style="color:#e6db74">&#39;posts/migrate-from-jekyll.md&#39;</span>
+</span></span><span style="display:flex;"><span>WARN 2022/04/16 01:47:16 Page <span style="color:#e6db74">&#39;/doc/shortcodes/&#39;</span> not found in <span style="color:#e6db74">&#39;posts/migrate-from-jekyll.md&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                   | EN | RU | ZH  
+</span></span><span style="display:flex;"><span>-------------------+----+----+-----
+</span></span><span style="display:flex;"><span>  Pages            | <span style="color:#ae81ff">57</span> |  <span style="color:#ae81ff">7</span> |  <span style="color:#ae81ff">7</span>  
+</span></span><span style="display:flex;"><span>  Paginator pages  |  <span style="color:#ae81ff">0</span> |  <span style="color:#ae81ff">0</span> |  <span style="color:#ae81ff">0</span>  
+</span></span><span style="display:flex;"><span>  Non-page files   |  <span style="color:#ae81ff">0</span> |  <span style="color:#ae81ff">0</span> |  <span style="color:#ae81ff">0</span>  
+</span></span><span style="display:flex;"><span>  Static files     | <span style="color:#ae81ff">78</span> | <span style="color:#ae81ff">78</span> | <span style="color:#ae81ff">78</span>  
+</span></span><span style="display:flex;"><span>  Processed images |  <span style="color:#ae81ff">0</span> |  <span style="color:#ae81ff">0</span> |  <span style="color:#ae81ff">0</span>  
+</span></span><span style="display:flex;"><span>  Aliases          | <span style="color:#ae81ff">12</span> |  <span style="color:#ae81ff">2</span> |  <span style="color:#ae81ff">2</span>  
+</span></span><span style="display:flex;"><span>  Sitemaps         |  <span style="color:#ae81ff">2</span> |  <span style="color:#ae81ff">1</span> |  <span style="color:#ae81ff">1</span>  
+</span></span><span style="display:flex;"><span>  Cleaned          |  <span style="color:#ae81ff">0</span> |  <span style="color:#ae81ff">0</span> |  <span style="color:#ae81ff">0</span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Built in <span style="color:#ae81ff">92</span> ms
+</span></span><span style="display:flex;"><span>Watching <span style="color:#66d9ef">for</span> changes in ~/Public/Book/<span style="color:#f92672">{</span>archetypes,content,data,layouts,static,themes<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>Watching <span style="color:#66d9ef">for</span> config changes in ~/Public/Book/config.toml, ~/Public/Book/config/_default
+</span></span><span style="display:flex;"><span>Environment: <span style="color:#e6db74">&#34;development&#34;</span>
+</span></span><span style="display:flex;"><span>Serving pages from memory
+</span></span><span style="display:flex;"><span>Running in Fast Render Mode. For full rebuilds on change: hugo server --disableFastRender
+</span></span><span style="display:flex;"><span>Web Server is available at http://localhost:8888/ <span style="color:#f92672">(</span>bind address 0.0.0.0<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Press Ctrl+C to stop
+</span></span></code></pre></div><h1 id="hugo主题宽屏设置">
+  Hugo主题宽屏设置
+  <a class="anchor" href="#hugo%e4%b8%bb%e9%a2%98%e5%ae%bd%e5%b1%8f%e8%ae%be%e7%bd%ae">#</a>
+</h1>
+<p>修改文件themes/hugo-book/assets/_defaults.scss</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-scss" data-lang="scss"><span style="display:flex;"><span>$container-max-width<span style="color:#f92672">:</span> <span style="color:#ae81ff">80</span><span style="color:#66d9ef">rem</span> <span style="color:#66d9ef">!default</span>;
+</span></span></code></pre></div><p>修改为</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-scss" data-lang="scss"><span style="display:flex;"><span>$container-max-width<span style="color:#f92672">:</span> <span style="color:#ae81ff">200</span><span style="color:#66d9ef">rem</span> <span style="color:#66d9ef">!default</span>;
+</span></span></code></pre></div></article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/swifteen/swifteen.github.io/edit/main/exampleSite/content/posts/Hugo%e6%90%ad%e5%bb%ba%e5%8d%9a%e5%ae%a2%e6%b5%81%e7%a8%8b.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function e(n){const e=window.getSelection(),t=document.createRange();t.selectNodeContents(n),e.removeAllRanges(),e.addRange(t)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#搭建hugo博客">搭建HUGO博客</a>
+      <ul>
+        <li><a href="#安装hugo">安装hugo</a></li>
+        <li><a href="#创建hugo工程">创建hugo工程</a></li>
+        <li><a href="#下载主题">下载主题</a></li>
+        <li><a href="#运行web服务">运行Web服务</a></li>
+      </ul>
+    </li>
+    <li><a href="#hugo主题宽屏设置">Hugo主题宽屏设置</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

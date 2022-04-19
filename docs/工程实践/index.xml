@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>工程实践 on Freedom Book</title>
+    <link>https://swifteen.github.io/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/</link>
+    <description>Recent content in 工程实践 on Freedom Book</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://swifteen.github.io/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>FalconMode模式</title>
+      <link>https://swifteen.github.io/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/FalconMode/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/FalconMode/</guid>
+      <description>版本说明 #   FalconMode模式    日期 版本 修改内容     2021/11/21 V0.1 创建      FalconMode模式 #  Normal mode: U-Boot SPL -&amp;gt; U-Boot -&amp;gt; Kernel
+Falcon mode: U-Boot SPL -&amp;gt; Kernel
+ https://forum.digikey.com/t/beaglebone-black-u-boot-overlays-and-falcon-mode/3008/7
+Once you are booted up into the Linux Kernel there should be NO difference.
+ 测试启动时间 #     模式 文件系统 tftp下载时间 内核到telnet时间     正常uBooty启动模式 tisdk-tiny-image-am335x-evm 6秒 10秒   正常uBooty启动模式 tisdk-base-image-am335x-evm 6秒 40~60秒   Falcon模式       Out-of-the-Box (OOB) boot times of the TI Processor Linux SDK</description>
+    </item>
+    
+    <item>
+      <title>BBB板使用NFS挂载文件系统</title>
+      <link>https://swifteen.github.io/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/BBB%E6%9D%BF%E4%BD%BF%E7%94%A8NFS%E6%8C%82%E8%BD%BD%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/BBB%E6%9D%BF%E4%BD%BF%E7%94%A8NFS%E6%8C%82%E8%BD%BD%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/</guid>
+      <description>版本说明 #   BBB板使用NFS挂载文件系统    日期 版本 修改内容     2022/03/03 V0.1 创建      将TI SDK中提供的文件系统目录NFS导出 #  解压文件系统
+cd /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/ sudo mkdir tisdk-default-image-am335x-evm sudo tar -Jxf tisdk-default-image-am335x-evm.tar.xz -C tisdk-default-image-am335x-evm 修改/etc/exports增加NFS导出目录后，重新加载 #  $ vi /etc/exports #增加以下内容 /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/tisdk-default-image-am335x-evm *(rw,nohide,insecure,no_subtree_check,async,no_root_squash) 使NFS目录生效 #  $ sudo exportfs -a 查看NFS导出列表 #  #查看NFS导出列表 $ showmount -e Export list for ubuntu: /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/tisdk-default-image-am335x-evm * /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/tisdk-tiny-image-am335x-evm * /usr/local/ti-sdk-am335x-evm-07.</description>
+    </item>
+    
+  </channel>
+</rss>

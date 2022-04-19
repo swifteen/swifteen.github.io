@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="版本说明 #   BBB板使用NFS挂载文件系统    日期 版本 修改内容     2022/03/03 V0.1 创建      将TI SDK中提供的文件系统目录NFS导出 #  解压文件系统
+cd /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/ sudo mkdir tisdk-default-image-am335x-evm sudo tar -Jxf tisdk-default-image-am335x-evm.tar.xz -C tisdk-default-image-am335x-evm 修改/etc/exports增加NFS导出目录后，重新加载 #  $ vi /etc/exports #增加以下内容 /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/tisdk-default-image-am335x-evm *(rw,nohide,insecure,no_subtree_check,async,no_root_squash) 使NFS目录生效 #  $ sudo exportfs -a 查看NFS导出列表 #  #查看NFS导出列表 $ showmount -e Export list for ubuntu: /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/tisdk-default-image-am335x-evm * /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/tisdk-tiny-image-am335x-evm * /usr/local/ti-sdk-am335x-evm-07.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="BBB板使用NFS挂载文件系统" />
+<meta property="og:description" content="版本说明 #   BBB板使用NFS挂载文件系统    日期 版本 修改内容     2022/03/03 V0.1 创建      将TI SDK中提供的文件系统目录NFS导出 #  解压文件系统
+cd /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/ sudo mkdir tisdk-default-image-am335x-evm sudo tar -Jxf tisdk-default-image-am335x-evm.tar.xz -C tisdk-default-image-am335x-evm 修改/etc/exports增加NFS导出目录后，重新加载 #  $ vi /etc/exports #增加以下内容 /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/tisdk-default-image-am335x-evm *(rw,nohide,insecure,no_subtree_check,async,no_root_squash) 使NFS目录生效 #  $ sudo exportfs -a 查看NFS导出列表 #  #查看NFS导出列表 $ showmount -e Export list for ubuntu: /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/tisdk-default-image-am335x-evm * /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/tisdk-tiny-image-am335x-evm * /usr/local/ti-sdk-am335x-evm-07." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://swifteen.github.io/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/BBB%E6%9D%BF%E4%BD%BF%E7%94%A8NFS%E6%8C%82%E8%BD%BD%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" /><meta property="article:section" content="docs" />
+
+
+
+<title>BBB板使用NFS挂载文件系统 | Freedom Book</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.8af359f8b4ff91864838b7225239a34a4ca449e60ef99ab88e33c978c8685391.css" integrity="sha256-ivNZ&#43;LT/kYZIOLciUjmjSkykSeYO&#43;Zq4jjPJeMhoU5E=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.d45c0ffc37a24fca2ef007edb1d82d27449127aa5b68259acea105adc08ba9ea.js" integrity="sha256-1FwP/DeiT8ou8AftsdgtJ0SRJ6pbaCWazqEFrcCLqeo=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Freedom Book</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+  
+
+
+
+  
+    
+  
+    
+  
+
+
+
+<ul class="book-languages">
+  <li>
+    <input type="checkbox" id="languages" class="toggle" />
+    <label for="languages" class="flex justify-between">
+      <a role="button" class="flex align-center">
+        <img src="/svg/translate.svg" class="book-icon" alt="Languages" />
+        English
+      </a>
+    </label>
+
+    <ul>
+      
+      <li>
+        <a href="https://swifteen.github.io/ru/">
+          Russian
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://swifteen.github.io/zh/">
+          Chinese
+        </a>
+      </li>
+      
+    </ul>
+  </li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" class="">读书笔记</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="toggle"  />
+    <label for="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="flex justify-between">
+      <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/" class="">深入理解计算机系统</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/" class="">第一章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/4th-level/" class="">4th Level</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/" class="">5th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/6th-level/" class="">6th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/" class="">第二章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/" class="">7th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/12th-level/" class="">12th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/8th-level/" class="">8th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/" class="">工程实践</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/FalconMode/" class="">FalconMode模式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/BBB%E6%9D%BF%E4%BD%BF%E7%94%A8NFS%E6%8C%82%E8%BD%BD%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" class=" active">BBB板使用NFS挂载文件系统</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/" class="">工作总结</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">数据库</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF/" class="">日志模块实现思路</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/" class="">Linux World</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/" class="">工具</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="toggle"  />
+    <label for="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Git常用配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" class="">git基本使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8/" class="">git高级使用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-d5b311234c6410083508e37cc63fc1b6" class="toggle"  />
+    <label for="section-d5b311234c6410083508e37cc63fc1b6" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/" class="">Vim</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/%E9%85%8D%E7%BD%AE/" class="">配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/" class="">常用 Linux命令</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4a2fe1f775a45aa533a141965b5ef749" class="toggle"  />
+    <label for="section-4a2fe1f775a45aa533a141965b5ef749" class="flex justify-between">
+      <a href="/docs/Linux-World/Raspberry/" class="">Raspberry</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Raspberry/%E5%B8%B8%E7%94%A8/" class="">常用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-23ec4bc7089b12961617b50da77ae792" class="toggle"  />
+    <label for="section-23ec4bc7089b12961617b50da77ae792" class="flex justify-between">
+      <a href="/docs/Linux-World/Ubuntu/" class="">Ubuntu</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%9B%AE%E5%BD%95%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE/" class="">目录共享配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%90%86%E5%92%8C%E8%AF%81%E4%B9%A6/" class="">系统代理和证书</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E5%85%B6%E5%AE%83/" class="">其它</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://github.com/swifteen/" target="_blank" rel="noopener">
+        Github
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://themes.gohugo.io/hugo-book/" target="_blank" rel="noopener">
+        Hugo Themes
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>BBB板使用NFS挂载文件系统</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#版本说明">版本说明</a></li>
+    <li><a href="#将ti-sdk中提供的文件系统目录nfs导出">将TI SDK中提供的文件系统目录NFS导出</a>
+      <ul>
+        <li><a href="#修改etcexports增加nfs导出目录后重新加载">修改/etc/exports增加NFS导出目录后，重新加载</a></li>
+        <li><a href="#使nfs目录生效">使NFS目录生效</a></li>
+        <li><a href="#查看nfs导出列表">查看NFS导出列表</a></li>
+      </ul>
+    </li>
+    <li><a href="#nfs方式启动bbb">NFS方式启动BBB</a>
+      <ul>
+        <li><a href="#分析uboot的nfsboot环境变量">分析uboot的nfsboot环境变量</a></li>
+        <li><a href="#准备内核镜像文件">准备内核镜像文件</a></li>
+        <li><a href="#设置uboot环境变量">设置uboot环境变量</a></li>
+        <li><a href="#启动nfs文件系统">启动NFS文件系统</a></li>
+      </ul>
+    </li>
+    <li><a href="#qtcreator配置交叉编译工具">qtcreator配置交叉编译工具</a>
+      <ul>
+        <li><a href="#安装qtcreator">安装qtcreator</a></li>
+        <li><a href="#设置编译工具">设置编译工具</a></li>
+      </ul>
+    </li>
+    <li><a href="#遇到问题">遇到问题</a>
+      <ul>
+        <li><a href="#不能解析qt工程运行时报错如下">不能解析qt工程，运行时报错如下</a></li>
+        <li><a href="#运行时错误">运行时错误</a></li>
+      </ul>
+    </li>
+    <li><a href="#wayland测试">wayland测试</a></li>
+    <li><a href="#uboot启动分析">uboot启动分析</a>
+      <ul>
+        <li><a href="#命令说明">命令说明</a></li>
+        <li><a href="#以下为uboot环境变量中boot的值">以下为uboot环境变量中boot的值</a></li>
+        <li><a href="#设置默认nfs启动">设置默认NFS启动</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="版本说明">
+  版本说明
+  <a class="anchor" href="#%e7%89%88%e6%9c%ac%e8%af%b4%e6%98%8e">#</a>
+</h1>
+<ul>
+<li>BBB板使用NFS挂载文件系统
+<table>
+<thead>
+<tr>
+<th>日期</th>
+<th>版本</th>
+<th>修改内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2022/03/03</td>
+<td>V0.1</td>
+<td>创建</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<h1 id="将ti-sdk中提供的文件系统目录nfs导出">
+  将TI SDK中提供的文件系统目录NFS导出
+  <a class="anchor" href="#%e5%b0%86ti-sdk%e4%b8%ad%e6%8f%90%e4%be%9b%e7%9a%84%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f%e7%9b%ae%e5%bd%95nfs%e5%af%bc%e5%87%ba">#</a>
+</h1>
+<p>解压文件系统</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cd /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/
+</span></span><span style="display:flex;"><span>sudo mkdir tisdk-default-image-am335x-evm
+</span></span><span style="display:flex;"><span>sudo tar -Jxf tisdk-default-image-am335x-evm.tar.xz -C tisdk-default-image-am335x-evm
+</span></span></code></pre></div><h2 id="修改etcexports增加nfs导出目录后重新加载">
+  修改/etc/exports增加NFS导出目录后，重新加载
+  <a class="anchor" href="#%e4%bf%ae%e6%94%b9etcexports%e5%a2%9e%e5%8a%a0nfs%e5%af%bc%e5%87%ba%e7%9b%ae%e5%bd%95%e5%90%8e%e9%87%8d%e6%96%b0%e5%8a%a0%e8%bd%bd">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ vi /etc/exports
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#增加以下内容</span>
+</span></span><span style="display:flex;"><span>/usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/tisdk-default-image-am335x-evm *<span style="color:#f92672">(</span>rw,nohide,insecure,no_subtree_check,async,no_root_squash<span style="color:#f92672">)</span>
+</span></span></code></pre></div><h2 id="使nfs目录生效">
+  使NFS目录生效
+  <a class="anchor" href="#%e4%bd%bfnfs%e7%9b%ae%e5%bd%95%e7%94%9f%e6%95%88">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ sudo exportfs -a
+</span></span></code></pre></div><h2 id="查看nfs导出列表">
+  查看NFS导出列表
+  <a class="anchor" href="#%e6%9f%a5%e7%9c%8bnfs%e5%af%bc%e5%87%ba%e5%88%97%e8%a1%a8">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#查看NFS导出列表</span>
+</span></span><span style="display:flex;"><span>$ showmount -e
+</span></span><span style="display:flex;"><span>Export list <span style="color:#66d9ef">for</span> ubuntu:
+</span></span><span style="display:flex;"><span>/usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/tisdk-default-image-am335x-evm *
+</span></span><span style="display:flex;"><span>/usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/tisdk-tiny-image-am335x-evm    *
+</span></span><span style="display:flex;"><span>/usr/local/ti-sdk-am335x-evm-07.03.00.005/targetNFS 
+</span></span></code></pre></div><p>测试NFS目录是否成功</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>3B-pi@raspberrypi:~ $ sudo mkdir /mnt/tisdk-default-image-am335x-evm ;
+</span></span><span style="display:flex;"><span>3B-pi@raspberrypi:~ $ sudo mount -t nfs 192.168.31.85:/usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/tisdk-default-image-am335x-evm /mnt/tisdk-default-image-am335x-evm -o nolock
+</span></span></code></pre></div><h1 id="nfs方式启动bbb">
+  NFS方式启动BBB
+  <a class="anchor" href="#nfs%e6%96%b9%e5%bc%8f%e5%90%af%e5%8a%a8bbb">#</a>
+</h1>
+<p>上电后，按下SPACE键，进入uboot提示界面</p>
+<h2 id="分析uboot的nfsboot环境变量">
+  分析uboot的nfsboot环境变量
+  <a class="anchor" href="#%e5%88%86%e6%9e%90uboot%e7%9a%84nfsboot%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nfs_options<span style="color:#f92672">=</span>,vers<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>nfsrootfstype<span style="color:#f92672">=</span>ext4 rootwait fixrtc
+</span></span><span style="display:flex;"><span>root_dir<span style="color:#f92672">=</span>/home/userid/targetNFS    <span style="color:#75715e">#主机文件系统目录</span>
+</span></span><span style="display:flex;"><span>server_ip<span style="color:#f92672">=</span>192.168.1.100				<span style="color:#75715e">#tftp服务器地址，即主机地址</span>
+</span></span><span style="display:flex;"><span>bootfile<span style="color:#f92672">=</span>zImage						<span style="color:#75715e">#通过tftp从服务器下载的内核文件名</span>
+</span></span><span style="display:flex;"><span>fdtfile<span style="color:#f92672">=</span>undefined					<span style="color:#75715e">#通过tftp从服务器下载的设备树文件名</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>nfsargs<span style="color:#f92672">=</span>setenv bootargs console<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>console<span style="color:#e6db74">}</span> <span style="color:#e6db74">${</span>optargs<span style="color:#e6db74">}</span> <span style="color:#e6db74">${</span>cape_disable<span style="color:#e6db74">}</span> <span style="color:#e6db74">${</span>cape_enable<span style="color:#e6db74">}</span> <span style="color:#e6db74">${</span>cape_uboot<span style="color:#e6db74">}</span> root<span style="color:#f92672">=</span>/dev/nfs rw rootfstype<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>nfsrootfstype<span style="color:#e6db74">}</span> nfsroot<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>nfsroot<span style="color:#e6db74">}</span> ip<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>ip<span style="color:#e6db74">}</span> <span style="color:#e6db74">${</span>cmdline<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>nfsboot<span style="color:#f92672">=</span>echo Booting from <span style="color:#e6db74">${</span>server_ip<span style="color:#e6db74">}</span> ...; setenv nfsroot <span style="color:#e6db74">${</span>server_ip<span style="color:#e6db74">}</span>:<span style="color:#e6db74">${</span>root_dir<span style="color:#e6db74">}${</span>nfs_options<span style="color:#e6db74">}</span>; setenv ip <span style="color:#e6db74">${</span>client_ip<span style="color:#e6db74">}</span>:<span style="color:#e6db74">${</span>server_ip<span style="color:#e6db74">}</span>:<span style="color:#e6db74">${</span>gw_ip<span style="color:#e6db74">}</span>:<span style="color:#e6db74">${</span>netmask<span style="color:#e6db74">}</span>:<span style="color:#e6db74">${</span>hostname<span style="color:#e6db74">}</span>:<span style="color:#e6db74">${</span>device<span style="color:#e6db74">}</span>:<span style="color:#e6db74">${</span>autoconf<span style="color:#e6db74">}</span>; setenv autoload no; setenv serverip <span style="color:#e6db74">${</span>server_ip<span style="color:#e6db74">}</span>; setenv ipaddr <span style="color:#e6db74">${</span>client_ip<span style="color:#e6db74">}</span>; tftp <span style="color:#e6db74">${</span>loadaddr<span style="color:#e6db74">}</span> <span style="color:#e6db74">${</span>tftp_dir<span style="color:#e6db74">}${</span>bootfile<span style="color:#e6db74">}</span>; tftp <span style="color:#e6db74">${</span>fdtaddr<span style="color:#e6db74">}</span> <span style="color:#e6db74">${</span>tftp_dir<span style="color:#e6db74">}</span>dtbs/<span style="color:#e6db74">${</span>fdtfile<span style="color:#e6db74">}</span>; run nfsargs; bootz <span style="color:#e6db74">${</span>loadaddr<span style="color:#e6db74">}</span> - <span style="color:#e6db74">${</span>fdtaddr<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><h2 id="准备内核镜像文件">
+  准备内核镜像文件
+  <a class="anchor" href="#%e5%87%86%e5%a4%87%e5%86%85%e6%a0%b8%e9%95%9c%e5%83%8f%e6%96%87%e4%bb%b6">#</a>
+</h2>
+<p>通过bootfile环境变量指定了内核镜像文件名为zImage，而TI SDK中提供的内核镜像名为zImage-am335x-evm.bin，这里干脆拷贝一份</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cp tftpboot/zImage-am335x-evm.bin  tftpboot/zImage
+</span></span></code></pre></div><h2 id="设置uboot环境变量">
+  设置uboot环境变量
+  <a class="anchor" href="#%e8%ae%be%e7%bd%aeuboot%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f">#</a>
+</h2>
+<p>**特别注意：**由于默认的nfsboot环境变量，tftp下载设备树时，会从tftp服务目录之下的dtbs目录下载设备树，例如服务器的tftp目录为/home/qq/tftpboot，它会从/home/qq/tftpboot/dtbs/目录下，下载am335x-boneblack.dtb文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cd tftpboot
+</span></span><span style="display:flex;"><span>mkdir dtbs
+</span></span><span style="display:flex;"><span>cp am335x-boneblack.dtb  dtbs/
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>setenv client_ip 192.168.31.87
+</span></span><span style="display:flex;"><span>setenv ipaddr 192.168.31.87
+</span></span><span style="display:flex;"><span>setenv gw_ip 192.168.31.1
+</span></span><span style="display:flex;"><span>setenv server_ip 192.168.31.85
+</span></span><span style="display:flex;"><span>setenv fdtfile am335x-boneblack.dtb
+</span></span><span style="display:flex;"><span>setenv root_dir /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/tisdk-base-image-am335x-evm
+</span></span><span style="display:flex;"><span>setenv root_dir /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/tisdk-default-image-am335x-evm
+</span></span><span style="display:flex;"><span>setenv root_dir /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/tisdk-tiny-image-am335x-evm
+</span></span><span style="display:flex;"><span>setenv root_dir /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/tisdk-base-image-am335x-evm_manual_hplip
+</span></span><span style="display:flex;"><span>setenv root_dir /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/tisdk-base-image-am335x-evm_debug_hplip_cups
+</span></span></code></pre></div><h2 id="启动nfs文件系统">
+  启动NFS文件系统
+  <a class="anchor" href="#%e5%90%af%e5%8a%a8nfs%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">==</span>&gt; run nfsboot
+</span></span></code></pre></div><h1 id="qtcreator配置交叉编译工具">
+  qtcreator配置交叉编译工具
+  <a class="anchor" href="#qtcreator%e9%85%8d%e7%bd%ae%e4%ba%a4%e5%8f%89%e7%bc%96%e8%af%91%e5%b7%a5%e5%85%b7">#</a>
+</h1>
+<h2 id="安装qtcreator">
+  安装qtcreator
+  <a class="anchor" href="#%e5%ae%89%e8%a3%85qtcreator">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo apt install qtcreator
+</span></span></code></pre></div><h2 id="设置编译工具">
+  设置编译工具
+  <a class="anchor" href="#%e8%ae%be%e7%bd%ae%e7%bc%96%e8%af%91%e5%b7%a5%e5%85%b7">#</a>
+</h2>
+<p>
+  <img src="./images/qt-build_run-Kits-1.png" alt="qt-build_run-Kits-1" /></p>
+<p>![qt-build_run-Qt Versions-1](/images/BBB板使用NFS挂载文件系统/qt-build_run-Qt Versions-1.png)</p>
+<p>
+  <img src="/images/BBB%e6%9d%bf%e4%bd%bf%e7%94%a8NFS%e6%8c%82%e8%bd%bd%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f/qt-build_run-Compilers-1.png" alt="qt-build_run-Compilers-1" /></p>
+<p>
+  <img src="/images/BBB%e6%9d%bf%e4%bd%bf%e7%94%a8NFS%e6%8c%82%e8%bd%bd%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f/qt-build_run-Debuggers-1.png" alt="qt-build_run-Debuggers-1" /></p>
+<p>
+  <img src="/images/BBB%e6%9d%bf%e4%bd%bf%e7%94%a8NFS%e6%8c%82%e8%bd%bd%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f/addDevice.png" alt="addDevice" /></p>
+<h1 id="遇到问题">
+  遇到问题
+  <a class="anchor" href="#%e9%81%87%e5%88%b0%e9%97%ae%e9%a2%98">#</a>
+</h1>
+<h2 id="不能解析qt工程运行时报错如下">
+  不能解析qt工程，运行时报错如下
+  <a class="anchor" href="#%e4%b8%8d%e8%83%bd%e8%a7%a3%e6%9e%90qt%e5%b7%a5%e7%a8%8b%e8%bf%90%e8%a1%8c%e6%97%b6%e6%8a%a5%e9%94%99%e5%a6%82%e4%b8%8b">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>/usr/local/ti-sdk-am335x-evm-07.03.00.005/linux-devkit/sysroots/x86_64-arago-linux/mkspecs/features/toolchain.prf<span style="color:#f92672">(</span>39<span style="color:#f92672">)</span>: system<span style="color:#f92672">(</span>execute<span style="color:#f92672">)</span> requires one or two arguments.
+</span></span><span style="display:flex;"><span>Project ERROR: Cannot run compiler <span style="color:#e6db74">&#39;arm-none-linux-gnueabihf-g++ --sysroot=/usr/local/ti-sdk-am335x-evm-07.03.00.005/linux-devkit/sysroots/armv7at2hf-neon-linux-gnueabi&#39;</span>. Output:
+</span></span><span style="display:flex;"><span><span style="color:#f92672">===================</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">===================</span>
+</span></span><span style="display:flex;"><span>Maybe you forgot to setup the environment?
+</span></span><span style="display:flex;"><span>/usr/local/ti-sdk-am335x-evm-07.03.00.005/linux-devkit/sysroots/x86_64-arago-linux/mkspecs/features/toolchain.prf<span style="color:#f92672">(</span>85<span style="color:#f92672">)</span>: Variable QMAKE_CXX.COMPILER_MACROS is not defined.
+</span></span><span style="display:flex;"><span>/usr/local/ti-sdk-am335x-evm-07.03.00.005/linux-devkit/sysroots/x86_64-arago-linux/mkspecs/features/toolchain.prf<span style="color:#f92672">(</span>210<span style="color:#f92672">)</span>: system<span style="color:#f92672">(</span>execute<span style="color:#f92672">)</span> requires one or two arguments.
+</span></span><span style="display:flex;"><span>Project ERROR: Cannot run compiler <span style="color:#e6db74">&#39;arm-none-linux-gnueabihf-g++ --sysroot=/usr/local/ti-sdk-am335x-evm-07.03.00.005/linux-devkit/sysroots/armv7at2hf-neon-linux-gnueabi&#39;</span>. Output:
+</span></span><span style="display:flex;"><span><span style="color:#f92672">===================</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">===================</span>
+</span></span><span style="display:flex;"><span>Maybe you forgot to setup the environment?
+</span></span><span style="display:flex;"><span>Error <span style="color:#66d9ef">while</span> parsing file /home/qq/qt_project/test_tisdk/test_tisdk.pro. Giving up.
+</span></span></code></pre></div><p>解决办法</p>
+<p>
+  <a href="https://doc-snapshots.qt.io/qtcreator-4.0/creator-build-settings.html#batch-editing">https://doc-snapshots.qt.io/qtcreator-4.0/creator-build-settings.html#batch-editing</a></p>
+<p>将执行source之后的PATH变量保存到qtcreator&ndash;&gt;Options&ndash;&gt;build&amp;run &ndash;&gt;kits &ndash;&gt;Environment中</p>
+<p>![build&amp;run kits Environment-1](/images/BBB板使用NFS挂载文件系统/build&amp;run kits Environment-1.png)</p>
+<h2 id="运行时错误">
+  运行时错误
+  <a class="anchor" href="#%e8%bf%90%e8%a1%8c%e6%97%b6%e9%94%99%e8%af%af">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>Failed to create wl_display <span style="color:#f92672">(</span>No such file or directory<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>qt.qpa.plugin: Could not load the Qt platform plugin <span style="color:#e6db74">&#34;wayland&#34;</span> in <span style="color:#e6db74">&#34;&#34;</span> even though it was found.
+</span></span><span style="display:flex;"><span>This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Available platform plugins are: eglfs, linuxfb, minimal, minimalegl, offscreen, vnc, wayland-egl, wayland.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sh: line 1:  <span style="color:#ae81ff">2516</span> Aborted                 <span style="color:#f92672">(</span>core dumped<span style="color:#f92672">)</span> DISPLAY<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;:0.0&#39;</span> /home/debian/test_tisdk
+</span></span><span style="display:flex;"><span>Application finished with exit code 134.
+</span></span></code></pre></div><p>解决办法</p>
+<p>使用vnc方式运行，添加运行时参数-platform vnc</p>
+<p>
+  <img src="/images/BBB%e6%9d%bf%e4%bd%bf%e7%94%a8NFS%e6%8c%82%e8%bd%bd%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f/vnc%e6%a8%a1%e5%bc%8f%e8%bf%90%e8%a1%8c.png" alt="vnc模式运行" /></p>
+<h1 id="wayland测试">
+  wayland测试
+  <a class="anchor" href="#wayland%e6%b5%8b%e8%af%95">#</a>
+</h1>
+<p>
+  <a href="https://forum.qt.io/topic/60865/qt5-wayland-gui-application/3">https://forum.qt.io/topic/60865/qt5-wayland-gui-application/3</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>mkdir -p /tmp/$USER-weston
+</span></span><span style="display:flex;"><span>chmod <span style="color:#ae81ff">0700</span> /tmp/$USER-weston
+</span></span><span style="display:flex;"><span>export XDG_RUNTIME_DIR<span style="color:#f92672">=</span>/tmp/$USER-weston
+</span></span><span style="display:flex;"><span>weston --tty<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> --backend<span style="color:#f92672">=</span>fbdev-backend.so &amp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Then I successfully ran my QT5 gui application with the wayland platform specifier:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>./myQt5App -platform wayland
+</span></span></code></pre></div><p>
+  <a href="https://stackoverflow.com/questions/49851562/qt-wayland-failed-to-create-display-no-such-file-or-directory">https://stackoverflow.com/questions/49851562/qt-wayland-failed-to-create-display-no-such-file-or-directory</a></p>
+<p>I finally fixed this by deploying the libs needed by wayland-egl plugin:</p>
+<p>the lib &ldquo;libQt5WaylandClient.so.5&rdquo; should be included in the deployed package. which used by the plugin.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>root@am335x-evm:~# weston
+</span></span><span style="display:flex;"><span>Date: 2021-05-24 UTC
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>08:59:53.616<span style="color:#f92672">]</span> weston 8.0.0
+</span></span><span style="display:flex;"><span>               https://wayland.freedesktop.org
+</span></span><span style="display:flex;"><span>               Bug reports to: https://gitlab.freedesktop.org/wayland/weston/issues/
+</span></span><span style="display:flex;"><span>               Build: 8.0.0
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>08:59:53.619<span style="color:#f92672">]</span> Command line: weston
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>08:59:53.619<span style="color:#f92672">]</span> OS: Linux, 5.4.106-g023faefa70, <span style="color:#75715e">#1 PREEMPT Mon May 24 09:04:10 UTC 2021, armv7l</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>08:59:53.620<span style="color:#f92672">]</span> warning: XDG_RUNTIME_DIR <span style="color:#e6db74">&#34;/tmp/root-weston&#34;</span> is not configured
+</span></span><span style="display:flex;"><span>correctly.  Unix access mode must be <span style="color:#ae81ff">0700</span> <span style="color:#f92672">(</span>current mode is 755<span style="color:#f92672">)</span>,
+</span></span><span style="display:flex;"><span>and must be owned by the user <span style="color:#f92672">(</span>current owner is UID 0<span style="color:#f92672">)</span>.
+</span></span><span style="display:flex;"><span>Refer to your distribution on how to get it, or
+</span></span><span style="display:flex;"><span>http://www.freedesktop.org/wiki/Specifications/basedir-spec
+</span></span><span style="display:flex;"><span>on how to implement it.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>08:59:53.623<span style="color:#f92672">]</span> Using config file <span style="color:#e6db74">&#39;/etc//weston.ini&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>08:59:53.628<span style="color:#f92672">]</span> Output repaint window is <span style="color:#ae81ff">7</span> ms maximum.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>08:59:53.631<span style="color:#f92672">]</span> Loading module <span style="color:#e6db74">&#39;/usr/lib/libweston-8/x11-backend.so&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>08:59:53.632<span style="color:#f92672">]</span> Failed to load module: /usr/lib/libweston-8/x11-backend.so: cannot open shared object file: No such file or directory
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>08:59:53.632<span style="color:#f92672">]</span> fatal: failed to create compositor backend
+</span></span><span style="display:flex;"><span>root@am335x-evm:~# eglinfo
+</span></span><span style="display:flex;"><span>-sh: eglinfo: command not found
+</span></span><span style="display:flex;"><span>root@am335x-evm:~# modinfo pvrsrvkm
+</span></span><span style="display:flex;"><span>filename:       /lib/modules/5.4.106-g023faefa70/extra/pvrsrvkm.ko
+</span></span><span style="display:flex;"><span>license:        Dual MIT/GPL
+</span></span><span style="display:flex;"><span>author:         Imagination Technologies Ltd. &lt;gpl-support@imgtec.com&gt;
+</span></span><span style="display:flex;"><span>license:        Dual MIT/GPL
+</span></span><span style="display:flex;"><span>author:         Imagination Technologies Ltd. &lt;gpl-support@imgtec.com&gt;
+</span></span><span style="display:flex;"><span>srcversion:     533BB7E5866E52F63B9ACCB
+</span></span><span style="display:flex;"><span>alias:          of:N*T*Cti,omap4-sgx540-120C*
+</span></span><span style="display:flex;"><span>alias:          of:N*T*Cti,omap4-sgx540-120
+</span></span><span style="display:flex;"><span>alias:          of:N*T*Cti,omap3-sgx530-121C*
+</span></span><span style="display:flex;"><span>alias:          of:N*T*Cti,omap3-sgx530-121
+</span></span><span style="display:flex;"><span>alias:          of:N*T*Cti,am3352-sgx530C*
+</span></span><span style="display:flex;"><span>alias:          of:N*T*Cti,am3352-sgx530
+</span></span><span style="display:flex;"><span>alias:          of:N*T*Cti,am4376-sgx530C*
+</span></span><span style="display:flex;"><span>alias:          of:N*T*Cti,am4376-sgx530
+</span></span><span style="display:flex;"><span>alias:          of:N*T*Cti,dra7-sgx544C*
+</span></span><span style="display:flex;"><span>alias:          of:N*T*Cti,dra7-sgx544
+</span></span><span style="display:flex;"><span>alias:          of:N*T*Cti,am654-sgx544C*
+</span></span><span style="display:flex;"><span>alias:          of:N*T*Cti,am654-sgx544
+</span></span><span style="display:flex;"><span>depends:
+</span></span><span style="display:flex;"><span>name:           pvrsrvkm
+</span></span><span style="display:flex;"><span>vermagic:       5.4.106-g023faefa70 preempt mod_unload modversions ARMv7 p2v8
+</span></span><span style="display:flex;"><span>parm:           gPVRDebugLevel:Sets the level of debug output <span style="color:#f92672">(</span>default 0x7<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>uint<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>root@am335x-evm:~# lsmod
+</span></span><span style="display:flex;"><span>Module                  Size  Used by
+</span></span><span style="display:flex;"><span>xfrm_user              <span style="color:#ae81ff">32768</span>  <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>xfrm_algo              <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">1</span> xfrm_user
+</span></span><span style="display:flex;"><span>sha512_generic         <span style="color:#ae81ff">20480</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>sha512_arm             <span style="color:#ae81ff">24576</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>sha256_generic         <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>libsha256              <span style="color:#ae81ff">20480</span>  <span style="color:#ae81ff">1</span> sha256_generic
+</span></span><span style="display:flex;"><span>sha1_generic           <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>sha1_arm_neon          <span style="color:#ae81ff">20480</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>sha1_arm               <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">1</span> sha1_arm_neon
+</span></span><span style="display:flex;"><span>md5                    <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>ecb                    <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>aes_arm                <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>aes_generic            <span style="color:#ae81ff">40960</span>  <span style="color:#ae81ff">1</span> aes_arm
+</span></span><span style="display:flex;"><span>aes_arm_bs             <span style="color:#ae81ff">24576</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>crypto_simd            <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">1</span> aes_arm_bs
+</span></span><span style="display:flex;"><span>cryptd                 <span style="color:#ae81ff">24576</span>  <span style="color:#ae81ff">1</span> crypto_simd
+</span></span><span style="display:flex;"><span>des_generic            <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>libdes                 <span style="color:#ae81ff">28672</span>  <span style="color:#ae81ff">1</span> des_generic
+</span></span><span style="display:flex;"><span>cbc                    <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>pru_rproc              <span style="color:#ae81ff">24576</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>icss_iep               <span style="color:#ae81ff">20480</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>irq_pruss_intc         <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">1</span> pru_rproc
+</span></span><span style="display:flex;"><span>prueth_ecap            <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>musb_dsps              <span style="color:#ae81ff">20480</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>musb_hdrc             <span style="color:#ae81ff">106496</span>  <span style="color:#ae81ff">1</span> musb_dsps
+</span></span><span style="display:flex;"><span>udc_core               <span style="color:#ae81ff">28672</span>  <span style="color:#ae81ff">1</span> musb_hdrc
+</span></span><span style="display:flex;"><span>phy_am335x             <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>usbcore               <span style="color:#ae81ff">225280</span>  <span style="color:#ae81ff">1</span> musb_hdrc
+</span></span><span style="display:flex;"><span>phy_generic            <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">1</span> phy_am335x
+</span></span><span style="display:flex;"><span>usb_common             <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">5</span> phy_am335x,udc_core,musb_hdrc,musb_dsps,usbcore
+</span></span><span style="display:flex;"><span>phy_am335x_control     <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">1</span> phy_am335x
+</span></span><span style="display:flex;"><span>pruss                  <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">1</span> pru_rproc
+</span></span><span style="display:flex;"><span>pvrsrvkm              <span style="color:#ae81ff">405504</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>pm33xx                 <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>omap_aes_driver        <span style="color:#ae81ff">24576</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>crypto_engine          <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">1</span> omap_aes_driver
+</span></span><span style="display:flex;"><span>omap_crypto            <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">1</span> omap_aes_driver
+</span></span><span style="display:flex;"><span>libaes                 <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">4</span> omap_aes_driver,aes_arm_bs,aes_arm,aes_generic
+</span></span><span style="display:flex;"><span>ti_emif_sram           <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">1</span> pm33xx
+</span></span><span style="display:flex;"><span>omap_sham              <span style="color:#ae81ff">32768</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>wkup_m3_ipc            <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">1</span> pm33xx
+</span></span><span style="display:flex;"><span>at24                   <span style="color:#ae81ff">20480</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>rtc_omap               <span style="color:#ae81ff">20480</span>  <span style="color:#ae81ff">4</span> pm33xx
+</span></span><span style="display:flex;"><span>omap_wdt               <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>wkup_m3_rproc          <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>musb_am335x            <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>sch_fq_codel           <span style="color:#ae81ff">20480</span>  <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>uio_module_drv         <span style="color:#ae81ff">16384</span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>uio                    <span style="color:#ae81ff">20480</span>  <span style="color:#ae81ff">1</span> uio_module_drv
+</span></span><span style="display:flex;"><span>cryptodev              <span style="color:#ae81ff">53248</span>  <span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><pre tabindex="0"><code>libicu-dev is already the newest version (57.1-4).
+libicu-dev set to manually installed.
+</code></pre><p>运行程序</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>./application -platform wayland
+</span></span><span style="display:flex;"><span>或者
+</span></span><span style="display:flex;"><span>export QT_QPA_PLATFORM<span style="color:#f92672">=</span>wayland ./application
+</span></span></code></pre></div><p>
+  <a href="https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1164/handouts/qt-creator-troubleshooting.html">https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1164/handouts/qt-creator-troubleshooting.html</a></p>
+<p>测试各种模式，除了vnc模式和offscreen，其它都运行失败</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>root@am335x-evm:/home/debian# ./test_tisdk -platform vnc
+</span></span><span style="display:flex;"><span>QVncServer created on port <span style="color:#ae81ff">5900</span>
+</span></span><span style="display:flex;"><span>^C
+</span></span><span style="display:flex;"><span>root@am335x-evm:/home/debian# ^C
+</span></span><span style="display:flex;"><span>root@am335x-evm:/home/debian# ./test_tisdk -platform xcb
+</span></span><span style="display:flex;"><span>qt.qpa.plugin: Could not find the Qt platform plugin <span style="color:#e6db74">&#34;xcb&#34;</span> in <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Available platform plugins are: eglfs, linuxfb, minimal, minimalegl, offscreen, vnc, wayland-egl, wayland.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Aborted <span style="color:#f92672">(</span>core dumped<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>root@am335x-evm:/home/debian# ./test_tisdk -platform linuxfb
+</span></span><span style="display:flex;"><span>Unable to figure out framebuffer device. Specify it manually.
+</span></span><span style="display:flex;"><span>linuxfb: Failed to initialize screen
+</span></span><span style="display:flex;"><span>qt.qpa.input: xkbcommon not available, not performing key mapping
+</span></span><span style="display:flex;"><span>no screens available, assuming 24-bit color
+</span></span><span style="display:flex;"><span>Cannot create window: no screens available
+</span></span><span style="display:flex;"><span>Aborted <span style="color:#f92672">(</span>core dumped<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>root@am335x-evm:/home/debian# ./test_tisdk -platform eglfs
+</span></span><span style="display:flex;"><span>MESA-LOADER: failed to open kms_swrast <span style="color:#f92672">(</span>search paths /usr/lib/dri<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>failed to load driver: kms_swrast
+</span></span><span style="display:flex;"><span>MESA-LOADER: failed to open swrast <span style="color:#f92672">(</span>search paths /usr/lib/dri<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>failed to load swrast driver
+</span></span><span style="display:flex;"><span>Could not create GBM device <span style="color:#f92672">(</span>No such device<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Could not open DRM device
+</span></span><span style="display:flex;"><span>Aborted <span style="color:#f92672">(</span>core dumped<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>root@am335x-evm:/home/debian# ./test_tisdk -platform minimalegl
+</span></span><span style="display:flex;"><span>Opened display 0x311a0
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Could not initialize egl display
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>EGL error
+</span></span><span style="display:flex;"><span>Aborted <span style="color:#f92672">(</span>core dumped<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>root@am335x-evm:/home/debian# ./test_tisdk -platform waylang-egl
+</span></span><span style="display:flex;"><span>qt.qpa.plugin: Could not find the Qt platform plugin <span style="color:#e6db74">&#34;waylang-egl&#34;</span> in <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Available platform plugins are: eglfs, linuxfb, minimal, minimalegl, offscreen, vnc, wayland-egl, wayland.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Aborted <span style="color:#f92672">(</span>core dumped<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>root@am335x-evm:/home/debian# ./test_tisdk -platform waylang
+</span></span><span style="display:flex;"><span>qt.qpa.plugin: Could not find the Qt platform plugin <span style="color:#e6db74">&#34;waylang&#34;</span> in <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Available platform plugins are: eglfs, linuxfb, minimal, minimalegl, offscreen, vnc, wayland-egl, wayland.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Aborted <span style="color:#f92672">(</span>core dumped<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>root@am335x-evm:/home/debian# ./test_tisdk -platform offscreen
+</span></span><span style="display:flex;"><span>This plugin does not support propagateSizeHints<span style="color:#f92672">()</span>
+</span></span></code></pre></div><h1 id="uboot启动分析">
+  uboot启动分析
+  <a class="anchor" href="#uboot%e5%90%af%e5%8a%a8%e5%88%86%e6%9e%90">#</a>
+</h1>
+<h2 id="命令说明">
+  命令说明
+  <a class="anchor" href="#%e5%91%bd%e4%bb%a4%e8%af%b4%e6%98%8e">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">=</span>&gt;    gpio -h
+</span></span><span style="display:flex;"><span>gpio - query and control gpio pins
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Usage:
+</span></span><span style="display:flex;"><span>gpio &lt;input|set|clear|toggle&gt; &lt;pin&gt;
+</span></span><span style="display:flex;"><span>    - input/set/clear/toggle the specified pin
+</span></span><span style="display:flex;"><span>gpio status <span style="color:#f92672">[</span>-a<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>&lt;bank&gt; | &lt;pin&gt;<span style="color:#f92672">]</span>  - show <span style="color:#f92672">[</span>all/claimed<span style="color:#f92672">]</span> GPIOs
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>test -n 字符串	字符串的长度不为零则为真
+</span></span><span style="display:flex;"><span>test -e 文件名	如果文件存在则为真
+</span></span></code></pre></div><h2 id="以下为uboot环境变量中boot的值">
+  以下为uboot环境变量中boot的值
+  <a class="anchor" href="#%e4%bb%a5%e4%b8%8b%e4%b8%bauboot%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f%e4%b8%adboot%e7%9a%84%e5%80%bc">#</a>
+</h2>
+<p>从打印日志可以看出，boot值为启动时执行的第一个命令</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>boot<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>devtype<span style="color:#e6db74">}</span> dev <span style="color:#e6db74">${</span>mmcdev<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#e6db74">${</span>devtype<span style="color:#e6db74">}</span> rescan; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    gpio set <span style="color:#ae81ff">54</span>
+</span></span><span style="display:flex;"><span>    setenv bootpart <span style="color:#e6db74">${</span>mmcdev<span style="color:#e6db74">}</span>:1
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> test -e <span style="color:#e6db74">${</span>devtype<span style="color:#e6db74">}</span> <span style="color:#e6db74">${</span>bootpart<span style="color:#e6db74">}</span> /etc/fstab; <span style="color:#66d9ef">then</span> setenv mmcpart 1; <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>    echo Checking <span style="color:#66d9ef">for</span>: /uEnv.txt ...
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> test -e <span style="color:#e6db74">${</span>devtype<span style="color:#e6db74">}</span> <span style="color:#e6db74">${</span>bootpart<span style="color:#e6db74">}</span> /uEnv.txt; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> run loadbootenv; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>            gpio set <span style="color:#ae81ff">55</span>
+</span></span><span style="display:flex;"><span>            echo Loaded environment from /uEnv.txt
+</span></span><span style="display:flex;"><span>            run importbootenv
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>        echo Checking <span style="color:#66d9ef">if</span> uenvcmd is set ...
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> test -n <span style="color:#e6db74">${</span>uenvcmd<span style="color:#e6db74">}</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>            gpio set <span style="color:#ae81ff">56</span>
+</span></span><span style="display:flex;"><span>            echo Running uenvcmd ...
+</span></span><span style="display:flex;"><span>            run uenvcmd
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>        echo Checking <span style="color:#66d9ef">if</span> client_ip is set ...
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> test -n <span style="color:#e6db74">${</span>client_ip<span style="color:#e6db74">}</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> test -n <span style="color:#e6db74">${</span>dtb<span style="color:#e6db74">}</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>                setenv fdtfile <span style="color:#e6db74">${</span>dtb<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>                echo using <span style="color:#e6db74">${</span>fdtfile<span style="color:#e6db74">}</span> ...
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>            gpio set <span style="color:#ae81ff">56</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> test -n <span style="color:#e6db74">${</span>uname_r<span style="color:#e6db74">}</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>                echo Running nfsboot_uname_r ...
+</span></span><span style="display:flex;"><span>                run nfsboot_uname_r
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>            echo Running nfsboot ...
+</span></span><span style="display:flex;"><span>            run nfsboot
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>    echo Checking <span style="color:#66d9ef">for</span>: /<span style="color:#e6db74">${</span>script<span style="color:#e6db74">}</span> ...
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> test -e <span style="color:#e6db74">${</span>devtype<span style="color:#e6db74">}</span> <span style="color:#e6db74">${</span>bootpart<span style="color:#e6db74">}</span> /<span style="color:#e6db74">${</span>script<span style="color:#e6db74">}</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>        gpio set <span style="color:#ae81ff">55</span>
+</span></span><span style="display:flex;"><span>        setenv scriptfile <span style="color:#e6db74">${</span>script<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>        run loadbootscript
+</span></span><span style="display:flex;"><span>        echo Loaded script from <span style="color:#e6db74">${</span>scriptfile<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>        gpio set <span style="color:#ae81ff">56</span>
+</span></span><span style="display:flex;"><span>        run bootscript
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>    echo Checking <span style="color:#66d9ef">for</span>: /boot/<span style="color:#e6db74">${</span>script<span style="color:#e6db74">}</span> ...
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> test -e <span style="color:#e6db74">${</span>devtype<span style="color:#e6db74">}</span> <span style="color:#e6db74">${</span>bootpart<span style="color:#e6db74">}</span> /boot/<span style="color:#e6db74">${</span>script<span style="color:#e6db74">}</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>        gpio set <span style="color:#ae81ff">55</span>
+</span></span><span style="display:flex;"><span>        setenv scriptfile /boot/<span style="color:#e6db74">${</span>script<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>        run loadbootscript
+</span></span><span style="display:flex;"><span>        echo Loaded script from <span style="color:#e6db74">${</span>scriptfile<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>        gpio set <span style="color:#ae81ff">56</span>
+</span></span><span style="display:flex;"><span>        run bootscript
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>    echo Checking <span style="color:#66d9ef">for</span>: /boot/uEnv.txt ...
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i in <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">6</span> 7; <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>        setenv mmcpart <span style="color:#e6db74">${</span>i<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>        setenv bootpart <span style="color:#e6db74">${</span>mmcdev<span style="color:#e6db74">}</span>:<span style="color:#e6db74">${</span>mmcpart<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> test -e <span style="color:#e6db74">${</span>devtype<span style="color:#e6db74">}</span> <span style="color:#e6db74">${</span>bootpart<span style="color:#e6db74">}</span> /boot/uEnv.txt; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>            gpio set <span style="color:#ae81ff">55</span>
+</span></span><span style="display:flex;"><span>            load <span style="color:#e6db74">${</span>devtype<span style="color:#e6db74">}</span> <span style="color:#e6db74">${</span>bootpart<span style="color:#e6db74">}</span> <span style="color:#e6db74">${</span>loadaddr<span style="color:#e6db74">}</span> /boot/uEnv.txt
+</span></span><span style="display:flex;"><span>            env import -t <span style="color:#e6db74">${</span>loadaddr<span style="color:#e6db74">}</span> <span style="color:#e6db74">${</span>filesize<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>            echo Loaded environment from /boot/uEnv.txt
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> test -n <span style="color:#e6db74">${</span>dtb<span style="color:#e6db74">}</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>                echo debug: <span style="color:#f92672">[</span>dtb<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>dtb<span style="color:#e6db74">}</span><span style="color:#f92672">]</span> ...
+</span></span><span style="display:flex;"><span>                setenv fdtfile <span style="color:#e6db74">${</span>dtb<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>                echo Using: dtb<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>fdtfile<span style="color:#e6db74">}</span> ...
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>            echo Checking <span style="color:#66d9ef">if</span> uname_r is set in /boot/uEnv.txt...
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> test -n <span style="color:#e6db74">${</span>uname_r<span style="color:#e6db74">}</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>                gpio set <span style="color:#ae81ff">56</span>
+</span></span><span style="display:flex;"><span>                setenv oldroot /dev/mmcblk<span style="color:#e6db74">${</span>mmcdev<span style="color:#e6db74">}</span>p<span style="color:#e6db74">${</span>mmcpart<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>                echo Running uname_boot ...
+</span></span><span style="display:flex;"><span>                run uname_boot
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><h2 id="设置默认nfs启动">
+  设置默认NFS启动
+  <a class="anchor" href="#%e8%ae%be%e7%bd%ae%e9%bb%98%e8%ae%a4nfs%e5%90%af%e5%8a%a8">#</a>
+</h2>
+<p>从上面脚本可以得知，想要每次直接进行NFS挂载，需要在根目录下，存在uEnv.tx文件，且uEnv.txt中包含client_ip变量，如下即可，之后每次都会先检查eMMC中的根目录的uEnv.txt，判断是否需要NFS启动了</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#uname_r=4.19.94-ti-r42</span>
+</span></span><span style="display:flex;"><span>client_ip<span style="color:#f92672">=</span>192.168.31.87
+</span></span><span style="display:flex;"><span>gw_ip<span style="color:#f92672">=</span>192.168.31.1
+</span></span><span style="display:flex;"><span>server_ip<span style="color:#f92672">=</span>192.168.31.85
+</span></span><span style="display:flex;"><span>dtb<span style="color:#f92672">=</span>am335x-boneblack.dtb
+</span></span><span style="display:flex;"><span>root_dir<span style="color:#f92672">=</span>/usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/tisdk-tiny-image-am335x-evm
+</span></span></code></pre></div><p>下面为uboot日志</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>gpio: pin <span style="color:#ae81ff">56</span> <span style="color:#f92672">(</span>gpio 56<span style="color:#f92672">)</span> value is <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>gpio: pin <span style="color:#ae81ff">55</span> <span style="color:#f92672">(</span>gpio 55<span style="color:#f92672">)</span> value is <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>gpio: pin <span style="color:#ae81ff">54</span> <span style="color:#f92672">(</span>gpio 54<span style="color:#f92672">)</span> value is <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>gpio: pin <span style="color:#ae81ff">53</span> <span style="color:#f92672">(</span>gpio 53<span style="color:#f92672">)</span> value is <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>Card did not respond to voltage <span style="color:#66d9ef">select</span>!
+</span></span><span style="display:flex;"><span>Card did not respond to voltage <span style="color:#66d9ef">select</span>!
+</span></span><span style="display:flex;"><span>switch to partitions <span style="color:#75715e">#0, OK</span>
+</span></span><span style="display:flex;"><span>mmc1<span style="color:#f92672">(</span>part 0<span style="color:#f92672">)</span> is current device
+</span></span><span style="display:flex;"><span>Scanning mmc 1:1...
+</span></span><span style="display:flex;"><span>gpio: pin <span style="color:#ae81ff">56</span> <span style="color:#f92672">(</span>gpio 56<span style="color:#f92672">)</span> value is <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>gpio: pin <span style="color:#ae81ff">55</span> <span style="color:#f92672">(</span>gpio 55<span style="color:#f92672">)</span> value is <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>gpio: pin <span style="color:#ae81ff">54</span> <span style="color:#f92672">(</span>gpio 54<span style="color:#f92672">)</span> value is <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>gpio: pin <span style="color:#ae81ff">53</span> <span style="color:#f92672">(</span>gpio 53<span style="color:#f92672">)</span> value is <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>switch to partitions <span style="color:#75715e">#0, OK</span>
+</span></span><span style="display:flex;"><span>mmc1<span style="color:#f92672">(</span>part 0<span style="color:#f92672">)</span> is current device
+</span></span><span style="display:flex;"><span>gpio: pin <span style="color:#ae81ff">54</span> <span style="color:#f92672">(</span>gpio 54<span style="color:#f92672">)</span> value is <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>Checking <span style="color:#66d9ef">for</span>: /uEnv.txt ...
+</span></span><span style="display:flex;"><span>Checking <span style="color:#66d9ef">for</span>: /boot.scr ...
+</span></span><span style="display:flex;"><span>Checking <span style="color:#66d9ef">for</span>: /boot/boot.scr ...
+</span></span><span style="display:flex;"><span>Checking <span style="color:#66d9ef">for</span>: /boot/uEnv.txt ...
+</span></span><span style="display:flex;"><span>gpio: pin <span style="color:#ae81ff">55</span> <span style="color:#f92672">(</span>gpio 55<span style="color:#f92672">)</span> value is <span style="color:#ae81ff">1</span>
+</span></span></code></pre></div></article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/swifteen/swifteen.github.io/edit/main/exampleSite/content/docs/%e5%b7%a5%e7%a8%8b%e5%ae%9e%e8%b7%b5/BBB%e6%9d%bf%e4%bd%bf%e7%94%a8NFS%e6%8c%82%e8%bd%bd%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function e(n){const e=window.getSelection(),t=document.createRange();t.selectNodeContents(n),e.removeAllRanges(),e.addRange(t)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#版本说明">版本说明</a></li>
+    <li><a href="#将ti-sdk中提供的文件系统目录nfs导出">将TI SDK中提供的文件系统目录NFS导出</a>
+      <ul>
+        <li><a href="#修改etcexports增加nfs导出目录后重新加载">修改/etc/exports增加NFS导出目录后，重新加载</a></li>
+        <li><a href="#使nfs目录生效">使NFS目录生效</a></li>
+        <li><a href="#查看nfs导出列表">查看NFS导出列表</a></li>
+      </ul>
+    </li>
+    <li><a href="#nfs方式启动bbb">NFS方式启动BBB</a>
+      <ul>
+        <li><a href="#分析uboot的nfsboot环境变量">分析uboot的nfsboot环境变量</a></li>
+        <li><a href="#准备内核镜像文件">准备内核镜像文件</a></li>
+        <li><a href="#设置uboot环境变量">设置uboot环境变量</a></li>
+        <li><a href="#启动nfs文件系统">启动NFS文件系统</a></li>
+      </ul>
+    </li>
+    <li><a href="#qtcreator配置交叉编译工具">qtcreator配置交叉编译工具</a>
+      <ul>
+        <li><a href="#安装qtcreator">安装qtcreator</a></li>
+        <li><a href="#设置编译工具">设置编译工具</a></li>
+      </ul>
+    </li>
+    <li><a href="#遇到问题">遇到问题</a>
+      <ul>
+        <li><a href="#不能解析qt工程运行时报错如下">不能解析qt工程，运行时报错如下</a></li>
+        <li><a href="#运行时错误">运行时错误</a></li>
+      </ul>
+    </li>
+    <li><a href="#wayland测试">wayland测试</a></li>
+    <li><a href="#uboot启动分析">uboot启动分析</a>
+      <ul>
+        <li><a href="#命令说明">命令说明</a></li>
+        <li><a href="#以下为uboot环境变量中boot的值">以下为uboot环境变量中boot的值</a></li>
+        <li><a href="#设置默认nfs启动">设置默认NFS启动</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>工作总结 on Freedom Book</title>
+    <link>https://swifteen.github.io/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/</link>
+    <description>Recent content in 工作总结 on Freedom Book</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://swifteen.github.io/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://swifteen.github.io/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%95%B0%E6%8D%AE%E5%BA%93/</guid>
+      <description>附加数据库（Attach DB）https://blog.csdn.net/zhanglianyu00/article/details/78436764
+attach [database] filename as database_name;detach [database] database_name; Squeezing Performance from SQLite: Insertions #   https://medium.com/@JasonWyatt/squeezing-performance-from-sqlite-insertions-971aff98eef2
+CREATE INDEX tag_titles ON tags (title);EXPLAIN QUERY PLAN SELECT * FROM tags WHERE title = &amp;#34;Kotlin&amp;#34;; </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://swifteen.github.io/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF/</guid>
+      <description>版本说明 #   日志模块实现    日期 版本 修改内容     2022/03/01 V0.1 创建      实现目标 #    整个上层日志最后能导出到一个文件中，方便根据日志记录顺序，查找问题。避免多日志文件不好查时序的麻烦
+  整个程序运行后，一直往内存中写日志，只在用户想要导出日志时，才写U盘，尽量减少程序运行时耗时
+  能做到内存中始终能导出最近的日志到U盘中
+  程序崩溃后，发生崩溃点的日志保存处理(在DEBUG版本中，将日志输出缓冲设置为0)
+  参考实现 #  Qt5官方日志QLoggingCategory测试 #  QLoggingCategory represents a certain logging category - identified by a string - at runtime. A category can be configured to enable or disable logging of messages per message type.</description>
+    </item>
+    
+  </channel>
+</rss>

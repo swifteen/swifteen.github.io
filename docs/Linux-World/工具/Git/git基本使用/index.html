@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="版本说明 #   git基本使用    日期 版本 修改内容     2021/02/19 V0.3 创建      Git对比SVN #   1.小步提交，互不干扰 #  并行开发过程中各开发人员可以随时多次commit代码且互不影响，最后在merage到主分支，并且能记录所有成员的所有commint记录。SVN只能大量的一次性提交到中心库。
+2.打断开发：在开发新功能过程中，突然需要你去修复一个Bug #  使用Git，你可以直接stash/commit当前改动，然后switch到主分支去修复Bug，之后在pop/switch回你原来的分支继续开发。
+3.Git分支切换-指针移动，SVN分支切换-Copy项目 #  Git支持本地无限Branches，当我们个体在本地创建多个branches用于不同目的的时候（修改，新增，探索），分支轻量化，秒创分支，创建分支满足客户定制化需求
+4.Git Tag-指针标示，SVN Tag-Copy项目 #  Git管理的项目要比SVN小得多。Git初次拉取代码的速度也远小于SVN。
+5.两级提交 #  本地创建分支开发，本地提交，需要合并时再提交到远程
+6.日志查看 #  Git本地包含了完整的日志，闪电的速度查看（并且无需网络)。SVN需要从服务拉取。
+7.安全 #  Git是分布式版本控制系统，每个用户都相当于一份备份， 管理员无需为数据备份而担心。SVN作为集中式版本控制系统，存在单点故障的风险。备份版本库的任务非常繁重。
+linus在google的演讲感悟 链接：https://www.zhihu.com/question/19601997/answer/95363587
+ 自洽的、最少依赖的个人工作得到支持。1000多人的Linux开发团队是分布在世界各地的，使用git也就不必依赖中心服务器、不必需要很少的网络。就在自己的电脑上就有完整的仓库，可以做任何版本管理，除了分享代码。SVN显然是不合适的，因为单点故障大家甚至无法提交，更加无法开分支，这是无法忍受的。 剔除害群之马很简单。如果Linus经过观察，发现有些程序员特别容易出漏子，那么封杀的办法就是不必拉取即可。实际上Linus就是这样干过。如果是SVN，就变成了撤销惹麻烦的开发者的账号或者限定他的访问范围，并且从仓库中移除麻烦的代码提交。就是说，封杀的方法在git而言，是不做某事即可，SVN是做一系列事情才可以。一正一反，大家可以体会一下。Linus喜欢前者，并且得心应手。这样的工作流程就避开了很多“政治”问题，让他的集成代码过程变得主动。 可以使用信任网络。Linux太大了，不可能完全看完补丁代码的方式来识别信任，这个Linus曾经干过，最后的结果当然是放弃。如果发现有些程序员特别优秀，他只要选择拉取他们的实现。这些程序员也只是拉取他们信任的程序员的实现。这样的信任网络是可以层次化的，因此对应于1000多人的开发者来说，这样做确实可以通过分层的信任网络达成大规模的团队协作。如果是SVN，我不知道如何做可以更好 轻量的分支开销鼓励大量被使用。对于这样的团队，为了敏捷的迭代，如果有想法就分支（这样的开发隔离想法是很有价值的），那么在svn上分支是海量的并且全局的大家互相影响，因此是要命的。而对于Git总数当然是海量，但是每个人的分支都在自己的仓库内，不会影响到他人。且分支无需连接服务器，因此是飞速的。  Git工作流 #   http://www.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="git基本使用" />
+<meta property="og:description" content="版本说明 #   git基本使用    日期 版本 修改内容     2021/02/19 V0.3 创建      Git对比SVN #   1.小步提交，互不干扰 #  并行开发过程中各开发人员可以随时多次commit代码且互不影响，最后在merage到主分支，并且能记录所有成员的所有commint记录。SVN只能大量的一次性提交到中心库。
+2.打断开发：在开发新功能过程中，突然需要你去修复一个Bug #  使用Git，你可以直接stash/commit当前改动，然后switch到主分支去修复Bug，之后在pop/switch回你原来的分支继续开发。
+3.Git分支切换-指针移动，SVN分支切换-Copy项目 #  Git支持本地无限Branches，当我们个体在本地创建多个branches用于不同目的的时候（修改，新增，探索），分支轻量化，秒创分支，创建分支满足客户定制化需求
+4.Git Tag-指针标示，SVN Tag-Copy项目 #  Git管理的项目要比SVN小得多。Git初次拉取代码的速度也远小于SVN。
+5.两级提交 #  本地创建分支开发，本地提交，需要合并时再提交到远程
+6.日志查看 #  Git本地包含了完整的日志，闪电的速度查看（并且无需网络)。SVN需要从服务拉取。
+7.安全 #  Git是分布式版本控制系统，每个用户都相当于一份备份， 管理员无需为数据备份而担心。SVN作为集中式版本控制系统，存在单点故障的风险。备份版本库的任务非常繁重。
+linus在google的演讲感悟 链接：https://www.zhihu.com/question/19601997/answer/95363587
+ 自洽的、最少依赖的个人工作得到支持。1000多人的Linux开发团队是分布在世界各地的，使用git也就不必依赖中心服务器、不必需要很少的网络。就在自己的电脑上就有完整的仓库，可以做任何版本管理，除了分享代码。SVN显然是不合适的，因为单点故障大家甚至无法提交，更加无法开分支，这是无法忍受的。 剔除害群之马很简单。如果Linus经过观察，发现有些程序员特别容易出漏子，那么封杀的办法就是不必拉取即可。实际上Linus就是这样干过。如果是SVN，就变成了撤销惹麻烦的开发者的账号或者限定他的访问范围，并且从仓库中移除麻烦的代码提交。就是说，封杀的方法在git而言，是不做某事即可，SVN是做一系列事情才可以。一正一反，大家可以体会一下。Linus喜欢前者，并且得心应手。这样的工作流程就避开了很多“政治”问题，让他的集成代码过程变得主动。 可以使用信任网络。Linux太大了，不可能完全看完补丁代码的方式来识别信任，这个Linus曾经干过，最后的结果当然是放弃。如果发现有些程序员特别优秀，他只要选择拉取他们的实现。这些程序员也只是拉取他们信任的程序员的实现。这样的信任网络是可以层次化的，因此对应于1000多人的开发者来说，这样做确实可以通过分层的信任网络达成大规模的团队协作。如果是SVN，我不知道如何做可以更好 轻量的分支开销鼓励大量被使用。对于这样的团队，为了敏捷的迭代，如果有想法就分支（这样的开发隔离想法是很有价值的），那么在svn上分支是海量的并且全局的大家互相影响，因此是要命的。而对于Git总数当然是海量，但是每个人的分支都在自己的仓库内，不会影响到他人。且分支无需连接服务器，因此是飞速的。  Git工作流 #   http://www." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" /><meta property="article:section" content="docs" />
+
+
+
+<title>git基本使用 | Freedom Book</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.8af359f8b4ff91864838b7225239a34a4ca449e60ef99ab88e33c978c8685391.css" integrity="sha256-ivNZ&#43;LT/kYZIOLciUjmjSkykSeYO&#43;Zq4jjPJeMhoU5E=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.d45c0ffc37a24fca2ef007edb1d82d27449127aa5b68259acea105adc08ba9ea.js" integrity="sha256-1FwP/DeiT8ou8AftsdgtJ0SRJ6pbaCWazqEFrcCLqeo=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Freedom Book</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+  
+
+
+
+  
+    
+  
+    
+  
+
+
+
+<ul class="book-languages">
+  <li>
+    <input type="checkbox" id="languages" class="toggle" />
+    <label for="languages" class="flex justify-between">
+      <a role="button" class="flex align-center">
+        <img src="/svg/translate.svg" class="book-icon" alt="Languages" />
+        English
+      </a>
+    </label>
+
+    <ul>
+      
+      <li>
+        <a href="https://swifteen.github.io/ru/">
+          Russian
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://swifteen.github.io/zh/">
+          Chinese
+        </a>
+      </li>
+      
+    </ul>
+  </li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" class="">读书笔记</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="toggle"  />
+    <label for="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="flex justify-between">
+      <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/" class="">深入理解计算机系统</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/" class="">第一章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/4th-level/" class="">4th Level</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/" class="">5th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/6th-level/" class="">6th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/" class="">第二章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/" class="">7th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/12th-level/" class="">12th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/8th-level/" class="">8th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/" class="">工程实践</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/FalconMode/" class="">FalconMode模式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/BBB%E6%9D%BF%E4%BD%BF%E7%94%A8NFS%E6%8C%82%E8%BD%BD%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" class="">BBB板使用NFS挂载文件系统</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/" class="">工作总结</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">数据库</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF/" class="">日志模块实现思路</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/" class="">Linux World</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/" class="">工具</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="toggle" checked />
+    <label for="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Git常用配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" class=" active">git基本使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8/" class="">git高级使用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-d5b311234c6410083508e37cc63fc1b6" class="toggle"  />
+    <label for="section-d5b311234c6410083508e37cc63fc1b6" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/" class="">Vim</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/%E9%85%8D%E7%BD%AE/" class="">配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/" class="">常用 Linux命令</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4a2fe1f775a45aa533a141965b5ef749" class="toggle"  />
+    <label for="section-4a2fe1f775a45aa533a141965b5ef749" class="flex justify-between">
+      <a href="/docs/Linux-World/Raspberry/" class="">Raspberry</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Raspberry/%E5%B8%B8%E7%94%A8/" class="">常用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-23ec4bc7089b12961617b50da77ae792" class="toggle"  />
+    <label for="section-23ec4bc7089b12961617b50da77ae792" class="flex justify-between">
+      <a href="/docs/Linux-World/Ubuntu/" class="">Ubuntu</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%9B%AE%E5%BD%95%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE/" class="">目录共享配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%90%86%E5%92%8C%E8%AF%81%E4%B9%A6/" class="">系统代理和证书</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E5%85%B6%E5%AE%83/" class="">其它</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://github.com/swifteen/" target="_blank" rel="noopener">
+        Github
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://themes.gohugo.io/hugo-book/" target="_blank" rel="noopener">
+        Hugo Themes
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>git基本使用</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#版本说明">版本说明</a></li>
+    <li><a href="#git对比svn">Git对比SVN</a>
+      <ul>
+        <li><a href="#1小步提交互不干扰">1.小步提交，互不干扰</a></li>
+        <li><a href="#2打断开发在开发新功能过程中突然需要你去修复一个bug">2.打断开发：在开发新功能过程中，突然需要你去修复一个Bug</a></li>
+        <li><a href="#3git分支切换-指针移动svn分支切换-copy项目">3.Git分支切换-指针移动，SVN分支切换-Copy项目</a></li>
+        <li><a href="#4git-tag-指针标示svn-tag-copy项目">4.Git Tag-指针标示，SVN Tag-Copy项目</a></li>
+        <li><a href="#5两级提交">5.两级提交</a></li>
+        <li><a href="#6日志查看">6.日志查看</a></li>
+        <li><a href="#7安全">7.安全</a></li>
+      </ul>
+    </li>
+    <li><a href="#git工作流">Git工作流</a>
+      <ul>
+        <li><a href="#git-flow工作流程">git flow工作流程：</a></li>
+      </ul>
+    </li>
+    <li><a href="#git命令">Git命令</a>
+      <ul>
+        <li><a href="#git命令流程图">Git命令流程图</a></li>
+        <li><a href="#一新建代码库">一、新建代码库</a></li>
+        <li><a href="#二配置">二、配置</a></li>
+        <li><a href="#三增加删除文件">三、增加/删除文件</a></li>
+        <li><a href="#四代码提交">四、代码提交</a></li>
+        <li><a href="#五分支">五、分支</a></li>
+        <li><a href="#六标签">六、标签</a></li>
+        <li><a href="#七查看信息">七、查看信息</a></li>
+        <li><a href="#八远程同步">八、远程同步</a></li>
+        <li><a href="#九撤销">九、撤销</a></li>
+        <li><a href="#十其他">十、其他</a></li>
+      </ul>
+    </li>
+    <li><a href="#git-使用规范流程">Git 使用规范流程</a>
+      <ul>
+        <li><a href="#第一步新建分支">第一步：新建分支</a></li>
+        <li><a href="#第二步提交分支commit">第二步：提交分支commit</a></li>
+        <li><a href="#第三步撰写提交信息">第三步：撰写提交信息</a></li>
+        <li><a href="#第四步与主干同步">第四步：与主干同步</a></li>
+        <li><a href="#第五步合并commit">第五步：合并commit</a></li>
+        <li><a href="#第六步推送到远程仓库">第六步：推送到远程仓库</a></li>
+        <li><a href="#第七步发出pull-request">第七步：发出Pull Request</a></li>
+      </ul>
+    </li>
+    <li><a href="#个人总结">个人总结</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="版本说明">
+  版本说明
+  <a class="anchor" href="#%e7%89%88%e6%9c%ac%e8%af%b4%e6%98%8e">#</a>
+</h1>
+<ul>
+<li>git基本使用
+<table>
+<thead>
+<tr>
+<th>日期</th>
+<th>版本</th>
+<th>修改内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021/02/19</td>
+<td>V0.3</td>
+<td>创建</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<h1 id="git对比svn">
+  Git对比SVN
+  <a class="anchor" href="#git%e5%af%b9%e6%af%94svn">#</a>
+</h1>
+<p>
+  <img src="/images/git%e5%b7%a5%e5%85%b7/Git-vs-SVN-02-800x270.png" alt="Git-vs-SVN" /></p>
+<h2 id="1小步提交互不干扰">
+  1.小步提交，互不干扰
+  <a class="anchor" href="#1%e5%b0%8f%e6%ad%a5%e6%8f%90%e4%ba%a4%e4%ba%92%e4%b8%8d%e5%b9%b2%e6%89%b0">#</a>
+</h2>
+<p>并行开发过程中各开发人员可以随时多次commit代码且互不影响，最后在merage到主分支，并且能记录所有成员的所有commint记录。SVN只能大量的一次性提交到中心库。</p>
+<h2 id="2打断开发在开发新功能过程中突然需要你去修复一个bug">
+  2.打断开发：在开发新功能过程中，突然需要你去修复一个Bug
+  <a class="anchor" href="#2%e6%89%93%e6%96%ad%e5%bc%80%e5%8f%91%e5%9c%a8%e5%bc%80%e5%8f%91%e6%96%b0%e5%8a%9f%e8%83%bd%e8%bf%87%e7%a8%8b%e4%b8%ad%e7%aa%81%e7%84%b6%e9%9c%80%e8%a6%81%e4%bd%a0%e5%8e%bb%e4%bf%ae%e5%a4%8d%e4%b8%80%e4%b8%aabug">#</a>
+</h2>
+<p>使用Git，你可以直接stash/commit当前改动，然后switch到主分支去修复Bug，之后在pop/switch回你原来的分支继续开发。</p>
+<h2 id="3git分支切换-指针移动svn分支切换-copy项目">
+  3.Git分支切换-指针移动，SVN分支切换-Copy项目
+  <a class="anchor" href="#3git%e5%88%86%e6%94%af%e5%88%87%e6%8d%a2-%e6%8c%87%e9%92%88%e7%a7%bb%e5%8a%a8svn%e5%88%86%e6%94%af%e5%88%87%e6%8d%a2-copy%e9%a1%b9%e7%9b%ae">#</a>
+</h2>
+<p>Git支持本地无限Branches，当我们个体在本地创建多个branches用于不同目的的时候（修改，新增，探索），分支轻量化，秒创分支，创建分支满足客户定制化需求</p>
+<h2 id="4git-tag-指针标示svn-tag-copy项目">
+  4.Git Tag-指针标示，SVN Tag-Copy项目
+  <a class="anchor" href="#4git-tag-%e6%8c%87%e9%92%88%e6%a0%87%e7%a4%basvn-tag-copy%e9%a1%b9%e7%9b%ae">#</a>
+</h2>
+<p>Git管理的项目要比SVN小得多。Git初次拉取代码的速度也远小于SVN。</p>
+<h2 id="5两级提交">
+  5.两级提交
+  <a class="anchor" href="#5%e4%b8%a4%e7%ba%a7%e6%8f%90%e4%ba%a4">#</a>
+</h2>
+<p>本地创建分支开发，本地提交，需要合并时再提交到远程</p>
+<h2 id="6日志查看">
+  6.日志查看
+  <a class="anchor" href="#6%e6%97%a5%e5%bf%97%e6%9f%a5%e7%9c%8b">#</a>
+</h2>
+<p>Git本地包含了完整的日志，闪电的速度查看（并且无需网络)。SVN需要从服务拉取。</p>
+<h2 id="7安全">
+  7.安全
+  <a class="anchor" href="#7%e5%ae%89%e5%85%a8">#</a>
+</h2>
+<p>Git是分布式版本控制系统，每个用户都相当于一份备份， 管理员无需为数据备份而担心。SVN作为集中式版本控制系统，存在单点故障的风险。备份版本库的任务非常繁重。</p>
+<p>linus在google的演讲感悟
+链接：https://www.zhihu.com/question/19601997/answer/95363587</p>
+<ol>
+<li>自洽的、最少依赖的个人工作得到支持。1000多人的Linux开发团队是分布在世界各地的，使用git也就不必依赖中心服务器、不必需要很少的网络。就在自己的电脑上就有完整的仓库，可以做任何版本管理，除了分享代码。SVN显然是不合适的，因为单点故障大家甚至无法提交，更加无法开分支，这是无法忍受的。</li>
+<li>剔除害群之马很简单。如果Linus经过观察，发现有些程序员特别容易出漏子，那么封杀的办法就是不必拉取即可。实际上Linus就是这样干过。如果是SVN，就变成了撤销惹麻烦的开发者的账号或者限定他的访问范围，并且从仓库中移除麻烦的代码提交。就是说，封杀的方法在git而言，是不做某事即可，SVN是做一系列事情才可以。一正一反，大家可以体会一下。Linus喜欢前者，并且得心应手。这样的工作流程就避开了很多“政治”问题，让他的集成代码过程变得主动。</li>
+<li>可以使用信任网络。Linux太大了，不可能完全看完补丁代码的方式来识别信任，这个Linus曾经干过，最后的结果当然是放弃。如果发现有些程序员特别优秀，他只要选择拉取他们的实现。这些程序员也只是拉取他们信任的程序员的实现。这样的信任网络是可以层次化的，因此对应于1000多人的开发者来说，这样做确实可以通过分层的信任网络达成大规模的团队协作。如果是SVN，我不知道如何做可以更好</li>
+<li>轻量的分支开销鼓励大量被使用。对于这样的团队，为了敏捷的迭代，如果有想法就分支（这样的开发隔离想法是很有价值的），那么在svn上分支是海量的并且全局的大家互相影响，因此是要命的。而对于Git总数当然是海量，但是每个人的分支都在自己的仓库内，不会影响到他人。且分支无需连接服务器，因此是飞速的。</li>
+</ol>
+<h1 id="git工作流">
+  Git工作流
+  <a class="anchor" href="#git%e5%b7%a5%e4%bd%9c%e6%b5%81">#</a>
+</h1>
+<p>
+  <a href="http://www.ruanyifeng.com/blog/2015/12/git-workflow.html">http://www.ruanyifeng.com/blog/2015/12/git-workflow.html</a></p>
+<p>
+  <a href="https://www.jianshu.com/p/5e847c12709c">https://www.jianshu.com/p/5e847c12709c</a></p>
+<p>
+  <a href="http://www.ruanyifeng.com/blog/2015/12/git-workflow.html">http://www.ruanyifeng.com/blog/2015/12/git-workflow.html</a></p>
+<p>Git 作为一个源码管理系统，不可避免涉及到多人协作。</p>
+<p>协作必须有一个规范的工作流程，让大家有效地合作，使得项目井井有条地发展下去。&ldquo;工作流程&quot;在英语里，叫做&quot;workflow&quot;或者&quot;flow&rdquo;，原意是水流，比喻项目像水流那样，顺畅、自然地向前流动，不会发生冲击、对撞、甚至漩涡。</p>
+<p>都采用
+  <a href="https://en.wikipedia.org/wiki/Feature-driven_development">&ldquo;功能驱动式开发&rdquo;</a>（Feature-driven development，简称FDD）。</p>
+<p>它指的是，需求是开发的起点，先有需求再有功能分支（feature branch）或者补丁分支（hotfix branch）。完成开发后，该分支就合并到主分支，然后被删除。</p>
+<table>
+<thead>
+<tr>
+<th>工作流</th>
+<th>策略</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Git flow</td>
+<td>2个长期分支(master| develop)、3种短期分支(feature |hotfix |release)</td>
+<td>经常要切换分支，非常烦人</td>
+</tr>
+<tr>
+<td>Github flow</td>
+<td>1个长期分支 master,发起一个
+  <a href="https://help.github.com/articles/using-pull-requests/">pull request</a>（简称PR）</td>
+<td></td>
+</tr>
+<tr>
+<td>Gitlab flow</td>
+<td>&ldquo;上游优先&rdquo;（upsteam first）</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>对于&quot;版本发布&quot;的项目，建议的做法是每一个稳定版本，都要从<code>master</code>分支拉出一个分支，比如<code>2-3-stable</code>、<code>2-4-stable</code>等等。</p>
+<p>以后，只有修补bug，才允许将代码合并到这些分支，并且此时要更新小版本号。</p>
+<h2 id="git-flow工作流程">
+  git flow工作流程：
+  <a class="anchor" href="#git-flow%e5%b7%a5%e4%bd%9c%e6%b5%81%e7%a8%8b">#</a>
+</h2>
+<p>
+  <img src="/images/git%e5%b7%a5%e5%85%b7/git-flow.png" alt="2178607-f9cad12439bb7d34" /></p>
+<ul>
+<li>devloper：新功能开发分支一般命名为（feature_name或feature/name）；开发人员在进行功能开发的时候，先从master 分支checkout新的feature分支（例如feature/open_activity）,分支拉取后，开发人员在当前分支开发自己的功能，开发完成后，merge feature/open_activity到 qa分支进行功能测试，经过QA测试该功能没有问题，merge feature/open_activity 到 release 分支（release 分支不能直接push代码，需要request merge,code review之后，就可以在灰度环境测试，然后上线了），到此为止新的功能已经上线完成，delete feature/open_activity分支、 merge release 分支到master 分支，并且打下tag。整个一个开发流程结束，新的需求一个轮回又开始了；</li>
+<li>bugfix:bugfix分支一般命名为（bugfix_name或bugfix/name）； bugfix 是对重大bug的修改，修改完成后，需要合并到qa分支进行测试，整个流程与 #devloper# 的流程一致；</li>
+<li>hotfix: hotfix分支一般命名为（hotfix_name或hotfix/name）； hotfix为线上代码的热更新，比如配置文件的修改或者极小的功能修改。开发人员从master 拉取hotfix/mysql_config分支，然后进行bug fix ,完成后，merger 到release分支code review之后上线。到此bug热修复完成，delete hotfix/mysql_config分支、merge release 分支到master 分支，hotfix一般不需要打tag；</li>
+</ul>
+<h1 id="git命令">
+  Git命令
+  <a class="anchor" href="#git%e5%91%bd%e4%bb%a4">#</a>
+</h1>
+<h2 id="git命令流程图">
+  Git命令流程图
+  <a class="anchor" href="#git%e5%91%bd%e4%bb%a4%e6%b5%81%e7%a8%8b%e5%9b%be">#</a>
+</h2>
+<p>
+  <img src="https://pic1.zhimg.com/0df9740f9b41522ab12c14dbbf6bbad4_r.jpg?source=1940ef5c" alt="preview" /></p>
+<p>
+  <img src="https://img-blog.csdnimg.cn/20190628180240306.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3l1YW5zaHVqaW43Nw==,size_16,color_FFFFFF,t_70" alt="img" /></p>
+<p>
+  <img src="https://img2018.cnblogs.com/blog/1479220/201809/1479220-20180925212913309-536352719.png" alt="img" /></p>
+<p>
+  <a href="http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html">http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html</a></p>
+<h2 id="一新建代码库">
+  一、新建代码库
+  <a class="anchor" href="#%e4%b8%80%e6%96%b0%e5%bb%ba%e4%bb%a3%e7%a0%81%e5%ba%93">#</a>
+</h2>
+<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 在当前目录新建一个Git代码库</span>
+</span></span><span style="display:flex;"><span>$ git init
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 新建一个目录，将其初始化为Git代码库</span>
+</span></span><span style="display:flex;"><span>$ git init <span style="color:#f92672">[</span>project-name<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 下载一个项目和它的整个代码历史</span>
+</span></span><span style="display:flex;"><span>$ git clone <span style="color:#f92672">[</span>url<span style="color:#f92672">]</span>
+</span></span></code></pre></div></blockquote>
+<h2 id="二配置">
+  二、配置
+  <a class="anchor" href="#%e4%ba%8c%e9%85%8d%e7%bd%ae">#</a>
+</h2>
+<p>Git的设置文件为<code>.gitconfig</code>，它可以在用户主目录下（全局配置），也可以在项目目录下（项目配置）。</p>
+<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 显示当前的Git配置</span>
+</span></span><span style="display:flex;"><span>$ git config --list
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 编辑Git配置文件</span>
+</span></span><span style="display:flex;"><span>$ git config -e <span style="color:#f92672">[</span>--global<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置提交代码时的用户信息</span>
+</span></span><span style="display:flex;"><span>$ git config <span style="color:#f92672">[</span>--global<span style="color:#f92672">]</span> user.name <span style="color:#e6db74">&#34;[name]&#34;</span>
+</span></span><span style="display:flex;"><span>$ git config <span style="color:#f92672">[</span>--global<span style="color:#f92672">]</span> user.email <span style="color:#e6db74">&#34;[email address]&#34;</span>
+</span></span></code></pre></div></blockquote>
+<h2 id="三增加删除文件">
+  三、增加/删除文件
+  <a class="anchor" href="#%e4%b8%89%e5%a2%9e%e5%8a%a0%e5%88%a0%e9%99%a4%e6%96%87%e4%bb%b6">#</a>
+</h2>
+<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 添加指定文件到暂存区</span>
+</span></span><span style="display:flex;"><span>$ git add <span style="color:#f92672">[</span>file1<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>file2<span style="color:#f92672">]</span> ...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 添加指定目录到暂存区，包括子目录</span>
+</span></span><span style="display:flex;"><span>$ git add <span style="color:#f92672">[</span>dir<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 添加当前目录的所有文件到暂存区</span>
+</span></span><span style="display:flex;"><span>$ git add .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 添加每个变化前，都会要求确认</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 对于同一个文件的多处变化，可以实现分次提交</span>
+</span></span><span style="display:flex;"><span>$ git add -p
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 删除工作区文件，并且将这次删除放入暂存区</span>
+</span></span><span style="display:flex;"><span>$ git rm <span style="color:#f92672">[</span>file1<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>file2<span style="color:#f92672">]</span> ...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 停止追踪指定文件，但该文件会保留在工作区</span>
+</span></span><span style="display:flex;"><span>$ git rm --cached <span style="color:#f92672">[</span>file<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 改名文件，并且将这个改名放入暂存区</span>
+</span></span><span style="display:flex;"><span>$ git mv <span style="color:#f92672">[</span>file-original<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>file-renamed<span style="color:#f92672">]</span>
+</span></span></code></pre></div></blockquote>
+<h2 id="四代码提交">
+  四、代码提交
+  <a class="anchor" href="#%e5%9b%9b%e4%bb%a3%e7%a0%81%e6%8f%90%e4%ba%a4">#</a>
+</h2>
+<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 提交暂存区到仓库区</span>
+</span></span><span style="display:flex;"><span>$ git commit -m <span style="color:#f92672">[</span>message<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 提交暂存区的指定文件到仓库区</span>
+</span></span><span style="display:flex;"><span>$ git commit <span style="color:#f92672">[</span>file1<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>file2<span style="color:#f92672">]</span> ... -m <span style="color:#f92672">[</span>message<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 提交工作区自上次commit之后的变化，直接到仓库区</span>
+</span></span><span style="display:flex;"><span>$ git commit -a
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 提交时显示所有diff信息</span>
+</span></span><span style="display:flex;"><span>$ git commit -v
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用一次新的commit，替代上一次提交</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 如果代码没有任何新变化，则用来改写上一次commit的提交信息</span>
+</span></span><span style="display:flex;"><span>$ git commit --amend -m <span style="color:#f92672">[</span>message<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 重做上一次commit，并包括指定文件的新变化</span>
+</span></span><span style="display:flex;"><span>$ git commit --amend <span style="color:#f92672">[</span>file1<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>file2<span style="color:#f92672">]</span> ...
+</span></span></code></pre></div></blockquote>
+<h2 id="五分支">
+  五、分支
+  <a class="anchor" href="#%e4%ba%94%e5%88%86%e6%94%af">#</a>
+</h2>
+<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 列出所有本地分支</span>
+</span></span><span style="display:flex;"><span>$ git branch
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 列出所有远程分支</span>
+</span></span><span style="display:flex;"><span>$ git branch -r
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 列出所有本地分支和远程分支</span>
+</span></span><span style="display:flex;"><span>$ git branch -a
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 新建一个分支，但依然停留在当前分支</span>
+</span></span><span style="display:flex;"><span>$ git branch <span style="color:#f92672">[</span>branch-name<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 新建一个分支，并切换到该分支</span>
+</span></span><span style="display:flex;"><span>$ git checkout -b <span style="color:#f92672">[</span>branch<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 新建一个分支，指向指定commit</span>
+</span></span><span style="display:flex;"><span>$ git branch <span style="color:#f92672">[</span>branch<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>commit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 新建一个分支，与指定的远程分支建立追踪关系</span>
+</span></span><span style="display:flex;"><span>$ git branch --track <span style="color:#f92672">[</span>branch<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>remote-branch<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 切换到指定分支，并更新工作区</span>
+</span></span><span style="display:flex;"><span>$ git checkout <span style="color:#f92672">[</span>branch-name<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 切换到上一个分支</span>
+</span></span><span style="display:flex;"><span>$ git checkout -
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 建立追踪关系，在现有分支与指定的远程分支之间</span>
+</span></span><span style="display:flex;"><span>$ git branch --set-upstream <span style="color:#f92672">[</span>branch<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>remote-branch<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 合并指定分支到当前分支</span>
+</span></span><span style="display:flex;"><span>$ git merge <span style="color:#f92672">[</span>branch<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 选择一个commit，合并进当前分支</span>
+</span></span><span style="display:flex;"><span>$ git cherry-pick <span style="color:#f92672">[</span>commit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 删除分支</span>
+</span></span><span style="display:flex;"><span>$ git branch -d <span style="color:#f92672">[</span>branch-name<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 删除远程分支</span>
+</span></span><span style="display:flex;"><span>$ git push origin --delete <span style="color:#f92672">[</span>branch-name<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>$ git branch -dr <span style="color:#f92672">[</span>remote/branch<span style="color:#f92672">]</span>
+</span></span></code></pre></div></blockquote>
+<h2 id="六标签">
+  六、标签
+  <a class="anchor" href="#%e5%85%ad%e6%a0%87%e7%ad%be">#</a>
+</h2>
+<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 列出所有tag</span>
+</span></span><span style="display:flex;"><span>$ git tag
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 新建一个tag在当前commit</span>
+</span></span><span style="display:flex;"><span>$ git tag <span style="color:#f92672">[</span>tag<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 新建一个tag在指定commit</span>
+</span></span><span style="display:flex;"><span>$ git tag <span style="color:#f92672">[</span>tag<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>commit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 删除本地tag</span>
+</span></span><span style="display:flex;"><span>$ git tag -d <span style="color:#f92672">[</span>tag<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 删除远程tag</span>
+</span></span><span style="display:flex;"><span>$ git push origin :refs/tags/<span style="color:#f92672">[</span>tagName<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看tag信息</span>
+</span></span><span style="display:flex;"><span>$ git show <span style="color:#f92672">[</span>tag<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 提交指定tag</span>
+</span></span><span style="display:flex;"><span>$ git push <span style="color:#f92672">[</span>remote<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>tag<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 提交所有tag</span>
+</span></span><span style="display:flex;"><span>$ git push <span style="color:#f92672">[</span>remote<span style="color:#f92672">]</span> --tags
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 新建一个分支，指向某个tag</span>
+</span></span><span style="display:flex;"><span>$ git checkout -b <span style="color:#f92672">[</span>branch<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>tag<span style="color:#f92672">]</span>
+</span></span></code></pre></div></blockquote>
+<h2 id="七查看信息">
+  七、查看信息
+  <a class="anchor" href="#%e4%b8%83%e6%9f%a5%e7%9c%8b%e4%bf%a1%e6%81%af">#</a>
+</h2>
+<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 显示有变更的文件</span>
+</span></span><span style="display:flex;"><span>$ git status
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 显示当前分支的版本历史</span>
+</span></span><span style="display:flex;"><span>$ git log
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 显示commit历史，以及每次commit发生变更的文件</span>
+</span></span><span style="display:flex;"><span>$ git log --stat
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 搜索提交历史，根据关键词</span>
+</span></span><span style="display:flex;"><span>$ git log -S <span style="color:#f92672">[</span>keyword<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 显示某个commit之后的所有变动，每个commit占据一行</span>
+</span></span><span style="display:flex;"><span>$ git log <span style="color:#f92672">[</span>tag<span style="color:#f92672">]</span> HEAD --pretty<span style="color:#f92672">=</span>format:%s
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 显示某个commit之后的所有变动，其&#34;提交说明&#34;必须符合搜索条件</span>
+</span></span><span style="display:flex;"><span>$ git log <span style="color:#f92672">[</span>tag<span style="color:#f92672">]</span> HEAD --grep feature
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 显示某个文件的版本历史，包括文件改名</span>
+</span></span><span style="display:flex;"><span>$ git log --follow <span style="color:#f92672">[</span>file<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>$ git whatchanged <span style="color:#f92672">[</span>file<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 显示指定文件相关的每一次diff</span>
+</span></span><span style="display:flex;"><span>$ git log -p <span style="color:#f92672">[</span>file<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 显示过去5次提交</span>
+</span></span><span style="display:flex;"><span>$ git log -5 --pretty --oneline
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 显示所有提交过的用户，按提交次数排序</span>
+</span></span><span style="display:flex;"><span>$ git shortlog -sn
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 显示指定文件是什么人在什么时间修改过</span>
+</span></span><span style="display:flex;"><span>$ git blame <span style="color:#f92672">[</span>file<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 显示暂存区和工作区的差异</span>
+</span></span><span style="display:flex;"><span>$ git diff
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 显示暂存区和上一个commit的差异</span>
+</span></span><span style="display:flex;"><span>$ git diff --cached <span style="color:#f92672">[</span>file<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 显示工作区与当前分支最新commit之间的差异</span>
+</span></span><span style="display:flex;"><span>$ git diff HEAD
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 显示两次提交之间的差异</span>
+</span></span><span style="display:flex;"><span>$ git diff <span style="color:#f92672">[</span>first-branch<span style="color:#f92672">]</span>...<span style="color:#f92672">[</span>second-branch<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 显示今天你写了多少行代码</span>
+</span></span><span style="display:flex;"><span>$ git diff --shortstat <span style="color:#e6db74">&#34;@{0 day ago}&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 显示某次提交的元数据和内容变化</span>
+</span></span><span style="display:flex;"><span>$ git show <span style="color:#f92672">[</span>commit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 显示某次提交发生变化的文件</span>
+</span></span><span style="display:flex;"><span>$ git show --name-only <span style="color:#f92672">[</span>commit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 显示某次提交时，某个文件的内容</span>
+</span></span><span style="display:flex;"><span>$ git show <span style="color:#f92672">[</span>commit<span style="color:#f92672">]</span>:<span style="color:#f92672">[</span>filename<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 显示当前分支的最近几次提交</span>
+</span></span><span style="display:flex;"><span>$ git reflog
+</span></span></code></pre></div></blockquote>
+<h2 id="八远程同步">
+  八、远程同步
+  <a class="anchor" href="#%e5%85%ab%e8%bf%9c%e7%a8%8b%e5%90%8c%e6%ad%a5">#</a>
+</h2>
+<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 下载远程仓库的所有变动</span>
+</span></span><span style="display:flex;"><span>$ git fetch <span style="color:#f92672">[</span>remote<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 显示所有远程仓库</span>
+</span></span><span style="display:flex;"><span>$ git remote -v
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 显示某个远程仓库的信息</span>
+</span></span><span style="display:flex;"><span>$ git remote show <span style="color:#f92672">[</span>remote<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 增加一个新的远程仓库，并命名</span>
+</span></span><span style="display:flex;"><span>$ git remote add <span style="color:#f92672">[</span>shortname<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>url<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 取回远程仓库的变化，并与本地分支合并</span>
+</span></span><span style="display:flex;"><span>$ git pull <span style="color:#f92672">[</span>remote<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>branch<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 上传本地指定分支到远程仓库</span>
+</span></span><span style="display:flex;"><span>$ git push <span style="color:#f92672">[</span>remote<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>branch<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 强行推送当前分支到远程仓库，即使有冲突</span>
+</span></span><span style="display:flex;"><span>$ git push <span style="color:#f92672">[</span>remote<span style="color:#f92672">]</span> --force
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 推送所有分支到远程仓库</span>
+</span></span><span style="display:flex;"><span>$ git push <span style="color:#f92672">[</span>remote<span style="color:#f92672">]</span> --all
+</span></span></code></pre></div></blockquote>
+<h2 id="九撤销">
+  九、撤销
+  <a class="anchor" href="#%e4%b9%9d%e6%92%a4%e9%94%80">#</a>
+</h2>
+<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 恢复暂存区的指定文件到工作区</span>
+</span></span><span style="display:flex;"><span>$ git checkout <span style="color:#f92672">[</span>file<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 恢复某个commit的指定文件到暂存区和工作区</span>
+</span></span><span style="display:flex;"><span>$ git checkout <span style="color:#f92672">[</span>commit<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>file<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 恢复暂存区的所有文件到工作区</span>
+</span></span><span style="display:flex;"><span>$ git checkout .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 重置暂存区的指定文件，与上一次commit保持一致，但工作区不变</span>
+</span></span><span style="display:flex;"><span>$ git reset <span style="color:#f92672">[</span>file<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 重置暂存区与工作区，与上一次commit保持一致</span>
+</span></span><span style="display:flex;"><span>$ git reset --hard
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 重置当前分支的指针为指定commit，同时重置暂存区，但工作区不变</span>
+</span></span><span style="display:flex;"><span>$ git reset <span style="color:#f92672">[</span>commit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 重置当前分支的HEAD为指定commit，同时重置暂存区和工作区，与指定commit一致</span>
+</span></span><span style="display:flex;"><span>$ git reset --hard <span style="color:#f92672">[</span>commit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 重置当前HEAD为指定commit，但保持暂存区和工作区不变</span>
+</span></span><span style="display:flex;"><span>$ git reset --keep <span style="color:#f92672">[</span>commit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 新建一个commit，用来撤销指定commit</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 后者的所有变化都将被前者抵消，并且应用到当前分支</span>
+</span></span><span style="display:flex;"><span>$ git revert <span style="color:#f92672">[</span>commit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 暂时将未提交的变化移除，稍后再移入</span>
+</span></span><span style="display:flex;"><span>$ git stash
+</span></span><span style="display:flex;"><span>$ git stash pop
+</span></span></code></pre></div></blockquote>
+<h2 id="十其他">
+  十、其他
+  <a class="anchor" href="#%e5%8d%81%e5%85%b6%e4%bb%96">#</a>
+</h2>
+<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 生成一个可供发布的压缩包</span>
+</span></span><span style="display:flex;"><span>$ git archive
+</span></span></code></pre></div></blockquote>
+<h1 id="git-使用规范流程">
+  Git 使用规范流程
+  <a class="anchor" href="#git-%e4%bd%bf%e7%94%a8%e8%a7%84%e8%8c%83%e6%b5%81%e7%a8%8b">#</a>
+</h1>
+<p>
+  <a href="http://www.ruanyifeng.com/blog/2015/08/git-use-process.html">http://www.ruanyifeng.com/blog/2015/08/git-use-process.html</a></p>
+<h2 id="第一步新建分支">
+  第一步：新建分支
+  <a class="anchor" href="#%e7%ac%ac%e4%b8%80%e6%ad%a5%e6%96%b0%e5%bb%ba%e5%88%86%e6%94%af">#</a>
+</h2>
+<p>首先，每次开发新功能，都应该新建一个单独的分支</p>
+<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 获取主干最新代码</span>
+</span></span><span style="display:flex;"><span>$ git checkout master
+</span></span><span style="display:flex;"><span>$ git pull
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 新建一个开发分支myfeature</span>
+</span></span><span style="display:flex;"><span>$ git checkout -b myfeature
+</span></span></code></pre></div></blockquote>
+<h2 id="第二步提交分支commit">
+  第二步：提交分支commit
+  <a class="anchor" href="#%e7%ac%ac%e4%ba%8c%e6%ad%a5%e6%8f%90%e4%ba%a4%e5%88%86%e6%94%afcommit">#</a>
+</h2>
+<p>分支修改后，就可以提交commit了。</p>
+<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ git add --all
+</span></span><span style="display:flex;"><span>$ git status
+</span></span><span style="display:flex;"><span>$ git commit --verbose
+</span></span></code></pre></div></blockquote>
+<p>git add 命令的all参数，表示保存所有变化（包括新建、修改和删除）。从Git 2.0开始，all是 git add 的默认参数，所以也可以用 git add . 代替。</p>
+<p>git status 命令，用来查看发生变动的文件。</p>
+<p>git commit 命令的verbose参数，会列出 
+  <a href="http://www.ruanyifeng.com/blog/2012/08/how_to_read_diff.html">diff</a> 的结果。</p>
+<h2 id="第三步撰写提交信息">
+  第三步：撰写提交信息
+  <a class="anchor" href="#%e7%ac%ac%e4%b8%89%e6%ad%a5%e6%92%b0%e5%86%99%e6%8f%90%e4%ba%a4%e4%bf%a1%e6%81%af">#</a>
+</h2>
+<p>提交commit时，必须给出完整扼要的提交信息，下面是一个范本。</p>
+<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Present-tense summary under <span style="color:#ae81ff">50</span> characters
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>* More information about commit <span style="color:#f92672">(</span>under <span style="color:#ae81ff">72</span> characters<span style="color:#f92672">)</span>.
+</span></span><span style="display:flex;"><span>* More information about commit <span style="color:#f92672">(</span>under <span style="color:#ae81ff">72</span> characters<span style="color:#f92672">)</span>.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>http://project.management-system.com/ticket/123
+</span></span></code></pre></div></blockquote>
+<p>第一行是不超过50个字的提要，然后空一行，罗列出改动原因、主要变动、以及需要注意的问题。最后，提供对应的网址（比如Bug ticket）。</p>
+<h2 id="第四步与主干同步">
+  第四步：与主干同步
+  <a class="anchor" href="#%e7%ac%ac%e5%9b%9b%e6%ad%a5%e4%b8%8e%e4%b8%bb%e5%b9%b2%e5%90%8c%e6%ad%a5">#</a>
+</h2>
+<p>分支的开发过程中，要经常与主干保持同步。</p>
+<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ git fetch origin
+</span></span><span style="display:flex;"><span>$ git rebase origin/master
+</span></span></code></pre></div></blockquote>
+<h2 id="第五步合并commit">
+  第五步：合并commit
+  <a class="anchor" href="#%e7%ac%ac%e4%ba%94%e6%ad%a5%e5%90%88%e5%b9%b6commit">#</a>
+</h2>
+<p>分支开发完成后，很可能有一堆commit，但是合并到主干的时候，往往希望只有一个（或最多两三个）commit，这样不仅清晰，也容易管理。</p>
+<p>那么，怎样才能将多个commit合并呢？这就要用到 git rebase 命令。</p>
+<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ git rebase -i origin/master
+</span></span></code></pre></div></blockquote>
+<p>git rebase命令的i参数表示互动（interactive），这时git会打开一个互动界面，进行下一步操作。</p>
+<p>下面采用
+  <a href="https://robots.thoughtbot.com/git-interactive-rebase-squash-amend-rewriting-history">Tute Costa</a>的例子，来解释怎么合并commit。</p>
+<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pick 07c5abd Introduce OpenPGP and teach basic usage
+</span></span><span style="display:flex;"><span>pick de9b1eb Fix PostChecker::Post#urls
+</span></span><span style="display:flex;"><span>pick 3e7ee36 Hey kids, stop all the highlighting
+</span></span><span style="display:flex;"><span>pick fa20af3 git interactive rebase, squash, amend
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Rebase 8db7e8b..fa20af3 onto 8db7e8b</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Commands:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  p, pick = use commit</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  r, reword = use commit, but edit the commit message</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  e, edit = use commit, but stop for amending</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  s, squash = use commit, but meld into previous commit</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  f, fixup = like &#34;squash&#34;, but discard this commit&#39;s log message</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  x, exec = run command (the rest of the line) using shell</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># These lines can be re-ordered; they are executed from top to bottom.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># If you remove a line here THAT COMMIT WILL BE LOST.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># However, if you remove everything, the rebase will be aborted.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Note that empty commits are commented out</span>
+</span></span></code></pre></div></blockquote>
+<p>上面的互动界面，先列出当前分支最新的4个commit（越下面越新）。每个commit前面有一个操作命令，默认是pick，表示该行commit被选中，要进行rebase操作。</p>
+<p>4个commit的下面是一大堆注释，列出可以使用的命令。</p>
+<blockquote>
+<ul>
+<li>pick：正常选中</li>
+<li>reword：选中，并且修改提交信息；</li>
+<li>edit：选中，rebase时会暂停，允许你修改这个commit（参考
+  <a href="https://schacon.github.io/gitbook/4_interactive_rebasing.html">这里</a>）</li>
+<li>squash：选中，会将当前commit与上一个commit合并</li>
+<li>fixup：与squash相同，但不会保存当前commit的提交信息</li>
+<li>exec：执行其他shell命令</li>
+</ul>
+</blockquote>
+<p>上面这6个命令当中，squash和fixup可以用来合并commit。先把需要合并的commit前面的动词，改成squash（或者s）。</p>
+<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pick 07c5abd Introduce OpenPGP and teach basic usage
+</span></span><span style="display:flex;"><span>s de9b1eb Fix PostChecker::Post#urls
+</span></span><span style="display:flex;"><span>s 3e7ee36 Hey kids, stop all the highlighting
+</span></span><span style="display:flex;"><span>pick fa20af3 git interactive rebase, squash, amend
+</span></span></code></pre></div></blockquote>
+<p>这样一改，执行后，当前分支只会剩下两个commit。第二行和第三行的commit，都会合并到第一行的commit。提交信息会同时包含，这三个commit的提交信息。</p>
+<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># This is a combination of 3 commits.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># The first commit&#39;s message is:</span>
+</span></span><span style="display:flex;"><span>Introduce OpenPGP and teach basic usage
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># This is the 2nd commit message:</span>
+</span></span><span style="display:flex;"><span>Fix PostChecker::Post#urls
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># This is the 3rd commit message:</span>
+</span></span><span style="display:flex;"><span>Hey kids, stop all the highlighting
+</span></span></code></pre></div></blockquote>
+<p>如果将第三行的squash命令改成fixup命令。</p>
+<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pick 07c5abd Introduce OpenPGP and teach basic usage
+</span></span><span style="display:flex;"><span>s de9b1eb Fix PostChecker::Post#urls
+</span></span><span style="display:flex;"><span>f 3e7ee36 Hey kids, stop all the highlighting
+</span></span><span style="display:flex;"><span>pick fa20af3 git interactive rebase, squash, amend
+</span></span></code></pre></div></blockquote>
+<p>运行结果相同，还是会生成两个commit，第二行和第三行的commit，都合并到第一行的commit。但是，新的提交信息里面，第三行commit的提交信息，会被注释掉。</p>
+<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># This is a combination of 3 commits.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># The first commit&#39;s message is:</span>
+</span></span><span style="display:flex;"><span>Introduce OpenPGP and teach basic usage
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># This is the 2nd commit message:</span>
+</span></span><span style="display:flex;"><span>Fix PostChecker::Post#urls
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># This is the 3rd commit message:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Hey kids, stop all the highlighting</span>
+</span></span></code></pre></div></blockquote>
+<p>
+  <a href="http://ponyfoo.com/articles/git-github-hacks">Pony Foo</a>提出另外一种合并commit的简便方法，就是先撤销过去5个commit，然后再建一个新的。</p>
+<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ git reset HEAD~5
+</span></span><span style="display:flex;"><span>$ git add .
+</span></span><span style="display:flex;"><span>$ git commit -am <span style="color:#e6db74">&#34;Here&#39;s the bug fix that closes #28&#34;</span>
+</span></span><span style="display:flex;"><span>$ git push --force
+</span></span></code></pre></div></blockquote>
+<p>squash和fixup命令，还可以当作命令行参数使用，自动合并commit。</p>
+<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ git commit --fixup  
+</span></span><span style="display:flex;"><span>$ git rebase -i --autosquash 
+</span></span></code></pre></div></blockquote>
+<p>这个用法请参考
+  <a href="http://fle.github.io/git-tip-keep-your-branch-clean-with-fixup-and-autosquash.html">这篇文章</a>，这里就不解释了。</p>
+<h2 id="第六步推送到远程仓库">
+  第六步：推送到远程仓库
+  <a class="anchor" href="#%e7%ac%ac%e5%85%ad%e6%ad%a5%e6%8e%a8%e9%80%81%e5%88%b0%e8%bf%9c%e7%a8%8b%e4%bb%93%e5%ba%93">#</a>
+</h2>
+<p>合并commit后，就可以推送当前分支到远程仓库了。</p>
+<blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ git push --force origin myfeature
+</span></span></code></pre></div></blockquote>
+<p>git push命令要加上force参数，因为rebase以后，分支历史改变了，跟远程分支不一定兼容，有可能要强行推送（参见
+  <a href="http://willi.am/blog/2014/08/12/the-dark-side-of-the-force-push/">这里</a>）。</p>
+<h2 id="第七步发出pull-request">
+  第七步：发出Pull Request
+  <a class="anchor" href="#%e7%ac%ac%e4%b8%83%e6%ad%a5%e5%8f%91%e5%87%bapull-request">#</a>
+</h2>
+<p>提交到远程仓库以后，就可以发出 Pull Request 到master分支，然后请求别人进行代码review，确认可以合并到master。</p>
+<h1 id="个人总结">
+  个人总结
+  <a class="anchor" href="#%e4%b8%aa%e4%ba%ba%e6%80%bb%e7%bb%93">#</a>
+</h1>
+<p>1、修改的代码每次提交commit后，这个commit就像组装好的零件，在之后可以进行任意拼装或拆分</p>
+<p>2、大胆创建、修改分支，随意commit，不用关心冲突问题，所有的修改全部上传自己独有的临时分支，commit原则：一个功能、一个模块、一个子缺陷上传，不用在乎commit数量的多少，主要是为了之后回滚方便</p>
+<p>3、还有很多强大的高级功能需要慢慢探索，最好是遇到需求再去搜索能否用git实现</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/swifteen/swifteen.github.io/edit/main/exampleSite/content/docs/Linux%20World/%e5%b7%a5%e5%85%b7/Git/git%e5%9f%ba%e6%9c%ac%e4%bd%bf%e7%94%a8.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function e(n){const e=window.getSelection(),t=document.createRange();t.selectNodeContents(n),e.removeAllRanges(),e.addRange(t)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#版本说明">版本说明</a></li>
+    <li><a href="#git对比svn">Git对比SVN</a>
+      <ul>
+        <li><a href="#1小步提交互不干扰">1.小步提交，互不干扰</a></li>
+        <li><a href="#2打断开发在开发新功能过程中突然需要你去修复一个bug">2.打断开发：在开发新功能过程中，突然需要你去修复一个Bug</a></li>
+        <li><a href="#3git分支切换-指针移动svn分支切换-copy项目">3.Git分支切换-指针移动，SVN分支切换-Copy项目</a></li>
+        <li><a href="#4git-tag-指针标示svn-tag-copy项目">4.Git Tag-指针标示，SVN Tag-Copy项目</a></li>
+        <li><a href="#5两级提交">5.两级提交</a></li>
+        <li><a href="#6日志查看">6.日志查看</a></li>
+        <li><a href="#7安全">7.安全</a></li>
+      </ul>
+    </li>
+    <li><a href="#git工作流">Git工作流</a>
+      <ul>
+        <li><a href="#git-flow工作流程">git flow工作流程：</a></li>
+      </ul>
+    </li>
+    <li><a href="#git命令">Git命令</a>
+      <ul>
+        <li><a href="#git命令流程图">Git命令流程图</a></li>
+        <li><a href="#一新建代码库">一、新建代码库</a></li>
+        <li><a href="#二配置">二、配置</a></li>
+        <li><a href="#三增加删除文件">三、增加/删除文件</a></li>
+        <li><a href="#四代码提交">四、代码提交</a></li>
+        <li><a href="#五分支">五、分支</a></li>
+        <li><a href="#六标签">六、标签</a></li>
+        <li><a href="#七查看信息">七、查看信息</a></li>
+        <li><a href="#八远程同步">八、远程同步</a></li>
+        <li><a href="#九撤销">九、撤销</a></li>
+        <li><a href="#十其他">十、其他</a></li>
+      </ul>
+    </li>
+    <li><a href="#git-使用规范流程">Git 使用规范流程</a>
+      <ul>
+        <li><a href="#第一步新建分支">第一步：新建分支</a></li>
+        <li><a href="#第二步提交分支commit">第二步：提交分支commit</a></li>
+        <li><a href="#第三步撰写提交信息">第三步：撰写提交信息</a></li>
+        <li><a href="#第四步与主干同步">第四步：与主干同步</a></li>
+        <li><a href="#第五步合并commit">第五步：合并commit</a></li>
+        <li><a href="#第六步推送到远程仓库">第六步：推送到远程仓库</a></li>
+        <li><a href="#第七步发出pull-request">第七步：发出Pull Request</a></li>
+      </ul>
+    </li>
+    <li><a href="#个人总结">个人总结</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

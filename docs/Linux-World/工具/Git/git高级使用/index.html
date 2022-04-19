@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="版本说明 #   git基本使用    日期 版本 修改内容     2021/02/19 V0.3 创建      个人使用总结 #  Merge节点 #  Git有两种合并：一种是&quot;直进式合并&quot;（fast forward），不生成单独的合并节点；另一种是&quot;非直进式合并&quot;（none fast-forword），会生成单独节点。
+前者不利于保持commit信息的清晰，也不利于以后的回滚，建议总是采用后者（即使用--no-ff参数）。只要发生合并，就要有一个单独的合并节点。
+ push策略 #  不带任何参数的git push，默认只推送当前分支，这叫做simple方式。此外，还有一种matching方式，会推送所有有对应的远程分支的本地分支。Git 2.0版本之前，默认采用matching方法，现在改为默认采用simple方式。如果要修改这个设置，可以采用git config命令。
+$ git config --global push.default matching # 或者 $ git config --global push.default simple 解决merge 和 rebase 合并冲突 #  #merge 和 rebase 对于 ours 和 theirs 的定义是完全相反的。在 merge 时，ours 指代的是当前分支，theirs 代表需要被合并的分支。而在 rebase 过程中，ours 指向了修改参考分支，theirs 却是当前分支 git checkout --ours src/MyFile.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="git高级使用" />
+<meta property="og:description" content="版本说明 #   git基本使用    日期 版本 修改内容     2021/02/19 V0.3 创建      个人使用总结 #  Merge节点 #  Git有两种合并：一种是&quot;直进式合并&quot;（fast forward），不生成单独的合并节点；另一种是&quot;非直进式合并&quot;（none fast-forword），会生成单独节点。
+前者不利于保持commit信息的清晰，也不利于以后的回滚，建议总是采用后者（即使用--no-ff参数）。只要发生合并，就要有一个单独的合并节点。
+ push策略 #  不带任何参数的git push，默认只推送当前分支，这叫做simple方式。此外，还有一种matching方式，会推送所有有对应的远程分支的本地分支。Git 2.0版本之前，默认采用matching方法，现在改为默认采用simple方式。如果要修改这个设置，可以采用git config命令。
+$ git config --global push.default matching # 或者 $ git config --global push.default simple 解决merge 和 rebase 合并冲突 #  #merge 和 rebase 对于 ours 和 theirs 的定义是完全相反的。在 merge 时，ours 指代的是当前分支，theirs 代表需要被合并的分支。而在 rebase 过程中，ours 指向了修改参考分支，theirs 却是当前分支 git checkout --ours src/MyFile." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8/" /><meta property="article:section" content="docs" />
+
+
+
+<title>git高级使用 | Freedom Book</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.8af359f8b4ff91864838b7225239a34a4ca449e60ef99ab88e33c978c8685391.css" integrity="sha256-ivNZ&#43;LT/kYZIOLciUjmjSkykSeYO&#43;Zq4jjPJeMhoU5E=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.d45c0ffc37a24fca2ef007edb1d82d27449127aa5b68259acea105adc08ba9ea.js" integrity="sha256-1FwP/DeiT8ou8AftsdgtJ0SRJ6pbaCWazqEFrcCLqeo=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Freedom Book</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+  
+
+
+
+  
+    
+  
+    
+  
+
+
+
+<ul class="book-languages">
+  <li>
+    <input type="checkbox" id="languages" class="toggle" />
+    <label for="languages" class="flex justify-between">
+      <a role="button" class="flex align-center">
+        <img src="/svg/translate.svg" class="book-icon" alt="Languages" />
+        English
+      </a>
+    </label>
+
+    <ul>
+      
+      <li>
+        <a href="https://swifteen.github.io/ru/">
+          Russian
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://swifteen.github.io/zh/">
+          Chinese
+        </a>
+      </li>
+      
+    </ul>
+  </li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" class="">读书笔记</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="toggle"  />
+    <label for="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="flex justify-between">
+      <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/" class="">深入理解计算机系统</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/" class="">第一章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/4th-level/" class="">4th Level</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/" class="">5th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/6th-level/" class="">6th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/" class="">第二章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/" class="">7th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/12th-level/" class="">12th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/8th-level/" class="">8th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/" class="">工程实践</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/FalconMode/" class="">FalconMode模式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/BBB%E6%9D%BF%E4%BD%BF%E7%94%A8NFS%E6%8C%82%E8%BD%BD%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" class="">BBB板使用NFS挂载文件系统</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/" class="">工作总结</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">数据库</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF/" class="">日志模块实现思路</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/" class="">Linux World</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/" class="">工具</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="toggle" checked />
+    <label for="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Git常用配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" class="">git基本使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8/" class=" active">git高级使用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-d5b311234c6410083508e37cc63fc1b6" class="toggle"  />
+    <label for="section-d5b311234c6410083508e37cc63fc1b6" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/" class="">Vim</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/%E9%85%8D%E7%BD%AE/" class="">配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/" class="">常用 Linux命令</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4a2fe1f775a45aa533a141965b5ef749" class="toggle"  />
+    <label for="section-4a2fe1f775a45aa533a141965b5ef749" class="flex justify-between">
+      <a href="/docs/Linux-World/Raspberry/" class="">Raspberry</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Raspberry/%E5%B8%B8%E7%94%A8/" class="">常用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-23ec4bc7089b12961617b50da77ae792" class="toggle"  />
+    <label for="section-23ec4bc7089b12961617b50da77ae792" class="flex justify-between">
+      <a href="/docs/Linux-World/Ubuntu/" class="">Ubuntu</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%9B%AE%E5%BD%95%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE/" class="">目录共享配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%90%86%E5%92%8C%E8%AF%81%E4%B9%A6/" class="">系统代理和证书</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E5%85%B6%E5%AE%83/" class="">其它</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://github.com/swifteen/" target="_blank" rel="noopener">
+        Github
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://themes.gohugo.io/hugo-book/" target="_blank" rel="noopener">
+        Hugo Themes
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>git高级使用</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#版本说明">版本说明</a></li>
+    <li><a href="#个人使用总结">个人使用总结</a>
+      <ul>
+        <li><a href="#merge节点">Merge节点</a></li>
+        <li><a href="#push策略">push策略</a></li>
+        <li><a href="#解决merge-和-rebase-合并冲突">解决<strong>merge</strong> <strong>和</strong> <strong>rebase</strong> 合并冲突</a></li>
+        <li><a href="#cherry-pick使用">cherry-pick使用</a></li>
+        <li><a href="#打标记">打标记：</a></li>
+        <li><a href="#删除文件">删除文件</a></li>
+      </ul>
+    </li>
+    <li><a href="#pro-git总结">《pro git》总结</a></li>
+    <li><a href="#svn迁移到git">SVN迁移到Git</a></li>
+    <li><a href="#git其它用途">Git其它用途</a>
+      <ul>
+        <li><a href="#格式化代码">格式化代码</a></li>
+        <li><a href="#通过git-web提供的hook发送邮件">通过git-web提供的hook发送邮件</a></li>
+        <li><a href="#解决xls文件在git比较差异">解决xls文件在git比较差异</a></li>
+        <li><a href="#制作补丁包">制作补丁包</a></li>
+        <li><a href="#mantis-plugin集成未实现">mantis plugin集成（未实现）</a></li>
+        <li><a href="#使用git管理wiki未实现">使用Git管理WIKI（未实现）</a></li>
+        <li><a href="#ci和cd未实现">CI和CD（未实现）</a></li>
+      </ul>
+    </li>
+    <li><a href="#git生成patch">git生成patch</a></li>
+    <li><a href="#git批量修改author">git批量修改author</a></li>
+    <li><a href="#git验证机制更新">git验证机制更新</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="版本说明">
+  版本说明
+  <a class="anchor" href="#%e7%89%88%e6%9c%ac%e8%af%b4%e6%98%8e">#</a>
+</h1>
+<ul>
+<li>git基本使用
+<table>
+<thead>
+<tr>
+<th>日期</th>
+<th>版本</th>
+<th>修改内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021/02/19</td>
+<td>V0.3</td>
+<td>创建</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<h1 id="个人使用总结">
+  个人使用总结
+  <a class="anchor" href="#%e4%b8%aa%e4%ba%ba%e4%bd%bf%e7%94%a8%e6%80%bb%e7%bb%93">#</a>
+</h1>
+<h2 id="merge节点">
+  Merge节点
+  <a class="anchor" href="#merge%e8%8a%82%e7%82%b9">#</a>
+</h2>
+<p>Git有两种合并：一种是&quot;直进式合并&quot;（fast forward），不生成单独的合并节点；另一种是&quot;非直进式合并&quot;（none fast-forword），会生成单独节点。</p>
+<p>前者不利于保持commit信息的清晰，也不利于以后的回滚，建议总是采用后者（即使用<code>--no-ff</code>参数）。只要发生合并，就要有一个单独的合并节点。</p>
+<p>
+  <img src="http://www.ruanyifeng.com/blogimg/asset/201207/bg2012070505.png" alt="img" />
+  <img src="http://www.ruanyifeng.com/blogimg/asset/201207/bg2012070506.png" alt="img" /></p>
+<h2 id="push策略">
+  push策略
+  <a class="anchor" href="#push%e7%ad%96%e7%95%a5">#</a>
+</h2>
+<p>不带任何参数的<code>git push</code>，默认只推送当前分支，这叫做simple方式。此外，还有一种matching方式，会推送所有有对应的远程分支的本地分支。Git 2.0版本之前，默认采用matching方法，现在改为默认采用simple方式。如果要修改这个设置，可以采用<code>git config</code>命令。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ git config --global push.default matching
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 或者</span>
+</span></span><span style="display:flex;"><span>$ git config --global push.default simple
+</span></span></code></pre></div><h2 id="解决merge-和-rebase-合并冲突">
+  解决<strong>merge</strong> <strong>和</strong> <strong>rebase</strong> 合并冲突
+  <a class="anchor" href="#%e8%a7%a3%e5%86%b3merge-%e5%92%8c-rebase-%e5%90%88%e5%b9%b6%e5%86%b2%e7%aa%81">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#merge 和 rebase 对于 ours 和 theirs 的定义是完全相反的。在 merge 时，ours 指代的是当前分支，theirs 代表需要被合并的分支。而在 rebase 过程中，ours 指向了修改参考分支，theirs 却是当前分支</span>
+</span></span><span style="display:flex;"><span>git checkout --ours src/MyFile.cs.
+</span></span><span style="display:flex;"><span>git checkout --theirs src/MyFile.cs
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>git checkout HEAD -- src/MyFile.cs
+</span></span><span style="display:flex;"><span>git checkout my_branch -- src/MyFile.cs
+</span></span><span style="display:flex;"><span>git checkout 6a363d8 -- src/MyFile.cs
+</span></span></code></pre></div><blockquote>
+<p>revert 、rebase  、cherry-pick后面都可以跟  &ndash;continue  &ndash;skip &ndash;abort</p>
+</blockquote>
+<h2 id="cherry-pick使用">
+  cherry-pick使用
+  <a class="anchor" href="#cherry-pick%e4%bd%bf%e7%94%a8">#</a>
+</h2>
+<p>cherry-pick (somebody/something) to choose the best people or things from a group and leave those that are not so good</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#62ecb3为分支上的commit</span>
+</span></span><span style="display:flex;"><span>git cherry-pick 62ecb3
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#合并多个commit</span>
+</span></span><span style="display:flex;"><span>git cherry-pick A B C D E F
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#会把从从版本A（不包含）到B（包含）即（A，B]的版本pull到当前分支</span>
+</span></span><span style="display:flex;"><span>git cherry-pick A..B
+</span></span><span style="display:flex;"><span>git cherry-pick A..B C..D E..F
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>git cherry-pick --continue
+</span></span><span style="display:flex;"><span>git cherry-pick --quit
+</span></span><span style="display:flex;"><span>git cherry-pick --abort
+</span></span></code></pre></div><h2 id="打标记">
+  打标记：
+  <a class="anchor" href="#%e6%89%93%e6%a0%87%e8%ae%b0">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#默认给当前分支的HEAD打标记</span>
+</span></span><span style="display:flex;"><span>git tag -a v1.0.23.39 -m <span style="color:#e6db74">&#34;release:v1.0.1&#34;</span> 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#给指定分支的HEAD打标记</span>
+</span></span><span style="display:flex;"><span>git tag -a v1.0.23.39 -m <span style="color:#e6db74">&#34;release:v1.0.1&#34;</span> dev_new_feature
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#给指定的commit_id打标记</span>
+</span></span><span style="display:flex;"><span>git tag -a v1.0.23.39 -m <span style="color:#e6db74">&#34;release:v1.0.1&#34;</span> a2701a9  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#上传标记 git push origin tag_name,例如：</span>
+</span></span><span style="display:flex;"><span>git push origin  v1.0.1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#上传所有标记</span>
+</span></span><span style="display:flex;"><span>git push origin --tags
+</span></span></code></pre></div><h2 id="删除文件">
+  删除文件
+  <a class="anchor" href="#%e5%88%a0%e9%99%a4%e6%96%87%e4%bb%b6">#</a>
+</h2>
+<p>配合.gitignore文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#删除 untracked files</span>
+</span></span><span style="display:flex;"><span> git clean -f 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#连 untracked 的目录也一起删掉</span>
+</span></span><span style="display:flex;"><span> git clean -fd 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#连 gitignore 的untrack 文件/目录也一起删掉 （慎用，一般这个是用来删掉编译出来的 .o之类的文件用的）</span>
+</span></span><span style="display:flex;"><span> git clean -xfd 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#在用上述 git clean 前，墙裂建议加上 -n 参数来先看看会删掉哪些文件，防止重要文件被误删</span>
+</span></span><span style="display:flex;"><span> git clean -nxfd
+</span></span><span style="display:flex;"><span> git clean -nf
+</span></span><span style="display:flex;"><span> git clean -nfd
+</span></span></code></pre></div><h1 id="pro-git总结">
+  《pro git》总结
+  <a class="anchor" href="#pro-git%e6%80%bb%e7%bb%93">#</a>
+</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#查看已经暂存起来的变化</span>
+</span></span><span style="display:flex;"><span>git diff --cached 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#重新提交，合并到上一次提交</span>
+</span></span><span style="display:flex;"><span>git commit –amend
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#如果要一次推送所有本地新增的标签上去，可以使用 --tags 选项</span>
+</span></span><span style="display:flex;"><span>git push origin --tags
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#若要查看各个分支最后一个提交对象的信息，运行</span>
+</span></span><span style="display:flex;"><span>git branch -v
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#查看哪些分支已被并入当前分支</span>
+</span></span><span style="display:flex;"><span>git branch –merged
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#查看尚未合并的工作</span>
+</span></span><span style="display:flex;"><span>git branch --no-merged 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#查看master到contrib之间的所有差异提交</span>
+</span></span><span style="display:flex;"><span>git diff master...contrib
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#在 git log 后加 -p 选项将展示每次提交的内容差异。</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#查看简报</span>
+</span></span><span style="display:flex;"><span>git shortlog --no-merges master --not v1.0.1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#如果你想查找所有从refA 或refB 包含的但是不被refC 包含的提交</span>
+</span></span><span style="display:flex;"><span>git log refA refB ^refC
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#提交时将差异分块添加</span>
+</span></span><span style="display:flex;"><span>git add -p 或者git add –patch
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#储藏（Stashing）</span>
+</span></span><span style="display:flex;"><span>git stash
+</span></span><span style="display:flex;"><span>git stash list
+</span></span><span style="display:flex;"><span>git stash apply stash@<span style="color:#f92672">{</span>2<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>git stash apply --index
+</span></span><span style="display:flex;"><span>git stash pop
+</span></span><span style="display:flex;"><span>git stash clear
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#查看历史提交记录，被删除后不在分支上的commit也能在这里找到</span>
+</span></span><span style="display:flex;"><span>git reflog
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#垃圾回收</span>
+</span></span><span style="display:flex;"><span>git fsck --full
+</span></span></code></pre></div><h1 id="svn迁移到git">
+  SVN迁移到Git
+  <a class="anchor" href="#svn%e8%bf%81%e7%a7%bb%e5%88%b0git">#</a>
+</h1>
+<p>
+  <a href="https://blog.axosoft.com/migrating-git-svn/">https://blog.axosoft.com/migrating-git-svn/</a></p>
+<p>
+  <a href="https://git-scm.com/book/en/v2/Git-and-Other-Systems-Migrating-to-Git">https://git-scm.com/book/en/v2/Git-and-Other-Systems-Migrating-to-Git</a></p>
+<p>安装工具</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo apt-get install git-svn
+</span></span></code></pre></div><h1 id="git其它用途">
+  Git其它用途
+  <a class="anchor" href="#git%e5%85%b6%e5%ae%83%e7%94%a8%e9%80%94">#</a>
+</h1>
+<h2 id="格式化代码">
+  格式化代码
+  <a class="anchor" href="#%e6%a0%bc%e5%bc%8f%e5%8c%96%e4%bb%a3%e7%a0%81">#</a>
+</h2>
+<p>
+  <a href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks">https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks</a></p>
+<p>使用了git提供的hook     <strong>pre-commit</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>array<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>git diff-index --name-only HEAD<span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> name in <span style="color:#e6db74">${</span>array<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>    extension<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>name##*.<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> <span style="color:#e6db74">${</span>extension<span style="color:#e6db74">}</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;h&#34;</span> <span style="color:#f92672">||</span> <span style="color:#e6db74">${</span>extension<span style="color:#e6db74">}</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;cpp&#34;</span> <span style="color:#f92672">||</span> <span style="color:#e6db74">${</span>extension<span style="color:#e6db74">}</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;c&#34;</span> <span style="color:#f92672">]]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#        echo &#34;###astyle###&#34;$name</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> -f <span style="color:#e6db74">${</span>name<span style="color:#e6db74">}</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#去掉window下的^M</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#        fromdos ${name}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#去掉文件头中的BOM标记</span>
+</span></span><span style="display:flex;"><span>                sed -i <span style="color:#e6db74">&#39;1s/^\xEF\xBB\xBF//&#39;</span> <span style="color:#e6db74">${</span>name<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#格式化代码</span>
+</span></span><span style="display:flex;"><span>                astyle --style<span style="color:#f92672">=</span>ansi -s4 -S -N -L -m0 -M40 -f -U -k1 -W1  -j -xL -n <span style="color:#e6db74">${</span>name<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>        git add <span style="color:#e6db74">${</span>name<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span></code></pre></div><p>创建提交hook软链接文件
+chmod +x pre-commit.sh
+cd .git/hooks/
+ln -s ../../pre-commit.sh pre-commit</p>
+<h2 id="通过git-web提供的hook发送邮件">
+  通过git-web提供的hook发送邮件
+  <a class="anchor" href="#%e9%80%9a%e8%bf%87git-web%e6%8f%90%e4%be%9b%e7%9a%84hook%e5%8f%91%e9%80%81%e9%82%ae%e4%bb%b6">#</a>
+</h2>
+<p>原理：</p>
+<p>1、当有push event时就触发web hook，发送事件信息到指定的服务端</p>
+<p>2、服务端接收到事件，解析事件，构造html页</p>
+<p>3、使用smtp将html以邮件发送</p>
+<p>
+  <img src="C:%5cUsers%5cAdministrator%5cAppData%5cRoaming%5cTypora%5ctypora-user-images%5cimage-20201123090440864.png" alt="image-20201123090440864" /></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>root<span style="color:#f92672">@</span><span style="color:#ae81ff">7</span>f438265e3c9:<span style="color:#f92672">/</span>home<span style="color:#f92672">/</span>root<span style="color:#75715e"># cat web_hook_server.py </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#-*- coding:utf-8 -*-</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> BaseHTTPServer
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> SocketServer
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> CGIHTTPServer 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> logging
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> json
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> urllib
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> urlparse
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> urlparse <span style="color:#f92672">import</span> unquote
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> send_notify
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RequestHandler</span>(BaseHTTPServer<span style="color:#f92672">.</span>BaseHTTPRequestHandler):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;处理请求并返回页面&#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">do_POST</span>(self):
+</span></span><span style="display:flex;"><span>        logging<span style="color:#f92672">.</span>debug(<span style="color:#e6db74">&#39;POST </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> (self<span style="color:#f92672">.</span>path))
+</span></span><span style="display:flex;"><span>        print( <span style="color:#e6db74">&#34;incomming http: &#34;</span>, self<span style="color:#f92672">.</span>path )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        content_length <span style="color:#f92672">=</span> int(self<span style="color:#f92672">.</span>headers[<span style="color:#e6db74">&#39;Content-Length&#39;</span>]) <span style="color:#75715e"># &lt;--- Gets the size of data</span>
+</span></span><span style="display:flex;"><span>        post_data <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>rfile<span style="color:#f92672">.</span>read(content_length) <span style="color:#75715e"># &lt;--- Gets the data itself</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#将URL编码方式的字符转换为普通字符串</span>
+</span></span><span style="display:flex;"><span>        js_str <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>unquote(post_data[<span style="color:#ae81ff">8</span>:])
+</span></span><span style="display:flex;"><span>        send_notify<span style="color:#f92672">.</span>sendNotify(js_str)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>send_response(<span style="color:#ae81ff">200</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+</span></span><span style="display:flex;"><span>    serverAddress <span style="color:#f92672">=</span> (<span style="color:#e6db74">&#39;&#39;</span>, <span style="color:#ae81ff">5410</span>)
+</span></span><span style="display:flex;"><span>    SocketServer<span style="color:#f92672">.</span>TCPServer<span style="color:#f92672">.</span>allow_reuse_address <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span>    server <span style="color:#f92672">=</span> SocketServer<span style="color:#f92672">.</span>TCPServer(serverAddress, RequestHandler)
+</span></span><span style="display:flex;"><span>    server<span style="color:#f92672">.</span>serve_forever()
+</span></span></code></pre></div><h2 id="解决xls文件在git比较差异">
+  解决xls文件在git比较差异
+  <a class="anchor" href="#%e8%a7%a3%e5%86%b3xls%e6%96%87%e4%bb%b6%e5%9c%a8git%e6%af%94%e8%be%83%e5%b7%ae%e5%bc%82">#</a>
+</h2>
+<p>
+  <a href="https://stackoverflow.com/questions/17083502/how-to-perform-better-document-version-control-on-excel-files-and-sql-schema-fil">https://stackoverflow.com/questions/17083502/how-to-perform-better-document-version-control-on-excel-files-and-sql-schema-fil</a></p>
+<p>
+  <a href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes#Binary-Files">https://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes#Binary-Files</a></p>
+<p>
+  <a href="https://gitlab.inria.fr/sgilles/homepage/-/wikis/enable-diffing-of-excel-files-with-git">https://gitlab.inria.fr/sgilles/homepage/-/wikis/enable-diffing-of-excel-files-with-git</a></p>
+<p>通过指定不同格式的文件读取工具，将工具的输出进行对比</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># -*- coding: utf-8 -*-  </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env python</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>import sys
+</span></span><span style="display:flex;"><span>from mmap import mmap,ACCESS_READ
+</span></span><span style="display:flex;"><span>from xlrd import open_workbook <span style="color:#75715e"># http://www.python-excel.org/</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使得 sys.getdefaultencoding() 的值为 &#39;utf-8&#39;  </span>
+</span></span><span style="display:flex;"><span>reload<span style="color:#f92672">(</span>sys<span style="color:#f92672">)</span>                      <span style="color:#75715e"># reload 才能调用 setdefaultencoding 方法  </span>
+</span></span><span style="display:flex;"><span>sys.setdefaultencoding<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;utf-8&#39;</span><span style="color:#f92672">)</span>  <span style="color:#75715e"># 设置 &#39;utf-8&#39; </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>file_name<span style="color:#f92672">=</span>sys.argv<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>wb <span style="color:#f92672">=</span> open_workbook<span style="color:#f92672">(</span>file_name<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>s <span style="color:#f92672">=</span> wb.sheets<span style="color:#f92672">()[</span>0<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>r_count <span style="color:#f92672">=</span> s.nrows
+</span></span><span style="display:flex;"><span>c_count <span style="color:#f92672">=</span> s.ncols
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> row in range<span style="color:#f92672">(</span>r_count<span style="color:#f92672">)</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> col in range<span style="color:#f92672">(</span>c_count<span style="color:#f92672">)</span>:
+</span></span><span style="display:flex;"><span>        print <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;row[%4d],col[%4d],value[%s]&#34;</span> % <span style="color:#f92672">(</span>row,col,s.cell<span style="color:#f92672">(</span>row, col<span style="color:#f92672">)</span>.value<span style="color:#f92672">))</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>    sys.stdout.write<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;\n&#39;</span><span style="color:#f92672">)</span>
+</span></span></code></pre></div><h2 id="制作补丁包">
+  制作补丁包
+  <a class="anchor" href="#%e5%88%b6%e4%bd%9c%e8%a1%a5%e4%b8%81%e5%8c%85">#</a>
+</h2>
+<p>将发布的二进制包用git管理之后，可以用git命令导出，两个版本之前的删除、新增和修改文件列表</p>
+<p>git diff</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>--name-status
+</span></span><span style="display:flex;"><span>Show only names and status of changed files. See the description of the --diff-filter option on what the status letters mean.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>--diff-filter<span style="color:#f92672">=[(</span>A|C|D|M|R|T|U|X|B<span style="color:#f92672">)</span>…<span style="color:#f92672">[</span>*<span style="color:#f92672">]]</span>
+</span></span><span style="display:flex;"><span>Select only files that are Added <span style="color:#f92672">(</span>A<span style="color:#f92672">)</span>, Copied <span style="color:#f92672">(</span>C<span style="color:#f92672">)</span>, Deleted <span style="color:#f92672">(</span>D<span style="color:#f92672">)</span>, Modified <span style="color:#f92672">(</span>M<span style="color:#f92672">)</span>, Renamed <span style="color:#f92672">(</span>R<span style="color:#f92672">)</span>, have their type <span style="color:#f92672">(</span>i.e. regular file, symlink, submodule, …<span style="color:#f92672">)</span> changed <span style="color:#f92672">(</span>T<span style="color:#f92672">)</span>, are Unmerged <span style="color:#f92672">(</span>U<span style="color:#f92672">)</span>, are Unknown <span style="color:#f92672">(</span>X<span style="color:#f92672">)</span>, or have had their pairing Broken <span style="color:#f92672">(</span>B<span style="color:#f92672">)</span>. Any combination of the filter characters <span style="color:#f92672">(</span>including none<span style="color:#f92672">)</span> can be used. When * <span style="color:#f92672">(</span>All-or-none<span style="color:#f92672">)</span> is added to the combination, all paths are selected <span style="color:#66d9ef">if</span> there is any file that matches other criteria in the comparison; <span style="color:#66d9ef">if</span> there is no file that matches other criteria, nothing is selected.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Also, these upper-case letters can be downcased to exclude. E.g. --diff-filter<span style="color:#f92672">=</span>ad excludes added and deleted paths.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Note that not all diffs can feature all types. For instance, diffs from the index to the working tree can never have Added entries <span style="color:#f92672">(</span>because the set of paths included in the diff is limited by what is in the index<span style="color:#f92672">)</span>. Similarly, copied and renamed entries cannot appear <span style="color:#66d9ef">if</span> detection <span style="color:#66d9ef">for</span> those types is disabled.
+</span></span></code></pre></div><p>获取删除文件列表</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git diff --diff-filter<span style="color:#f92672">=</span>D  --name-only 05e0ccf fd48e04  opt/
+</span></span></code></pre></div><p>获取新增和修改文件列表，并拷贝到输出目录output_dir</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git diff old_commit new_commit  --diff-filter<span style="color:#f92672">=</span>AM --name-only |xargs -t  -i<span style="color:#f92672">{}</span> cp --parents -d <span style="color:#f92672">{}</span> output_dir
+</span></span></code></pre></div><p>cp选项说明</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>--parents     use full source file name under DIRECTORY
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#copies the file a/b/c to existing_dir/a/b/c, creating any missing intermediate directories.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#即，当被复制的源文件路径包含子目录名，--parent 选项会在目标目录下自动创建不存在的子目录。目标目录本身必须已经存在。</span>
+</span></span><span style="display:flex;"><span>cp --parents a/b/c existing_dir
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>-d     same as --no-dereference --preserve<span style="color:#f92672">=</span>links
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#当拷贝软链接时，如果不添加-d选项，则会拷贝软链接对应的文件，加了-d选项后，则直接拷贝这个软链接</span>
+</span></span></code></pre></div><h2 id="mantis-plugin集成未实现">
+  mantis plugin集成（未实现）
+  <a class="anchor" href="#mantis-plugin%e9%9b%86%e6%88%90%e6%9c%aa%e5%ae%9e%e7%8e%b0">#</a>
+</h2>
+<p>作用：</p>
+<p>开发人员执行commit时，当日志信息中包含Fix #xxxx等信息时，mantis中对应的缺陷会自动修改状态为已修正，已解决，并将日志信息添加到mantis中。减少了开发人员工作量，方便缺陷与代码的跟踪</p>
+<p>
+  <a href="https://github.com/mantisbt-plugins/source-integration/blob/master/SourceGitlab/README.md">https://github.com/mantisbt-plugins/source-integration/blob/master/SourceGitlab/README.md</a></p>
+<p>
+  <a href="https://noswap.com/blog/integrating-git-svn-with-mantisbt">https://noswap.com/blog/integrating-git-svn-with-mantisbt</a></p>
+<p>
+  <img src="https://noswap.com/blog/files/2009/01/si-regexes.png" alt="si-regexes.png (760×119)" /></p>
+<p>
+  <img src="https://noswap.com/blog/files/2009/01/si-related.png" alt="si-related.png (1005×228)" /></p>
+<p>
+  <img src="https://noswap.com/blog/files/2009/01/si-browse.png" alt="si-browse.png (1006×269)" /></p>
+<h2 id="使用git管理wiki未实现">
+  使用Git管理WIKI（未实现）
+  <a class="anchor" href="#%e4%bd%bf%e7%94%a8git%e7%ae%a1%e7%90%86wiki%e6%9c%aa%e5%ae%9e%e7%8e%b0">#</a>
+</h2>
+<p>gollum &ndash; A git-based Wikihttps://github.com/gollum/gollum</p>
+<p>gitlab集成了gollum工具</p>
+<p>作用：记录项目迭代中的所有文档，集中管理</p>
+<h2 id="ci和cd未实现">
+  CI和CD（未实现）
+  <a class="anchor" href="#ci%e5%92%8ccd%e6%9c%aa%e5%ae%9e%e7%8e%b0">#</a>
+</h2>
+<p>CI 持续集成（Continuous Integration）</p>
+<p>CD 持续交付（Continuous Delivery）</p>
+<p>CD 持续部署（Continuous Deployment）</p>
+<p>
+  <a href="https://www.redhat.com/zh/topics/devops/what-is-ci-cd">https://www.redhat.com/zh/topics/devops/what-is-ci-cd</a></p>
+<p>
+  <img src="/images/git%e5%b7%a5%e5%85%b7/ci-cd-flow-desktop_1.png" alt="ci-cd-flow-desktop_1" /></p>
+<p>对于iMAC项目的应用场景：</p>
+<p>实现代码提交后，执行编译、打包、FTP上传发布</p>
+<h1 id="git生成patch">
+  git生成patch
+  <a class="anchor" href="#git%e7%94%9f%e6%88%90patch">#</a>
+</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>3B-pi@raspberrypi:~/Public/Qin-master/patch $ git lg
+</span></span><span style="display:flex;"><span>* 92770dd - <span style="color:#f92672">(</span>HEAD -&gt; master, origin/master<span style="color:#f92672">)</span> style:change handle_Default<span style="color:#f92672">(</span>int keyId<span style="color:#f92672">)</span> to handle_Default<span style="color:#f92672">(</span>int unicode, int keyId<span style="color:#f92672">)</span> <span style="color:#f92672">=</span>&gt; QinIMTables.h <span style="color:#f92672">(</span><span style="color:#ae81ff">9</span> hours ago<span style="color:#f92672">)</span> &lt;author2&gt;
+</span></span><span style="display:flex;"><span>* c8a0e5a - style:格式化代码 <span style="color:#f92672">(</span><span style="color:#ae81ff">10</span> hours ago<span style="color:#f92672">)</span> &lt;author1&gt;
+</span></span><span style="display:flex;"><span>* f281c86 - fix:完善五笔和仓颉的翻页功能 <span style="color:#f92672">(</span><span style="color:#ae81ff">10</span> hours ago<span style="color:#f92672">)</span> &lt;author2&gt;
+</span></span><span style="display:flex;"><span>* 5e8aecf - style:删除无用文件 <span style="color:#f92672">(</span><span style="color:#ae81ff">10</span> hours ago<span style="color:#f92672">)</span> &lt;author2&gt;
+</span></span><span style="display:flex;"><span>* b807285 - feat: 增加仓颉和五笔输入法 <span style="color:#f92672">(</span><span style="color:#ae81ff">10</span> hours ago<span style="color:#f92672">)</span> &lt;author2&gt;
+</span></span><span style="display:flex;"><span>* 09d81b2 - style:将TableIM<span style="color:#f92672">(</span>无虾米<span style="color:#f92672">)</span>从IMBase中分离出来 <span style="color:#f92672">(</span><span style="color:#ae81ff">10</span> hours ago<span style="color:#f92672">)</span> &lt;author2&gt;
+</span></span><span style="display:flex;"><span>* 05657a6 - fix:shift三种状态的转换 <span style="color:#f92672">(</span><span style="color:#ae81ff">10</span> hours ago<span style="color:#f92672">)</span> &lt;author2&gt;
+</span></span><span style="display:flex;"><span>* 1ddf8ed - feat:谷歌拼音输入法实现用户自定义造词逻辑 <span style="color:#f92672">(</span><span style="color:#ae81ff">11</span> hours ago<span style="color:#f92672">)</span> &lt;author1&gt;
+</span></span><span style="display:flex;"><span>* a94fece - feat:谷歌拼音完成选择候选词上屏 <span style="color:#f92672">(</span><span style="color:#ae81ff">14</span> hours ago<span style="color:#f92672">)</span> &lt;author1&gt;
+</span></span><span style="display:flex;"><span>* ff34572 - feat:谷歌拼音增加候选词翻页 <span style="color:#f92672">(</span><span style="color:#ae81ff">14</span> hours ago<span style="color:#f92672">)</span> &lt;author1&gt;
+</span></span><span style="display:flex;"><span>* 1fdcf02 - fix:修改UI文件中指定的字母按键键值 <span style="color:#f92672">(</span><span style="color:#ae81ff">32</span> hours ago<span style="color:#f92672">)</span> &lt;author1&gt;
+</span></span><span style="display:flex;"><span>* 3c86422 - fix:完善谷歌拼音输入法 <span style="color:#f92672">(</span><span style="color:#ae81ff">32</span> hours ago<span style="color:#f92672">)</span> &lt;author1&gt;
+</span></span><span style="display:flex;"><span>* d710041 - feat:候选增加左右按钮完成翻页功能 <span style="color:#f92672">(</span><span style="color:#ae81ff">7</span> days ago<span style="color:#f92672">)</span> &lt;author2&gt;
+</span></span><span style="display:flex;"><span>* cadc079 - feat:增加长按连续输入，长按连续删除。设置setAutoRepeat<span style="color:#f92672">(</span>true<span style="color:#f92672">)</span>属性 <span style="color:#f92672">(</span><span style="color:#ae81ff">7</span> days ago<span style="color:#f92672">)</span> &lt;author2&gt;
+</span></span><span style="display:flex;"><span>* b633021 - fix:符号|和<span style="color:#ae81ff">\，</span><span style="color:#f92672">=</span>和+切换显示有问题 符号&amp;不能显示 <span style="color:#f92672">(</span><span style="color:#ae81ff">7</span> days ago<span style="color:#f92672">)</span> &lt;author2&gt;
+</span></span><span style="display:flex;"><span>* <span style="color:#ae81ff">1940107</span> - feat:添加谷歌拼音核心代码 <span style="color:#f92672">(</span><span style="color:#ae81ff">8</span> days ago<span style="color:#f92672">)</span> &lt;author1&gt;
+</span></span><span style="display:flex;"><span>* 9ae1441 - chore:整理开源依赖库目录，添加谷歌拼音输入法 <span style="color:#f92672">(</span><span style="color:#ae81ff">8</span> days ago<span style="color:#f92672">)</span> &lt;author1&gt;
+</span></span><span style="display:flex;"><span>* d17947c - feat:增加数字符号切换按钮 <span style="color:#f92672">(</span><span style="color:#ae81ff">3</span> weeks ago<span style="color:#f92672">)</span> &lt;author1&gt;
+</span></span><span style="display:flex;"><span>* 646a407 - fix:解决英文输入下，按空格无效 <span style="color:#f92672">(</span><span style="color:#ae81ff">3</span> weeks ago<span style="color:#f92672">)</span> &lt;author1&gt;
+</span></span><span style="display:flex;"><span>* b588a3b - feat:左右shift按钮状态关联，准备添加左右翻页按钮 <span style="color:#f92672">(</span><span style="color:#ae81ff">3</span> weeks ago<span style="color:#f92672">)</span> &lt;author1&gt;
+</span></span><span style="display:flex;"><span>* 9644ac2 - feat:在虚拟键盘布局中增加虚拟键盘关闭按钮 <span style="color:#f92672">(</span><span style="color:#ae81ff">4</span> weeks ago<span style="color:#f92672">)</span> &lt;author1&gt;
+</span></span><span style="display:flex;"><span>* 3b97463 - <span style="color:#f92672">(</span>dev_init<span style="color:#f92672">)</span> init <span style="color:#f92672">(</span><span style="color:#ae81ff">4</span> weeks ago<span style="color:#f92672">)</span> &lt;author1&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#生成区间范围的补丁</span>
+</span></span><span style="display:flex;"><span>git format-patch 3b97463..92770dd
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#结果如下</span>
+</span></span><span style="display:flex;"><span>3B-pi@raspberrypi:~/Public/Qin-master/patch $ ls -lth
+</span></span><span style="display:flex;"><span>total 20M
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> pi pi 1.3K Feb <span style="color:#ae81ff">18</span> 00:08 0021-style-change-handle_Default-int-keyId-to-handle_Defa.patch
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> pi pi 163K Feb <span style="color:#ae81ff">18</span> 00:08 0020-style.patch
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> pi pi  32K Feb <span style="color:#ae81ff">18</span> 00:08 0019-fix.patch
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> pi pi 5.1M Feb <span style="color:#ae81ff">18</span> 00:08 0018-style.patch
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> pi pi  13M Feb <span style="color:#ae81ff">18</span> 00:08 0017-feat.patch
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> pi pi  11K Feb <span style="color:#ae81ff">18</span> 00:08 0016-style-TableIM-IMBase.patch
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> pi pi 7.6K Feb <span style="color:#ae81ff">18</span> 00:08 0015-fix-shift.patch
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> pi pi 9.2K Feb <span style="color:#ae81ff">18</span> 00:08 0014-feat.patch
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> pi pi 2.7K Feb <span style="color:#ae81ff">18</span> 00:08 0013-feat.patch
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> pi pi  14K Feb <span style="color:#ae81ff">18</span> 00:08 0012-feat.patch
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> pi pi  20K Feb <span style="color:#ae81ff">18</span> 00:08 0011-fix-UI.patch
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> pi pi 7.7K Feb <span style="color:#ae81ff">18</span> 00:08 0010-fix.patch
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> pi pi  14K Feb <span style="color:#ae81ff">18</span> 00:08 0008-feat-setAutoRepeat-true.patch
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> pi pi 5.6K Feb <span style="color:#ae81ff">18</span> 00:08 0009-feat.patch
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> pi pi 4.0K Feb <span style="color:#ae81ff">18</span> 00:08 0007-fix.patch
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> pi pi  11K Feb <span style="color:#ae81ff">18</span> 00:08 0006-feat.patch
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> pi pi 1.4M Feb <span style="color:#ae81ff">18</span> 00:08 0005-chore.patch
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> pi pi  16K Feb <span style="color:#ae81ff">18</span> 00:08 0004-feat.patch
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> pi pi 4.5K Feb <span style="color:#ae81ff">18</span> 00:08 0003-fix.patch
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> pi pi 8.0K Feb <span style="color:#ae81ff">18</span> 00:08 0002-feat-shift.patch
+</span></span><span style="display:flex;"><span>-rw-r--r-- <span style="color:#ae81ff">1</span> pi pi 7.0K Feb <span style="color:#ae81ff">18</span> 00:08 0001-feat.patch
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#应用补丁</span>
+</span></span><span style="display:flex;"><span>git am ~/Public/Qin-master/patch/*.patch
+</span></span></code></pre></div><h1 id="git批量修改author">
+  git批量修改author
+  <a class="anchor" href="#git%e6%89%b9%e9%87%8f%e4%bf%ae%e6%94%b9author">#</a>
+</h1>
+<p>参考 
+  <a href="https://www.git-tower.com/learn/git/faq/change-author-name-email">https://www.git-tower.com/learn/git/faq/change-author-name-email</a></p>
+<ul>
+<li>
+<p>Run the following script from terminal after changing the variable values</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/sh
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>git filter-branch --env-filter <span style="color:#e6db74">&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">OLD_EMAIL=&#34;your-old-email@example.com&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">CORRECT_NAME=&#34;Your Correct Name&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">CORRECT_EMAIL=&#34;your-correct-email@example.com&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">if [ &#34;$GIT_COMMITTER_EMAIL&#34; = &#34;$OLD_EMAIL&#34; ]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">then
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    export GIT_COMMITTER_NAME=&#34;$CORRECT_NAME&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    export GIT_COMMITTER_EMAIL=&#34;$CORRECT_EMAIL&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">fi
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">if [ &#34;$GIT_AUTHOR_EMAIL&#34; = &#34;$OLD_EMAIL&#34; ]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">then
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    export GIT_AUTHOR_NAME=&#34;$CORRECT_NAME&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    export GIT_AUTHOR_EMAIL=&#34;$CORRECT_EMAIL&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">fi
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;</span> --tag-name-filter cat -- --branches --tags
+</span></span></code></pre></div></li>
+<li>
+<p>Push the corrected history to GitHub:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git push --force --tags origin <span style="color:#e6db74">&#39;refs/heads/*&#39;</span>
+</span></span></code></pre></div></li>
+</ul>
+<p>OR if you like to push selected references of the branches then use</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git push --force --tags origin <span style="color:#e6db74">&#39;refs/heads/develop&#39;</span>
+</span></span></code></pre></div><h1 id="git验证机制更新">
+  git验证机制更新
+  <a class="anchor" href="#git%e9%aa%8c%e8%af%81%e6%9c%ba%e5%88%b6%e6%9b%b4%e6%96%b0">#</a>
+</h1>
+<p>
+  <a href="https://www.bswen.com/2021/09/others-how-to-solve-github-issue1.html">https://www.bswen.com/2021/09/others-how-to-solve-github-issue1.html</a></p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/swifteen/swifteen.github.io/edit/main/exampleSite/content/docs/Linux%20World/%e5%b7%a5%e5%85%b7/Git/git%e9%ab%98%e7%ba%a7%e4%bd%bf%e7%94%a8.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function e(n){const e=window.getSelection(),t=document.createRange();t.selectNodeContents(n),e.removeAllRanges(),e.addRange(t)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#版本说明">版本说明</a></li>
+    <li><a href="#个人使用总结">个人使用总结</a>
+      <ul>
+        <li><a href="#merge节点">Merge节点</a></li>
+        <li><a href="#push策略">push策略</a></li>
+        <li><a href="#解决merge-和-rebase-合并冲突">解决<strong>merge</strong> <strong>和</strong> <strong>rebase</strong> 合并冲突</a></li>
+        <li><a href="#cherry-pick使用">cherry-pick使用</a></li>
+        <li><a href="#打标记">打标记：</a></li>
+        <li><a href="#删除文件">删除文件</a></li>
+      </ul>
+    </li>
+    <li><a href="#pro-git总结">《pro git》总结</a></li>
+    <li><a href="#svn迁移到git">SVN迁移到Git</a></li>
+    <li><a href="#git其它用途">Git其它用途</a>
+      <ul>
+        <li><a href="#格式化代码">格式化代码</a></li>
+        <li><a href="#通过git-web提供的hook发送邮件">通过git-web提供的hook发送邮件</a></li>
+        <li><a href="#解决xls文件在git比较差异">解决xls文件在git比较差异</a></li>
+        <li><a href="#制作补丁包">制作补丁包</a></li>
+        <li><a href="#mantis-plugin集成未实现">mantis plugin集成（未实现）</a></li>
+        <li><a href="#使用git管理wiki未实现">使用Git管理WIKI（未实现）</a></li>
+        <li><a href="#ci和cd未实现">CI和CD（未实现）</a></li>
+      </ul>
+    </li>
+    <li><a href="#git生成patch">git生成patch</a></li>
+    <li><a href="#git批量修改author">git批量修改author</a></li>
+    <li><a href="#git验证机制更新">git验证机制更新</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

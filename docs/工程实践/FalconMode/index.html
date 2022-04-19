@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="版本说明 #   FalconMode模式    日期 版本 修改内容     2021/11/21 V0.1 创建      FalconMode模式 #  Normal mode: U-Boot SPL -&gt; U-Boot -&gt; Kernel
+Falcon mode: U-Boot SPL -&gt; Kernel
+ https://forum.digikey.com/t/beaglebone-black-u-boot-overlays-and-falcon-mode/3008/7
+Once you are booted up into the Linux Kernel there should be NO difference.
+ 测试启动时间 #     模式 文件系统 tftp下载时间 内核到telnet时间     正常uBooty启动模式 tisdk-tiny-image-am335x-evm 6秒 10秒   正常uBooty启动模式 tisdk-base-image-am335x-evm 6秒 40~60秒   Falcon模式       Out-of-the-Box (OOB) boot times of the TI Processor Linux SDK">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="FalconMode模式" />
+<meta property="og:description" content="版本说明 #   FalconMode模式    日期 版本 修改内容     2021/11/21 V0.1 创建      FalconMode模式 #  Normal mode: U-Boot SPL -&gt; U-Boot -&gt; Kernel
+Falcon mode: U-Boot SPL -&gt; Kernel
+ https://forum.digikey.com/t/beaglebone-black-u-boot-overlays-and-falcon-mode/3008/7
+Once you are booted up into the Linux Kernel there should be NO difference.
+ 测试启动时间 #     模式 文件系统 tftp下载时间 内核到telnet时间     正常uBooty启动模式 tisdk-tiny-image-am335x-evm 6秒 10秒   正常uBooty启动模式 tisdk-base-image-am335x-evm 6秒 40~60秒   Falcon模式       Out-of-the-Box (OOB) boot times of the TI Processor Linux SDK" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://swifteen.github.io/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/FalconMode/" /><meta property="article:section" content="docs" />
+
+
+
+<title>FalconMode模式 | Freedom Book</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.8af359f8b4ff91864838b7225239a34a4ca449e60ef99ab88e33c978c8685391.css" integrity="sha256-ivNZ&#43;LT/kYZIOLciUjmjSkykSeYO&#43;Zq4jjPJeMhoU5E=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.d45c0ffc37a24fca2ef007edb1d82d27449127aa5b68259acea105adc08ba9ea.js" integrity="sha256-1FwP/DeiT8ou8AftsdgtJ0SRJ6pbaCWazqEFrcCLqeo=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Freedom Book</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+  
+
+
+
+  
+    
+  
+    
+  
+
+
+
+<ul class="book-languages">
+  <li>
+    <input type="checkbox" id="languages" class="toggle" />
+    <label for="languages" class="flex justify-between">
+      <a role="button" class="flex align-center">
+        <img src="/svg/translate.svg" class="book-icon" alt="Languages" />
+        English
+      </a>
+    </label>
+
+    <ul>
+      
+      <li>
+        <a href="https://swifteen.github.io/ru/">
+          Russian
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://swifteen.github.io/zh/">
+          Chinese
+        </a>
+      </li>
+      
+    </ul>
+  </li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" class="">读书笔记</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="toggle"  />
+    <label for="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="flex justify-between">
+      <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/" class="">深入理解计算机系统</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/" class="">第一章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/4th-level/" class="">4th Level</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/" class="">5th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/6th-level/" class="">6th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/" class="">第二章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/" class="">7th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/12th-level/" class="">12th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/8th-level/" class="">8th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/" class="">工程实践</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/FalconMode/" class=" active">FalconMode模式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/BBB%E6%9D%BF%E4%BD%BF%E7%94%A8NFS%E6%8C%82%E8%BD%BD%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" class="">BBB板使用NFS挂载文件系统</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/" class="">工作总结</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">数据库</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF/" class="">日志模块实现思路</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/" class="">Linux World</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/" class="">工具</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="toggle"  />
+    <label for="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Git常用配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" class="">git基本使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8/" class="">git高级使用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-d5b311234c6410083508e37cc63fc1b6" class="toggle"  />
+    <label for="section-d5b311234c6410083508e37cc63fc1b6" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/" class="">Vim</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/%E9%85%8D%E7%BD%AE/" class="">配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/" class="">常用 Linux命令</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4a2fe1f775a45aa533a141965b5ef749" class="toggle"  />
+    <label for="section-4a2fe1f775a45aa533a141965b5ef749" class="flex justify-between">
+      <a href="/docs/Linux-World/Raspberry/" class="">Raspberry</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Raspberry/%E5%B8%B8%E7%94%A8/" class="">常用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-23ec4bc7089b12961617b50da77ae792" class="toggle"  />
+    <label for="section-23ec4bc7089b12961617b50da77ae792" class="flex justify-between">
+      <a href="/docs/Linux-World/Ubuntu/" class="">Ubuntu</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%9B%AE%E5%BD%95%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE/" class="">目录共享配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%90%86%E5%92%8C%E8%AF%81%E4%B9%A6/" class="">系统代理和证书</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E5%85%B6%E5%AE%83/" class="">其它</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://github.com/swifteen/" target="_blank" rel="noopener">
+        Github
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://themes.gohugo.io/hugo-book/" target="_blank" rel="noopener">
+        Hugo Themes
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>FalconMode模式</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#版本说明">版本说明</a></li>
+    <li><a href="#falconmode模式">FalconMode模式</a></li>
+    <li><a href="#测试启动时间">测试启动时间</a></li>
+    <li><a href="#官方readmefalcon">官方README.falcon</a>
+      <ul>
+        <li><a href="#注意事项">注意事项</a></li>
+      </ul>
+    </li>
+    <li><a href="#fdtoverlay工具使用">fdtoverlay工具使用</a></li>
+    <li><a href="#设备树dtb">设备树DTB</a></li>
+    <li><a href="#减少启动时间">减少启动时间</a>
+      <ul>
+        <li><a href="#从硬件角度">从硬件角度</a></li>
+        <li><a href="#从软件角度">从软件角度</a>
+          <ul>
+            <li><a href="#uboot阶段">uBoot阶段</a></li>
+            <li><a href="#kernel阶段">kernel阶段</a></li>
+            <li><a href="#rc脚本">rc脚本</a></li>
+            <li><a href="#用户空间">用户空间</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#lpj值">LPJ值</a></li>
+    <li><a href="#library-optimizer-tool">Library Optimizer Tool</a></li>
+    <li><a href="#static-linking">Static Linking</a></li>
+    <li><a href="#procmeminfo">/proc/meminfo</a></li>
+    <li><a href="#mtd">MTD</a></li>
+    <li><a href="#mmap函数">mmap函数</a></li>
+    <li><a href="#tiny_fs启动日志">tiny_fs启动日志</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="版本说明">
+  版本说明
+  <a class="anchor" href="#%e7%89%88%e6%9c%ac%e8%af%b4%e6%98%8e">#</a>
+</h1>
+<ul>
+<li>FalconMode模式
+<table>
+<thead>
+<tr>
+<th>日期</th>
+<th>版本</th>
+<th>修改内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021/11/21</td>
+<td>V0.1</td>
+<td>创建</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<h1 id="falconmode模式">
+  FalconMode模式
+  <a class="anchor" href="#falconmode%e6%a8%a1%e5%bc%8f">#</a>
+</h1>
+<p>Normal mode:
+U-Boot SPL -&gt; U-Boot -&gt; Kernel</p>
+<p>Falcon mode:
+U-Boot SPL -&gt; Kernel</p>
+<p>
+  <a href="https://forum.digikey.com/t/beaglebone-black-u-boot-overlays-and-falcon-mode/3008/7">https://forum.digikey.com/t/beaglebone-black-u-boot-overlays-and-falcon-mode/3008/7</a></p>
+<p>Once you are booted up into the Linux Kernel there should be NO difference.</p>
+<p>
+  <img src="/images/FalconMode%e6%a8%a1%e5%bc%8f/image-20210930005718845.png" alt="image-20210930005718845" /></p>
+<h1 id="测试启动时间">
+  测试启动时间
+  <a class="anchor" href="#%e6%b5%8b%e8%af%95%e5%90%af%e5%8a%a8%e6%97%b6%e9%97%b4">#</a>
+</h1>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>文件系统</th>
+<th>tftp下载时间</th>
+<th>内核到telnet时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>正常uBooty启动模式</td>
+<td>tisdk-tiny-image-am335x-evm</td>
+<td>6秒</td>
+<td>10秒</td>
+</tr>
+<tr>
+<td>正常uBooty启动模式</td>
+<td>tisdk-base-image-am335x-evm</td>
+<td>6秒</td>
+<td>40~60秒</td>
+</tr>
+<tr>
+<td>Falcon模式</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Out-of-the-Box (OOB) boot times of the TI Processor Linux SDK</p>
+<p>Multi-user refers to an Initialization Run Time Target or Run Level. This is the initialization for the OOB PLSDK.</p>
+<p>Single-user refers to shell.</p>
+<h1 id="官方readmefalcon">
+  官方README.falcon
+  <a class="anchor" href="#%e5%ae%98%e6%96%b9readmefalcon">#</a>
+</h1>
+<p>
+  <a href="https://github.com/u-boot/u-boot/blob/master/doc/README.falcon">https://github.com/u-boot/u-boot/blob/master/doc/README.falcon</a></p>
+<p>Falcon Mode relies on the SPL framework. In fact, to make booting faster,
+U-Boot is split into two parts: the SPL (Secondary Program Loader) and U-Boot
+image.</p>
+<p>use the &ldquo;spl export&rdquo; command to generate the kernel parameters
+area or the DT</p>
+<p>However at the end of an succesful &lsquo;spl export&rsquo; run it will print the
+RAM address of temporary storage. The RAM address of FDT will also be
+set in the environment variable &lsquo;fdtargsaddr&rsquo;, the new length of the
+prepared FDT will be set in the environment variable &lsquo;fdtargslen&rsquo;.
+These environment variables can be used in scripts for writing updated
+FDT to persistent storage.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>setenv falcon_args_file args
+</span></span><span style="display:flex;"><span>setenv boot_os <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>setenv spl_load_image_fat_os uImage
+</span></span><span style="display:flex;"><span>setenv falcon_image_file uImage
+</span></span></code></pre></div><p>
+  <img src="https://e2e.ti.com/cfs-file/__key/communityserver-discussions-components-files/791/falcon_5F00_mode3.test.png" alt="img" /></p>
+<p>
+  <a href="https://blog.csdn.net/donglicaiju76152/article/details/77920015">https://blog.csdn.net/donglicaiju76152/article/details/77920015</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>nand read 0x82000000 NAND.kernel
+</span></span><span style="display:flex;"><span>nand read 0x88000000 NAND.u-boot-spl-os
+</span></span><span style="display:flex;"><span>run nandargs
+</span></span><span style="display:flex;"><span>spl export fdt 0x82000000 - 0x88000000
+</span></span><span style="display:flex;"><span>md &lt;address&gt;
+</span></span><span style="display:flex;"><span>nand write &lt;address&gt; bootparms 0x4000
+</span></span></code></pre></div><h2 id="注意事项">
+  注意事项
+  <a class="anchor" href="#%e6%b3%a8%e6%84%8f%e4%ba%8b%e9%a1%b9">#</a>
+</h2>
+<p>需要使用uImage，不能使用zImage</p>
+<p>The falcon mode is supported only by <strong>uImage</strong>. You should <strong>make uImage</strong> with the <strong>LOADADDR=0x80008000</strong>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">=</span>&gt; run args_mmc
+</span></span><span style="display:flex;"><span><span style="color:#f92672">=</span>&gt; run loadimage
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">8942296</span> bytes read in <span style="color:#ae81ff">610</span> ms <span style="color:#f92672">(</span><span style="color:#ae81ff">14</span> MiB/s<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">=</span>&gt; run loadfdt
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">58129</span> bytes read in <span style="color:#ae81ff">56</span> ms <span style="color:#f92672">(</span>1013.7 KiB/s<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">=</span>&gt; spl export fdt <span style="color:#e6db74">${</span>loadaddr<span style="color:#e6db74">}</span> - <span style="color:#e6db74">${</span>fdtaddr<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><p>
+  <a href="https://e2e.ti.com/support/processors-group/processors/f/processors-forum/544446/how-to-use-falcon-mode-in-u-boot">https://e2e.ti.com/support/processors-group/processors/f/processors-forum/544446/how-to-use-falcon-mode-in-u-boot</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>./mkimage -A arm -O linux -T kernel -C none -a 0x80008000 -e
+</span></span></code></pre></div><h1 id="fdtoverlay工具使用">
+  fdtoverlay工具使用
+  <a class="anchor" href="#fdtoverlay%e5%b7%a5%e5%85%b7%e4%bd%bf%e7%94%a8">#</a>
+</h1>
+<p>Falcon mode assumes one dtb, so you either patch your based device tree or you manually use fdtoverlay to apply the overlay to the base dtb: voodoo@hestia:~$ fdtoverlay &ndash;help Usage: apply a number of overlays to a base blob fdtoverlay <options> [&lt;overlay.dtbo&gt; [&lt;overlay.dtbo&gt;]] <type> s=string,…</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>debian@beaglebone:~$ fdtoverlay --help
+</span></span><span style="display:flex;"><span>Usage: apply a number of overlays to a base blob
+</span></span><span style="display:flex;"><span>        fdtoverlay &lt;options&gt; <span style="color:#f92672">[</span>&lt;overlay.dtbo&gt; <span style="color:#f92672">[</span>&lt;overlay.dtbo&gt;<span style="color:#f92672">]]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;type&gt;  s<span style="color:#f92672">=</span>string, i<span style="color:#f92672">=</span>int, u<span style="color:#f92672">=</span>unsigned, x<span style="color:#f92672">=</span>hex
+</span></span><span style="display:flex;"><span>        Optional modifier prefix:
+</span></span><span style="display:flex;"><span>                hh or b<span style="color:#f92672">=</span>byte, h<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> byte, l<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span> byte <span style="color:#f92672">(</span>default<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Options: -<span style="color:#f92672">[</span>i:o:vhV<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>  -i, --input &lt;arg&gt;  Input base DT blob
+</span></span><span style="display:flex;"><span>  -o, --output &lt;arg&gt; Output DT blob
+</span></span><span style="display:flex;"><span>  -v, --verbose      Verbose messages
+</span></span><span style="display:flex;"><span>  -h, --help         Print this help and exit
+</span></span><span style="display:flex;"><span>  -V, --version      Print version and exit
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#下面命令将am335x-boneblack-uboot.dtb这个基础设备树上，添加了4层设备配置节点，生成了一个新的am335x-falcon.dtb设备树</span>
+</span></span><span style="display:flex;"><span>fdtoverlay -i 
+</span></span><span style="display:flex;"><span>am335x-boneblack-uboot.dtb 
+</span></span><span style="display:flex;"><span>BB-BONE-eMMC1-01-00A0.dtbo 
+</span></span><span style="display:flex;"><span>BB-HDMI-TDA998x-00A0.dtbo
+</span></span><span style="display:flex;"><span>BB-ADC-00A0.dtbo
+</span></span><span style="display:flex;"><span>BB-UART1-00A0.dtbo
+</span></span><span style="display:flex;"><span>-o am335x-falcon.dtb
+</span></span></code></pre></div><h1 id="设备树dtb">
+  设备树DTB
+  <a class="anchor" href="#%e8%ae%be%e5%a4%87%e6%a0%91dtb">#</a>
+</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ sudo apt-get install device-tree-compiler
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Device trees <span style="color:#66d9ef">do</span> not need to be compiled with <span style="color:#e6db74">&#34;architecture-aware&#34;</span> tools. The dtc compiler on your ubuntu machine is probably current enough to compile your device tree. Or you can download the latest source and compile it yourself. The dtc compiler can be found here:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>https://git.kernel.org/pub/scm/utils/dtc/dtc.git
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>There are some good documents in that package that will help you better understand device trees in general.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>It<span style="color:#960050;background-color:#1e0010">&#39;</span>s pretty easy to compile <span style="color:#f92672">(</span>and disassemble<span style="color:#f92672">)</span> device trees. For example
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ dtc -O dtb -o p4080ds.dtb p4080ds.dts
+</span></span><span style="display:flex;"><span>To get the device tree in text from from the device tree blob, <span style="color:#66d9ef">do</span> this:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ dtc -I dtb -O dts p4080ds.dtb
+</span></span></code></pre></div><p>On linux we can directly open dtb file by using <strong>fdtdump</strong></p>
+<pre tabindex="0"><code>fdtdump dtb_file.dtb &gt; /tmp/test.txt 
+</code></pre><p>
+  <a href="https://elinux.org/Device_Tree_Usage">https://elinux.org/Device_Tree_Usage</a></p>
+<p>
+  <a href="https://elinux.org/Device_Tree_Reference">https://elinux.org/Device_Tree_Reference</a></p>
+<h1 id="减少启动时间">
+  减少启动时间
+  <a class="anchor" href="#%e5%87%8f%e5%b0%91%e5%90%af%e5%8a%a8%e6%97%b6%e9%97%b4">#</a>
+</h1>
+<h2 id="从硬件角度">
+  从硬件角度
+  <a class="anchor" href="#%e4%bb%8e%e7%a1%ac%e4%bb%b6%e8%a7%92%e5%ba%a6">#</a>
+</h2>
+<p>1、从更快的存储设备上启动</p>
+<p>2、Power Management Integrated Circuits (PMIC)</p>
+<p>3、Processor Operating Performance Point (OPP)</p>
+<p>AM335x from PORz runs ROM at 600MHz OPP100 voltage.After MLO loads and runs, the processor clock and voltages are set as needed.</p>
+<h2 id="从软件角度">
+  从软件角度
+  <a class="anchor" href="#%e4%bb%8e%e8%bd%af%e4%bb%b6%e8%a7%92%e5%ba%a6">#</a>
+</h2>
+<h3 id="uboot阶段">
+  uBoot阶段
+  <a class="anchor" href="#uboot%e9%98%b6%e6%ae%b5">#</a>
+</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 使用Falcon模式，跳过uBoot，直接加载内核</li>
+<li><input disabled="" type="checkbox"> 内核命令行参数添加quiet</li>
+<li><input disabled="" type="checkbox"> Add loops per jiffy LPJ to the command line （在BBB板子上测试了两次，都是lpj=4980736）</li>
+<li><input disabled="" type="checkbox"> DisableConsole - Turn off serial console output during boot</li>
+</ul>
+<h3 id="kernel阶段">
+  kernel阶段
+  <a class="anchor" href="#kernel%e9%98%b6%e6%ae%b5">#</a>
+</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 修改内核编译选项，减少内核大小</li>
+<li><input disabled="" type="checkbox"> 使用压缩的内核镜像，切换内核压缩方式到LZ4</li>
+<li><input disabled="" type="checkbox"> 修改设备树只开启必要的功能</li>
+<li><input disabled="" type="checkbox"> 选择哪一些驱动被初始化</li>
+<li><input disabled="" type="checkbox"> No Probe Missing Devices - Disable probes for non-existent devices (including keyboards, etc.)</li>
+<li><input disabled="" type="checkbox"> Load Drivers Later - Use modules where possible to move driver initialization later in the boot sequence</li>
+</ul>
+<h3 id="rc脚本">
+  rc脚本
+  <a class="anchor" href="#rc%e8%84%9a%e6%9c%ac">#</a>
+</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 减少rc脚本</li>
+<li><input disabled="" type="checkbox"> 延后rc脚本</li>
+</ul>
+<h3 id="用户空间">
+  用户空间
+  <a class="anchor" href="#%e7%94%a8%e6%88%b7%e7%a9%ba%e9%97%b4">#</a>
+</h3>
+<ul>
+<li>
+<p><input disabled="" type="checkbox"> 用户空间使用单用户，不要使用多用户模式</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> 文件系统分区，将只读分区与写分区隔离</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Avoid writes to flash memory</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Keep writable files in RAM, and write them to flash after boot</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Stripping your program,To get the highest savings, use &ldquo;strip &ndash;strip-unneeded <app>&rdquo;</p>
+</li>
+<li>
+<p><input disabled="" type="checkbox"> Compiler options for program size,You can use &ldquo;gcc -Os&rdquo; to optimize for size.</p>
+</li>
+</ul>
+<h1 id="lpj值">
+  LPJ值
+  <a class="anchor" href="#lpj%e5%80%bc">#</a>
+</h1>
+<p>
+  <a href="https://elinux.org/Preset_LPJ">https://elinux.org/Preset_LPJ</a></p>
+<p>测试了两次，都是lpj=4980736</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:08:04 user.info kernel: <span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span> OMAP clockevent source: timer2 at <span style="color:#ae81ff">24000000</span> Hz
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:08:04 user.info kernel: <span style="color:#f92672">[</span>    0.000014<span style="color:#f92672">]</span> sched_clock: <span style="color:#ae81ff">32</span> bits at 24MHz, resolution 41ns, wraps every 89478484971ns
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:08:04 user.info kernel: <span style="color:#f92672">[</span>    0.000033<span style="color:#f92672">]</span> clocksource: timer1: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: <span style="color:#ae81ff">79635851949</span> ns
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:08:04 user.info kernel: <span style="color:#f92672">[</span>    0.000041<span style="color:#f92672">]</span> OMAP clocksource: timer1 at <span style="color:#ae81ff">24000000</span> Hz
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:08:04 user.crit kernel: <span style="color:#f92672">[</span>    0.000283<span style="color:#f92672">]</span> timer_probe: no matching timers found
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:08:04 user.info kernel: <span style="color:#f92672">[</span>    0.000457<span style="color:#f92672">]</span> Console: colour dummy device 80x30
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:08:04 user.err kernel: <span style="color:#f92672">[</span>    0.000493<span style="color:#f92672">]</span> WARNING: Your <span style="color:#e6db74">&#39;console=ttyO0&#39;</span> has been replaced by <span style="color:#e6db74">&#39;ttyS0&#39;</span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:08:04 user.err kernel: <span style="color:#f92672">[</span>    0.000499<span style="color:#f92672">]</span> This ensures that you still see kernel messages. Please
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:08:04 user.err kernel: <span style="color:#f92672">[</span>    0.000503<span style="color:#f92672">]</span> update your kernel commandline.
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:08:04 user.info kernel: <span style="color:#f92672">[</span>    0.000549<span style="color:#f92672">]</span> Calibrating delay loop... 996.14 BogoMIPS <span style="color:#f92672">(</span>lpj<span style="color:#f92672">=</span>4980736<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:08:04 user.info kernel: <span style="color:#f92672">[</span>    0.089150<span style="color:#f92672">]</span> pid_max: default: <span style="color:#ae81ff">32768</span> minimum: <span style="color:#ae81ff">301</span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:08:04 user.info kernel: <span style="color:#f92672">[</span>    0.089359<span style="color:#f92672">]</span> Mount-cache hash table entries: <span style="color:#ae81ff">1024</span> <span style="color:#f92672">(</span>order: 0, <span style="color:#ae81ff">4096</span> bytes, linear<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:08:04 user.info kernel: <span style="color:#f92672">[</span>    0.089372<span style="color:#f92672">]</span> Mountpoint-cache hash table entries: <span style="color:#ae81ff">1024</span> <span style="color:#f92672">(</span>order: 0, <span style="color:#ae81ff">4096</span> bytes, linear<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:08:04 user.info kernel: <span style="color:#f92672">[</span>    0.090211<span style="color:#f92672">]</span> CPU: Testing write buffer coherency: ok
+</span></span><span style="display:flex;"><span>May <span style="color:#ae81ff">24</span> 14:08:04 user.info kernel: <span style="color:#f92672">[</span>    0.090275<span style="color:#f92672">]</span> CPU0: Spectre v2: using BPIALL workaround
+</span></span></code></pre></div><h1 id="library-optimizer-tool">
+  Library Optimizer Tool
+  <a class="anchor" href="#library-optimizer-tool">#</a>
+</h1>
+<p>
+  <a href="http://libraryopt.sourceforge.net/">http://libraryopt.sourceforge.net/</a></p>
+<p>The Library Optimizer Tool is used to reduce the size of shared libraries for an embedded system or other size-contrained environment.</p>
+<h1 id="static-linking">
+  Static Linking
+  <a class="anchor" href="#static-linking">#</a>
+</h1>
+<p>If your set of applications is small, sometimes it makes more sense to statically link your applications than to use shared libraries. Shared libraries by default include all symbols (functions and data structures) for the features a library provides. However, when you static link a program to a library, only the symbols that are actually referenced are linked in and included in the program.</p>
+<h1 id="procmeminfo">
+  /proc/meminfo
+  <a class="anchor" href="#procmeminfo">#</a>
+</h1>
+<p>
+  <a href="https://lwn.net/Articles/28345/">https://lwn.net/Articles/28345/</a></p>
+<h1 id="mtd">
+  MTD
+  <a class="anchor" href="#mtd">#</a>
+</h1>
+<p>
+  <a href="http://www.linux-mtd.infradead.org/faq/general.html">http://www.linux-mtd.infradead.org/faq/general.html</a></p>
+<p>
+  <a href="http://www.linux-mtd.infradead.org/doc/ubi.html">http://www.linux-mtd.infradead.org/doc/ubi.html</a></p>
+<p>
+  <a href="http://www.linux-mtd.infradead.org/faq/ubi.html">http://www.linux-mtd.infradead.org/faq/ubi.html</a></p>
+<h1 id="mmap函数">
+  mmap函数
+  <a class="anchor" href="#mmap%e5%87%bd%e6%95%b0">#</a>
+</h1>
+<p>Using mmap() instead of read() for initial application data load</p>
+<p>An application may load a large amount of data when it is first initialized. This can result in a long delay as the file data is read into memory. It is possible to avoid the initial cost of this read, by using mmap() instead of read().</p>
+<p>Instead of loading all of the data into memory with the read system call, the file can be mapped into memory with the mmap system call. Once the data file is mapped, individual pages will be demand loaded during execution, when the application reads them. Depending on the initial working set size of the data in the file, this can result in significant time savings. (For example, if an application only initially uses 50% of the data from the file, then only 50% of the data will be read into memory from persistent storage. There is extra overhead due to the cost of page-faults incurred in loading the pages on demand. However, this page fault overhead is offset by the savings in the number of page reads (compared to the read() case).</p>
+<p>
+  <a href="http://0pointer.de/blog/projects/systemd.html">http://0pointer.de/blog/projects/systemd.html</a></p>
+<p>Starting more in parallel means that if we have to run something, we should not serialize its start-up (as sysvinit does), but run it all at the same time, so that the available CPU and disk IO bandwidth is maxed out, and hence the overall start-up time minimized.</p>
+<p>Traditionally on Unix a process that does double-forking can escape the supervision of its parent,</p>
+<h1 id="tiny_fs启动日志">
+  tiny_fs启动日志
+  <a class="anchor" href="#tiny_fs%e5%90%af%e5%8a%a8%e6%97%a5%e5%bf%97">#</a>
+</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>Starting kernel ...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span> Booting Linux on physical CPU 0x0
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span> Linux version 5.4.106-g023faefa70 <span style="color:#f92672">(</span>oe-user@oe-host<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>gcc version 9.2.1 <span style="color:#ae81ff">20191025</span> <span style="color:#f92672">(</span>GNU Toolchain <span style="color:#66d9ef">for</span> the A-profile Architecture 9.2-2019.12 <span style="color:#f92672">(</span>arm-9.10<span style="color:#f92672">)))</span> <span style="color:#75715e">#1 PREEMPT Mon May 24 09:04:10 UTC 2021</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span> CPU: ARMv7 Processor <span style="color:#f92672">[</span>413fc082<span style="color:#f92672">]</span> revision <span style="color:#ae81ff">2</span> <span style="color:#f92672">(</span>ARMv7<span style="color:#f92672">)</span>, cr<span style="color:#f92672">=</span>10c5387d
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span> CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span> OF: fdt: Machine model: TI AM335x BeagleBone Black
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span> Memory policy: Data cache writeback
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span> efi: Getting EFI parameters from FDT:
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span> efi: UEFI not found.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span> cma: Reserved <span style="color:#ae81ff">48</span> MiB at 0x9c800000
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span> CPU: All CPU<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span> started in SVC mode.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span> AM335X ES2.1 <span style="color:#f92672">(</span>sgx neon<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span> Built <span style="color:#ae81ff">1</span> zonelists, mobility grouping on.  Total pages: <span style="color:#ae81ff">129666</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span> Kernel command line: console<span style="color:#f92672">=</span>ttyO0,115200n8 root<span style="color:#f92672">=</span>/dev/nfs rw rootfstype<span style="color:#f92672">=</span>ext4 rootwait fixrtc nfsroot<span style="color:#f92672">=</span>192.168.31.85:/usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/tisdk-tiny-image-am335x-evm,vers<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span> ip<span style="color:#f92672">=</span>192.168.31.87:192.168.31.85:192.168.31.1:255.255.255.0::eth0:off
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span> Dentry cache hash table entries: <span style="color:#ae81ff">65536</span> <span style="color:#f92672">(</span>order: 6, <span style="color:#ae81ff">262144</span> bytes, linear<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span> Inode-cache hash table entries: <span style="color:#ae81ff">32768</span> <span style="color:#f92672">(</span>order: 5, <span style="color:#ae81ff">131072</span> bytes, linear<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span> mem auto-init: stack:off, heap alloc:off, heap free:off
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span> Memory: 453832K/523264K available <span style="color:#f92672">(</span>9216K kernel code, 295K rwdata, 3092K rodata, 1024K init, 254K bss, 20280K reserved, 49152K cma-reserved, 0K highmem<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span> SLUB: HWalign<span style="color:#f92672">=</span>64, Order<span style="color:#f92672">=</span>0-3, MinObjects<span style="color:#f92672">=</span>0, CPUs<span style="color:#f92672">=</span>1, Nodes<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span> rcu: Preemptible hierarchical RCU implementation.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span>  Tasks RCU enabled.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span> rcu: RCU calculated value of scheduler-enlistment delay is <span style="color:#ae81ff">10</span> jiffies.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span> NR_IRQS: 16, nr_irqs: 16, preallocated irqs: <span style="color:#ae81ff">16</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span> IRQ: Found an INTC at 0x<span style="color:#f92672">(</span>ptrval<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>revision 5.0<span style="color:#f92672">)</span> with <span style="color:#ae81ff">128</span> interrupts
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span> random: get_random_bytes called from start_kernel+0x2b4/0x470 with crng_init<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000000<span style="color:#f92672">]</span> OMAP clockevent source: timer2 at <span style="color:#ae81ff">24000000</span> Hz
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000015<span style="color:#f92672">]</span> sched_clock: <span style="color:#ae81ff">32</span> bits at 24MHz, resolution 41ns, wraps every 89478484971ns
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000033<span style="color:#f92672">]</span> clocksource: timer1: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: <span style="color:#ae81ff">79635851949</span> ns
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000042<span style="color:#f92672">]</span> OMAP clocksource: timer1 at <span style="color:#ae81ff">24000000</span> Hz
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000286<span style="color:#f92672">]</span> timer_probe: no matching timers found
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000457<span style="color:#f92672">]</span> Console: colour dummy device 80x30
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000493<span style="color:#f92672">]</span> WARNING: Your <span style="color:#e6db74">&#39;console=ttyO0&#39;</span> has been replaced by <span style="color:#e6db74">&#39;ttyS0&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000498<span style="color:#f92672">]</span> This ensures that you still see kernel messages. Please
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000502<span style="color:#f92672">]</span> update your kernel commandline.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.000550<span style="color:#f92672">]</span> Calibrating delay loop... 996.14 BogoMIPS <span style="color:#f92672">(</span>lpj<span style="color:#f92672">=</span>4980736<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.089147<span style="color:#f92672">]</span> pid_max: default: <span style="color:#ae81ff">32768</span> minimum: <span style="color:#ae81ff">301</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.089357<span style="color:#f92672">]</span> Mount-cache hash table entries: <span style="color:#ae81ff">1024</span> <span style="color:#f92672">(</span>order: 0, <span style="color:#ae81ff">4096</span> bytes, linear<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.089369<span style="color:#f92672">]</span> Mountpoint-cache hash table entries: <span style="color:#ae81ff">1024</span> <span style="color:#f92672">(</span>order: 0, <span style="color:#ae81ff">4096</span> bytes, linear<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.090201<span style="color:#f92672">]</span> CPU: Testing write buffer coherency: ok
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.090268<span style="color:#f92672">]</span> CPU0: Spectre v2: using BPIALL workaround
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.091064<span style="color:#f92672">]</span> Setting up static identity map <span style="color:#66d9ef">for</span> 0x80100000 - 0x80100060
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.091200<span style="color:#f92672">]</span> rcu: Hierarchical SRCU implementation.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.091276<span style="color:#f92672">]</span> EFI services will not be available.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.091648<span style="color:#f92672">]</span> devtmpfs: initialized
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.101487<span style="color:#f92672">]</span> VFP support v0.3: implementor <span style="color:#ae81ff">41</span> architecture <span style="color:#ae81ff">3</span> part <span style="color:#ae81ff">30</span> variant c rev <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.101853<span style="color:#f92672">]</span> clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: <span style="color:#ae81ff">19112604462750000</span> ns
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.101874<span style="color:#f92672">]</span> futex hash table entries: <span style="color:#ae81ff">256</span> <span style="color:#f92672">(</span>order: -1, <span style="color:#ae81ff">3072</span> bytes, linear<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.105462<span style="color:#f92672">]</span> pinctrl core: initialized pinctrl subsystem
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.106218<span style="color:#f92672">]</span> DMI not present or invalid.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.106672<span style="color:#f92672">]</span> NET: Registered protocol family <span style="color:#ae81ff">16</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.108840<span style="color:#f92672">]</span> DMA: preallocated <span style="color:#ae81ff">256</span> KiB pool <span style="color:#66d9ef">for</span> atomic coherent allocations
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.132269<span style="color:#f92672">]</span> l3-aon-clkctrl:0000:0: failed to disable
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.134331<span style="color:#f92672">]</span> cpuidle: using governor ladder
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.134359<span style="color:#f92672">]</span> cpuidle: using governor menu
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.149334<span style="color:#f92672">]</span> No ATAGs?
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.149344<span style="color:#f92672">]</span> hw-breakpoint: debug architecture 0x4 unsupported.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.164048<span style="color:#f92672">]</span> debugfs: Directory <span style="color:#e6db74">&#39;49000000.edma&#39;</span> with parent <span style="color:#e6db74">&#39;dmaengine&#39;</span> already present!
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.164083<span style="color:#f92672">]</span> edma 49000000.edma: TI EDMA DMA engine driver
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.165756<span style="color:#f92672">]</span> iommu: Default domain type: Translated
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.167761<span style="color:#f92672">]</span> SCSI subsystem initialized
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.168195<span style="color:#f92672">]</span> mc: Linux media interface: v0.10
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.168239<span style="color:#f92672">]</span> videodev: Linux video capture interface: v2.00
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.168326<span style="color:#f92672">]</span> pps_core: LinuxPPS API ver. <span style="color:#ae81ff">1</span> registered
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.168334<span style="color:#f92672">]</span> pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti &lt;giometti@linux.it&gt;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.168353<span style="color:#f92672">]</span> PTP clock support registered
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.168384<span style="color:#f92672">]</span> EDAC MC: Ver: 3.0.0
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.169692<span style="color:#f92672">]</span> Advanced Linux Sound Architecture Driver Initialized.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.170897<span style="color:#f92672">]</span> clocksource: Switched to clocksource timer1
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.177850<span style="color:#f92672">]</span> thermal_sys: Registered thermal governor <span style="color:#e6db74">&#39;fair_share&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.177859<span style="color:#f92672">]</span> thermal_sys: Registered thermal governor <span style="color:#e6db74">&#39;bang_bang&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.177875<span style="color:#f92672">]</span> thermal_sys: Registered thermal governor <span style="color:#e6db74">&#39;step_wise&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.177881<span style="color:#f92672">]</span> thermal_sys: Registered thermal governor <span style="color:#e6db74">&#39;user_space&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.177886<span style="color:#f92672">]</span> thermal_sys: Registered thermal governor <span style="color:#e6db74">&#39;power_allocator&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.178442<span style="color:#f92672">]</span> NET: Registered protocol family <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.179511<span style="color:#f92672">]</span> tcp_listen_portaddr_hash hash table entries: <span style="color:#ae81ff">512</span> <span style="color:#f92672">(</span>order: 0, <span style="color:#ae81ff">4096</span> bytes, linear<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.179542<span style="color:#f92672">]</span> TCP established hash table entries: <span style="color:#ae81ff">4096</span> <span style="color:#f92672">(</span>order: 2, <span style="color:#ae81ff">16384</span> bytes, linear<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.179580<span style="color:#f92672">]</span> TCP bind hash table entries: <span style="color:#ae81ff">4096</span> <span style="color:#f92672">(</span>order: 2, <span style="color:#ae81ff">16384</span> bytes, linear<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.179617<span style="color:#f92672">]</span> TCP: Hash tables configured <span style="color:#f92672">(</span>established <span style="color:#ae81ff">4096</span> bind 4096<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.179730<span style="color:#f92672">]</span> UDP hash table entries: <span style="color:#ae81ff">256</span> <span style="color:#f92672">(</span>order: 0, <span style="color:#ae81ff">4096</span> bytes, linear<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.179748<span style="color:#f92672">]</span> UDP-Lite hash table entries: <span style="color:#ae81ff">256</span> <span style="color:#f92672">(</span>order: 0, <span style="color:#ae81ff">4096</span> bytes, linear<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.179909<span style="color:#f92672">]</span> NET: Registered protocol family <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.180480<span style="color:#f92672">]</span> RPC: Registered named UNIX socket transport module.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.180493<span style="color:#f92672">]</span> RPC: Registered udp transport module.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.180498<span style="color:#f92672">]</span> RPC: Registered tcp transport module.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.180503<span style="color:#f92672">]</span> RPC: Registered tcp NFSv4.1 backchannel transport module.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.180518<span style="color:#f92672">]</span> PCI: CLS <span style="color:#ae81ff">0</span> bytes, default <span style="color:#ae81ff">64</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.181556<span style="color:#f92672">]</span> hw perfevents: enabled with armv7_cortex_a8 PMU driver, <span style="color:#ae81ff">5</span> counters available
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.182739<span style="color:#f92672">]</span> Initialise system trusted keyrings
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.183094<span style="color:#f92672">]</span> workingset: timestamp_bits<span style="color:#f92672">=</span><span style="color:#ae81ff">14</span> max_order<span style="color:#f92672">=</span><span style="color:#ae81ff">17</span> bucket_order<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.187549<span style="color:#f92672">]</span> squashfs: version 4.0 <span style="color:#f92672">(</span>2009/01/31<span style="color:#f92672">)</span> Phillip Lougher
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.188342<span style="color:#f92672">]</span> NFS: Registering the id_resolver key type
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.188381<span style="color:#f92672">]</span> Key type id_resolver registered
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.188388<span style="color:#f92672">]</span> Key type id_legacy registered
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.188429<span style="color:#f92672">]</span> ntfs: driver 2.1.32 <span style="color:#f92672">[</span>Flags: R/O<span style="color:#f92672">]</span>.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.189098<span style="color:#f92672">]</span> Key type asymmetric registered
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.189113<span style="color:#f92672">]</span> Asymmetric key parser <span style="color:#e6db74">&#39;x509&#39;</span> registered
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.189162<span style="color:#f92672">]</span> Block layer SCSI generic <span style="color:#f92672">(</span>bsg<span style="color:#f92672">)</span> driver version 0.4 loaded <span style="color:#f92672">(</span>major 244<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.189172<span style="color:#f92672">]</span> io scheduler mq-deadline registered
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.189179<span style="color:#f92672">]</span> io scheduler kyber registered
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.194203<span style="color:#f92672">]</span> OMAP GPIO hardware version 0.1
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.219145<span style="color:#f92672">]</span> omap-mailbox 480c8000.mailbox: omap mailbox rev 0x400
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.232000<span style="color:#f92672">]</span> pinctrl-single 44e10800.pinmux: <span style="color:#ae81ff">142</span> pins, size <span style="color:#ae81ff">568</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.278706<span style="color:#f92672">]</span> Serial: 8250/16550 driver, <span style="color:#ae81ff">10</span> ports, IRQ sharing enabled
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.283028<span style="color:#f92672">]</span> 44e09000.serial: ttyS0 at MMIO 0x44e09000 <span style="color:#f92672">(</span>irq <span style="color:#f92672">=</span> 29, base_baud <span style="color:#f92672">=</span> 3000000<span style="color:#f92672">)</span> is a <span style="color:#ae81ff">8250</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.910654<span style="color:#f92672">]</span> printk: console <span style="color:#f92672">[</span>ttyS0<span style="color:#f92672">]</span> enabled
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.917463<span style="color:#f92672">]</span> omap_rng 48310000.rng: Random Number Generator ver. <span style="color:#ae81ff">20</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.923850<span style="color:#f92672">]</span> random: fast init <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.927477<span style="color:#f92672">]</span> random: crng init <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.947065<span style="color:#f92672">]</span> brd: module loaded
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.956774<span style="color:#f92672">]</span> loop: module loaded
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    0.964693<span style="color:#f92672">]</span> libphy: Fixed MDIO Bus: probed
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.030923<span style="color:#f92672">]</span> davinci_mdio 4a101000.mdio: davinci mdio revision 1.6, bus freq <span style="color:#ae81ff">1000000</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.038628<span style="color:#f92672">]</span> libphy: 4a101000.mdio: probed
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.044140<span style="color:#f92672">]</span> davinci_mdio 4a101000.mdio: phy<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>: device 4a101000.mdio:00, driver SMSC LAN8710/LAN8720
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.053556<span style="color:#f92672">]</span> cpsw 4a100000.ethernet: initialized cpsw ale version 1.4
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.059940<span style="color:#f92672">]</span> cpsw 4a100000.ethernet: ALE Table size <span style="color:#ae81ff">1024</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.065342<span style="color:#f92672">]</span> cpsw 4a100000.ethernet: cpts: overflow check period <span style="color:#ae81ff">500</span> <span style="color:#f92672">(</span>jiffies<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.072635<span style="color:#f92672">]</span> cpsw 4a100000.ethernet: Detected MACID <span style="color:#f92672">=</span> 64:33:db:30:5c:a6
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.081079<span style="color:#f92672">]</span> i2c /dev entries driver
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.087040<span style="color:#f92672">]</span> cpuidle: enable-method property <span style="color:#e6db74">&#39;ti,am3352&#39;</span> found operations
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.094525<span style="color:#f92672">]</span> sdhci: Secure Digital Host Controller Interface driver
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.100737<span style="color:#f92672">]</span> sdhci: Copyright<span style="color:#f92672">(</span>c<span style="color:#f92672">)</span> Pierre Ossman
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.106464<span style="color:#f92672">]</span> omap_gpio 44e07000.gpio: Could not set line <span style="color:#ae81ff">6</span> debounce to <span style="color:#ae81ff">200000</span> microseconds <span style="color:#f92672">(</span>-22<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.115257<span style="color:#f92672">]</span> omap_hsmmc 48060000.mmc: Got CD GPIO
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.171240<span style="color:#f92672">]</span> omap_hsmmc 47810000.mmc: RX DMA channel request failed
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.177990<span style="color:#f92672">]</span> sdhci-pltfm: SDHCI platform and OF driver helper
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.186248<span style="color:#f92672">]</span> ledtrig-cpu: registered to indicate activity on CPUs
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.196794<span style="color:#f92672">]</span> davinci-mcasp 48038000.mcasp: IRQ common not found
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.204286<span style="color:#f92672">]</span> NET: Registered protocol family <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.210089<span style="color:#f92672">]</span> Segment Routing with IPv6
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.214008<span style="color:#f92672">]</span> sit: IPv6, IPv4 and MPLS over IPv4 tunneling driver
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.220619<span style="color:#f92672">]</span> NET: Registered protocol family <span style="color:#ae81ff">17</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.225569<span style="color:#f92672">]</span> Key type dns_resolver registered
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.230093<span style="color:#f92672">]</span> omap_voltage_late_init: Voltage driver support not added
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.237154<span style="color:#f92672">]</span> Loading compiled-in X.509 certificates
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.267316<span style="color:#f92672">]</span> mmc1: new high speed MMC card at address <span style="color:#ae81ff">0001</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.273483<span style="color:#f92672">]</span> mmcblk1: mmc1:0001 M62704 3.56 GiB
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.278259<span style="color:#f92672">]</span> mmcblk1boot0: mmc1:0001 M62704 partition <span style="color:#ae81ff">1</span> 2.00 MiB
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.284810<span style="color:#f92672">]</span> mmcblk1boot1: mmc1:0001 M62704 partition <span style="color:#ae81ff">2</span> 2.00 MiB
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.291419<span style="color:#f92672">]</span> mmcblk1rpmb: mmc1:0001 M62704 partition <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">512</span> KiB, chardev <span style="color:#f92672">(</span>243:0<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.302104<span style="color:#f92672">]</span>  mmcblk1: p1
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.311542<span style="color:#f92672">]</span> tps65217 0-0024: TPS65217 ID 0xe version 1.2
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.453148<span style="color:#f92672">]</span> tda998x 0-0070: found TDA19988
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.460370<span style="color:#f92672">]</span> tilcdc 4830e000.lcdc: bound 0-0070 <span style="color:#f92672">(</span>ops tda998x_ops<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.466493<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>drm<span style="color:#f92672">]</span> Supports vblank timestamp caching Rev <span style="color:#ae81ff">2</span> <span style="color:#f92672">(</span>21.10.2013<span style="color:#f92672">)</span>.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.473148<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>drm<span style="color:#f92672">]</span> No driver support <span style="color:#66d9ef">for</span> vblank timestamp query.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.479736<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>drm<span style="color:#f92672">]</span> Initialized tilcdc 1.0.0 <span style="color:#ae81ff">20121205</span> <span style="color:#66d9ef">for</span> 4830e000.lcdc on minor <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.624968<span style="color:#f92672">]</span> Console: switching to colour frame buffer device 240x67
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.664525<span style="color:#f92672">]</span> tilcdc 4830e000.lcdc: fb0: tilcdcdrmfb frame buffer device
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.671308<span style="color:#f92672">]</span> omap_i2c 44e0b000.i2c: bus <span style="color:#ae81ff">0</span> rev0.11 at <span style="color:#ae81ff">400</span> kHz
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.678948<span style="color:#f92672">]</span> omap_i2c 4819c000.i2c: bus <span style="color:#ae81ff">2</span> rev0.11 at <span style="color:#ae81ff">100</span> kHz
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.689514<span style="color:#f92672">]</span> hctosys: unable to open rtc device <span style="color:#f92672">(</span>rtc0<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.696161<span style="color:#f92672">]</span> cpsw 4a100000.ethernet: initializing cpsw version 1.12 <span style="color:#f92672">(</span>0<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    1.801937<span style="color:#f92672">]</span> SMSC LAN8710/LAN8720 4a101000.mdio:00: attached PHY driver <span style="color:#f92672">[</span>SMSC LAN8710/LAN8720<span style="color:#f92672">]</span> <span style="color:#f92672">(</span>mii_bus:phy_addr<span style="color:#f92672">=</span>4a101000.mdio:00, irq<span style="color:#f92672">=</span>POLL<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    3.921758<span style="color:#f92672">]</span> cpsw 4a100000.ethernet eth0: Link is Up - 100Mbps/Full - flow control off
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    3.950973<span style="color:#f92672">]</span> IPv6: ADDRCONF<span style="color:#f92672">(</span>NETDEV_CHANGE<span style="color:#f92672">)</span>: eth0: link becomes ready
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    3.981089<span style="color:#f92672">]</span> IP-Config: Complete:
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    3.984352<span style="color:#f92672">]</span>      device<span style="color:#f92672">=</span>eth0, hwaddr<span style="color:#f92672">=</span>64:33:db:30:5c:a6, ipaddr<span style="color:#f92672">=</span>192.168.31.87, mask<span style="color:#f92672">=</span>255.255.255.0, gw<span style="color:#f92672">=</span>192.168.31.1
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    3.994813<span style="color:#f92672">]</span>      host<span style="color:#f92672">=</span>192.168.31.87, domain<span style="color:#f92672">=</span>, nis-domain<span style="color:#f92672">=(</span>none<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    4.000767<span style="color:#f92672">]</span>      bootserver<span style="color:#f92672">=</span>192.168.31.85, rootserver<span style="color:#f92672">=</span>192.168.31.85, rootpath<span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    4.008715<span style="color:#f92672">]</span> ALSA device list:
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    4.011980<span style="color:#f92672">]</span>   No soundcards found.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    4.049139<span style="color:#f92672">]</span> VFS: Mounted root <span style="color:#f92672">(</span>nfs filesystem<span style="color:#f92672">)</span> on device 0:17.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    4.055963<span style="color:#f92672">]</span> devtmpfs: mounted
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    4.062264<span style="color:#f92672">]</span> Freeing unused kernel memory: 1024K
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    4.081524<span style="color:#f92672">]</span> Run /sbin/init as init process
+</span></span><span style="display:flex;"><span>INIT: version 2.96 booting
+</span></span></code></pre></div></article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/swifteen/swifteen.github.io/edit/main/exampleSite/content/docs/%e5%b7%a5%e7%a8%8b%e5%ae%9e%e8%b7%b5/FalconMode.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function e(n){const e=window.getSelection(),t=document.createRange();t.selectNodeContents(n),e.removeAllRanges(),e.addRange(t)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#版本说明">版本说明</a></li>
+    <li><a href="#falconmode模式">FalconMode模式</a></li>
+    <li><a href="#测试启动时间">测试启动时间</a></li>
+    <li><a href="#官方readmefalcon">官方README.falcon</a>
+      <ul>
+        <li><a href="#注意事项">注意事项</a></li>
+      </ul>
+    </li>
+    <li><a href="#fdtoverlay工具使用">fdtoverlay工具使用</a></li>
+    <li><a href="#设备树dtb">设备树DTB</a></li>
+    <li><a href="#减少启动时间">减少启动时间</a>
+      <ul>
+        <li><a href="#从硬件角度">从硬件角度</a></li>
+        <li><a href="#从软件角度">从软件角度</a>
+          <ul>
+            <li><a href="#uboot阶段">uBoot阶段</a></li>
+            <li><a href="#kernel阶段">kernel阶段</a></li>
+            <li><a href="#rc脚本">rc脚本</a></li>
+            <li><a href="#用户空间">用户空间</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#lpj值">LPJ值</a></li>
+    <li><a href="#library-optimizer-tool">Library Optimizer Tool</a></li>
+    <li><a href="#static-linking">Static Linking</a></li>
+    <li><a href="#procmeminfo">/proc/meminfo</a></li>
+    <li><a href="#mtd">MTD</a></li>
+    <li><a href="#mmap函数">mmap函数</a></li>
+    <li><a href="#tiny_fs启动日志">tiny_fs启动日志</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

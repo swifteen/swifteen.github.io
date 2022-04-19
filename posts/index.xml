@@ -1,62 +1,58 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Blog on Hugo Book</title>
+    <title>Blog on Freedom Book</title>
     <link>https://swifteen.github.io/posts/</link>
-    <description>Recent content in Blog on Hugo Book</description>
+    <description>Recent content in Blog on Freedom Book</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 20 Apr 2022 00:22:16 +0800</lastBuildDate><atom:link href="https://swifteen.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 17 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://swifteen.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Creating a New Theme</title>
-      <link>https://swifteen.github.io/posts/creating-a-new-theme/</link>
-      <pubDate>Sun, 28 Sep 2014 00:00:00 +0000</pubDate>
+      <title>ZeroTier内网穿透</title>
+      <link>https://swifteen.github.io/posts/zerotier%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/</link>
+      <pubDate>Sun, 17 Apr 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://swifteen.github.io/posts/creating-a-new-theme/</guid>
-      <description>Introduction #  This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content. I&amp;rsquo;ll explain how Hugo uses templates and how you can organize your templates to create a theme. I won&amp;rsquo;t cover using CSS to style your theme.
-We&amp;rsquo;ll start with creating a new site with a very basic template.</description>
+      <guid>https://swifteen.github.io/posts/zerotier%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/</guid>
+      <description>ZeroTier内网穿透 #  安装方式1：脚本自动安装 #  sudo curl -s https://install.zerotier.com|sudo bash 在ubuntu下成功安装，在树莓派上可能失败
+安装方式2：源码安装 #  wget https://github.com/zerotier/ZeroTierOne/archive/refs/tags/1.8.4.tar.gz tar zxvf 1.8.4.tar.gz cd ZeroTierOne-1.8.4/ make -j make install 注册账号 #  申请ID,参考https://blog.csdn.net/kai3123919064/article/details/109662499
+运行 #  1、在每个设备端上运行服务端zerotier-one，并将每一个设备添加到相同的NetworkID组，这样同一下 NetworkID组下的所有成员就能相互穿透了
+先安装zerotier-one服务并运行，这样以后开机自动启动此服务
+#在源码目录下可以看到此文件 ~/Public/ZeroTierOne-1.8.4 $ cat debian/zerotier-one.service [Unit] Description=ZeroTier One After=network-online.target Wants=network-online.target  [Service] ExecStart=/usr/sbin/zerotier-one Restart=always KillMode=process  [Install] WantedBy=multi-user.target 注意检查上面的/usr/sbin/zerotier-one路径是否存在
+#将此文件 拷贝到/lib/systemd/system/目录下 $ cp debian/zerotier-one.service /lib/systemd/system/ #启动服务 $ systemctl start zerotier-one.service #查看服务状态 $ systemctl status zerotier-one.</description>
     </item>
     
     <item>
-      <title>Migrate to Hugo from Jekyll</title>
-      <link>https://swifteen.github.io/posts/migrate-from-jekyll/</link>
-      <pubDate>Mon, 10 Mar 2014 00:00:00 +0000</pubDate>
+      <title>搭建HUGO博客</title>
+      <link>https://swifteen.github.io/posts/Hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%B5%81%E7%A8%8B/</link>
+      <pubDate>Sun, 17 Apr 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://swifteen.github.io/posts/migrate-from-jekyll/</guid>
-      <description>Move static content to static #  Jekyll has a rule that any directory not starting with _ will be copied as-is to the _site output. Hugo keeps all static content under static. You should therefore move it all there. With Jekyll, something that looked like
-▾ &amp;lt;root&amp;gt;/ ▾ images/ logo.png  should become
-▾ &amp;lt;root&amp;gt;/ ▾ static/ ▾ images/ logo.png  Additionally, you&amp;rsquo;ll want any files that should reside at the root (such as CNAME) to be moved to static.</description>
+      <guid>https://swifteen.github.io/posts/Hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%B5%81%E7%A8%8B/</guid>
+      <description>搭建HUGO博客 #  安装hugo #  进入 release页面下载，选择下载 hugo_extended_0.97.0_Linux-64bit.deb带extended后缀的安装包
+sudo dpkg -i hugo_extended_0.97.0_Linux-64bit.deb 创建hugo工程 #  mkdir ~/Public/Book cd ~/Public/Book hugo new site ./ 下载主题 #  git init git submodule add https://github.com/alex-shpak/hugo-book themes/hugo-book cp -R themes/hugo-book/exampleSite/content . 运行Web服务 #  ubuntu:~/Public/Book$ hugo server --minify --theme hugo-book --bind=&amp;#34;0.0.0.0&amp;#34; -p 8888 Start building sites … hugo v0.97.0-c07f3626e7c8160943591f4d209977efa02c3dca+extended linux/amd64 BuildDate=2022-04-14T08:45:07Z VendorInfo=gohugoio WARN 2022/04/16 01:47:16 Expand shortcode is deprecated. Use &amp;#39;details&amp;#39; instead. WARN 2022/04/16 01:47:16 Page &amp;#39;/layout/variables&amp;#39; not found in &amp;#39;posts/goisforlovers.</description>
     </item>
     
     <item>
-      <title>My First Post</title>
-      <link>https://swifteen.github.io/posts/my-first-post/</link>
-      <pubDate>Wed, 20 Apr 2022 00:22:16 +0800</pubDate>
+      <title>浮点数计算误差分析</title>
+      <link>https://swifteen.github.io/posts/%E6%B5%AE%E7%82%B9%E6%95%B0%E8%AE%A1%E7%AE%97%E8%AF%AF%E5%B7%AE%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sun, 17 Apr 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://swifteen.github.io/posts/my-first-post/</guid>
-      <description>test My First Post</description>
+      <guid>https://swifteen.github.io/posts/%E6%B5%AE%E7%82%B9%E6%95%B0%E8%AE%A1%E7%AE%97%E8%AF%AF%E5%B7%AE%E5%88%86%E6%9E%90/</guid>
+      <description>版本说明 #   内容: 浮点数计算误差分析 时间: 2022/02/28 版本: V 0.1  浮点数计算误差分析 #  通过分析汇编代码，分析浮点数运行产生的误差
+测试程序 #  例子 1 #  #include &amp;lt;stdio.h&amp;gt;int main() { 	int a = 33800; 	long long b = 13*sizeof(short)*(a); 	printf(&amp;#34;[%lld]\n&amp;#34;,b); } 例子 2 #  #include &amp;lt;stdio.h&amp;gt;int main() { 	int a = 33800; 	long long b = 13*1000*sizeof(short)* (double)(a/1000.0); 	printf(&amp;#34;[%lld]\n&amp;#34;,b); } 例子1输出878800 例子2输出878799
+为何会产生差异呢，只能从汇编代码入手，一点一点分析浮点计算的过程
+例子1汇编代码 #  例子1不涉及浮点数，因此汇编代码比较简单，先通过例子1的汇编代码进行了解。</description>
     </item>
     
     <item>
-      <title>(Hu)go Template Primer</title>
-      <link>https://swifteen.github.io/posts/goisforlovers/</link>
-      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
+      <title></title>
+      <link>https://swifteen.github.io/posts/Google%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://swifteen.github.io/posts/goisforlovers/</guid>
-      <description>Hugo uses the excellent Go html/template library for its template engine. It is an extremely lightweight engine that provides a very small amount of logic. In our experience that it is just the right amount of logic to be able to create a good static website. If you have used other template systems from different languages or frameworks you will find a lot of similarities in Go templates.
-This document is a brief primer on using Go templates.</description>
-    </item>
-    
-    <item>
-      <title>Getting Started with Hugo</title>
-      <link>https://swifteen.github.io/posts/hugoisforlovers/</link>
-      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
-      
-      <guid>https://swifteen.github.io/posts/hugoisforlovers/</guid>
-      <description>Step 1. Install Hugo #  Go to Hugo releases and download the appropriate version for your OS and architecture.
-Save it somewhere specific as we will be using it in the next step.
-More complete instructions are available at Install Hugo
-Step 2. Build the Docs #  Hugo has its own example site which happens to also be the documentation site you are reading right now.
-Follow the following steps:</description>
+      <guid>https://swifteen.github.io/posts/Google%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83%E6%80%BB%E7%BB%93/</guid>
+      <description>版本说明 #   Google编译规范总结     日期 版本 修改内容     20211029 V0.1 创建    目的 #  使代码易于管理的方法之一是加强代码一致性. 让任何程序员都可以快速读懂你的代码这点非常重要.
+项目主页:
+  Google Style Guide  Google 开源项目风格指南 - 中文版  代码规范 #  头文件 #  前置声明 #    尽可能地避免使用前置声明。使用 #include 包含需要的头文件即可
+  前置声明的类是不完全类型（incomplete type），我们只能定义指向该类型的指针或引用，或者声明（但不能定义）以不完全类型作为参数或者返回类型的函数。毕竟编译器不知道不完全类型的定义，我们不能创建其类的任何对象，也不能声明成类内部的数据成员。
+ If a class only appears in the header as a pointer or reference, then a forward declaration is sufficient</description>
     </item>
     
   </channel>

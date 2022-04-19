@@ -1,0 +1,1860 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="浮点数计算误差分析">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="浮点数计算误差分析" />
+<meta property="og:description" content="浮点数计算误差分析" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://swifteen.github.io/posts/%E6%B5%AE%E7%82%B9%E6%95%B0%E8%AE%A1%E7%AE%97%E8%AF%AF%E5%B7%AE%E5%88%86%E6%9E%90/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-17T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-04-17T00:00:00+00:00" />
+
+<title>浮点数计算误差分析 | Freedom Book</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.8af359f8b4ff91864838b7225239a34a4ca449e60ef99ab88e33c978c8685391.css" integrity="sha256-ivNZ&#43;LT/kYZIOLciUjmjSkykSeYO&#43;Zq4jjPJeMhoU5E=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.d45c0ffc37a24fca2ef007edb1d82d27449127aa5b68259acea105adc08ba9ea.js" integrity="sha256-1FwP/DeiT8ou8AftsdgtJ0SRJ6pbaCWazqEFrcCLqeo=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Freedom Book</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+  
+
+
+
+  
+    
+  
+    
+  
+
+
+
+<ul class="book-languages">
+  <li>
+    <input type="checkbox" id="languages" class="toggle" />
+    <label for="languages" class="flex justify-between">
+      <a role="button" class="flex align-center">
+        <img src="/svg/translate.svg" class="book-icon" alt="Languages" />
+        English
+      </a>
+    </label>
+
+    <ul>
+      
+      <li>
+        <a href="https://swifteen.github.io/ru/">
+          Russian
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://swifteen.github.io/zh/">
+          Chinese
+        </a>
+      </li>
+      
+    </ul>
+  </li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" class="">读书笔记</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="toggle"  />
+    <label for="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="flex justify-between">
+      <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/" class="">深入理解计算机系统</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/" class="">第一章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/4th-level/" class="">4th Level</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/" class="">5th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/6th-level/" class="">6th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/" class="">第二章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/" class="">7th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/12th-level/" class="">12th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/8th-level/" class="">8th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/" class="">工程实践</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/FalconMode/" class="">FalconMode模式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/BBB%E6%9D%BF%E4%BD%BF%E7%94%A8NFS%E6%8C%82%E8%BD%BD%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" class="">BBB板使用NFS挂载文件系统</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/" class="">工作总结</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">数据库</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF/" class="">日志模块实现思路</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/" class="">Linux World</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/" class="">工具</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="toggle"  />
+    <label for="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Git常用配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" class="">git基本使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8/" class="">git高级使用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-d5b311234c6410083508e37cc63fc1b6" class="toggle"  />
+    <label for="section-d5b311234c6410083508e37cc63fc1b6" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/" class="">Vim</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/%E9%85%8D%E7%BD%AE/" class="">配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/" class="">常用 Linux命令</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4a2fe1f775a45aa533a141965b5ef749" class="toggle"  />
+    <label for="section-4a2fe1f775a45aa533a141965b5ef749" class="flex justify-between">
+      <a href="/docs/Linux-World/Raspberry/" class="">Raspberry</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Raspberry/%E5%B8%B8%E7%94%A8/" class="">常用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-23ec4bc7089b12961617b50da77ae792" class="toggle"  />
+    <label for="section-23ec4bc7089b12961617b50da77ae792" class="flex justify-between">
+      <a href="/docs/Linux-World/Ubuntu/" class="">Ubuntu</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%9B%AE%E5%BD%95%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE/" class="">目录共享配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%90%86%E5%92%8C%E8%AF%81%E4%B9%A6/" class="">系统代理和证书</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E5%85%B6%E5%AE%83/" class="">其它</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://github.com/swifteen/" target="_blank" rel="noopener">
+        Github
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://themes.gohugo.io/hugo-book/" target="_blank" rel="noopener">
+        Hugo Themes
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>浮点数计算误差分析</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#版本说明">版本说明</a></li>
+    <li><a href="#浮点数计算误差分析">浮点数计算误差分析</a>
+      <ul>
+        <li><a href="#测试程序">测试程序</a>
+          <ul>
+            <li><a href="#例子-1">例子 1</a></li>
+            <li><a href="#例子-2">例子 2</a></li>
+          </ul>
+        </li>
+        <li><a href="#例子1汇编代码">例子1汇编代码</a>
+          <ul>
+            <li></li>
+          </ul>
+        </li>
+        <li><a href="#例子2汇编代码">例子2汇编代码</a>
+          <ul>
+            <li></li>
+          </ul>
+        </li>
+        <li><a href="#gdb调试跟踪每条指令">gdb调试跟踪每条指令</a>
+          <ul>
+            <li></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+    <li><a href="#参考知识">参考知识</a>
+      <ul>
+        <li><a href="#gcc参数">gcc参数</a>
+          <ul>
+            <li><a href="#使用-save-temps参数产生所有的中间步骤的文件">使用<code>-save-temps</code>参数产生所有的中间步骤的文件</a></li>
+            <li><a href="#-wl">-Wl</a></li>
+          </ul>
+        </li>
+        <li><a href="#objdump反汇编">objdump反汇编</a></li>
+        <li><a href="#nm查看符号表">nm查看符号表</a></li>
+        <li><a href="#fp寄存器解释">fp寄存器解释</a></li>
+        <li><a href="#寄存器用途">寄存器用途</a></li>
+        <li><a href="#汇编指令">汇编指令</a>
+          <ul>
+            <li><a href="#bl">BL</a></li>
+            <li><a href="#ldr">LDR</a></li>
+            <li><a href="#str">STR</a></li>
+            <li><a href="#lsllsr">LSL、LSR</a></li>
+            <li><a href="#vmov">VMOV</a></li>
+            <li><a href="#vcvt">VCVT</a></li>
+            <li><a href="#vldr">VLDR</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#四参考链接">四、参考链接</a>
+      <ul>
+        <li><a href="#浮点数转换">浮点数转换</a></li>
+        <li><a href="#汇编指令-1">汇编指令</a></li>
+        <li><a href="#gdb调试">gdb调试</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+<article class="markdown">
+  <h1>
+    <a href="/posts/%E6%B5%AE%E7%82%B9%E6%95%B0%E8%AE%A1%E7%AE%97%E8%AF%AF%E5%B7%AE%E5%88%86%E6%9E%90/">浮点数计算误差分析</a>
+  </h1>
+  
+  <h5>April 17, 2022</h5>
+
+
+
+  
+  <div>
+    
+      <a href="/categories/GDB/">GDB</a>
+  </div>
+  
+
+  
+  <div>
+    
+      <a href="/tags/%E6%B5%AE%E7%82%B9%E6%95%B0/">浮点数</a>, 
+      <a href="/tags/GDB/">GDB</a>
+  </div>
+  
+
+
+
+<h1 id="版本说明">
+  版本说明
+  <a class="anchor" href="#%e7%89%88%e6%9c%ac%e8%af%b4%e6%98%8e">#</a>
+</h1>
+<ul>
+<li>内容: 浮点数计算误差分析</li>
+<li>时间:  2022/02/28</li>
+<li>版本:  V 0.1</li>
+</ul>
+<h1 id="浮点数计算误差分析">
+  浮点数计算误差分析
+  <a class="anchor" href="#%e6%b5%ae%e7%82%b9%e6%95%b0%e8%ae%a1%e7%ae%97%e8%af%af%e5%b7%ae%e5%88%86%e6%9e%90">#</a>
+</h1>
+<p>通过分析汇编代码，分析浮点数运行产生的误差</p>
+<h2 id="测试程序">
+  测试程序
+  <a class="anchor" href="#%e6%b5%8b%e8%af%95%e7%a8%8b%e5%ba%8f">#</a>
+</h2>
+<h3 id="例子-1">
+  例子 1
+  <a class="anchor" href="#%e4%be%8b%e5%ad%90-1">#</a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">33800</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> b <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span><span style="color:#f92672">*</span><span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">short</span>)<span style="color:#f92672">*</span>(a);
+</span></span><span style="display:flex;"><span>	printf(<span style="color:#e6db74">&#34;[%lld]</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>,b);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="例子-2">
+  例子 2
+  <a class="anchor" href="#%e4%be%8b%e5%ad%90-2">#</a>
+</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">33800</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> b <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span><span style="color:#f92672">*</span><span style="color:#ae81ff">1000</span><span style="color:#f92672">*</span><span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">short</span>)<span style="color:#f92672">*</span> (<span style="color:#66d9ef">double</span>)(a<span style="color:#f92672">/</span><span style="color:#ae81ff">1000.0</span>);
+</span></span><span style="display:flex;"><span>	printf(<span style="color:#e6db74">&#34;[%lld]</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>,b);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>例子1输出878800
+例子2输出878799</p>
+<p>为何会产生差异呢，只能从汇编代码入手，一点一点分析浮点计算的过程</p>
+<h2 id="例子1汇编代码">
+  例子1汇编代码
+  <a class="anchor" href="#%e4%be%8b%e5%ad%901%e6%b1%87%e7%bc%96%e4%bb%a3%e7%a0%81">#</a>
+</h2>
+<p>例子1不涉及浮点数，因此汇编代码比较简单，先通过例子1的汇编代码进行了解。</p>
+<p>将例子1生成汇编文件，把汇编代码分4个重要部分说明，如下</p>
+<h4 id="片段1">
+  片段1
+  <a class="anchor" href="#%e7%89%87%e6%ae%b51">#</a>
+</h4>
+<p>
+  <a href="https://bob.cs.sonoma.edu/IntroCompOrg-RPi/sec-stack-manage.html">https://bob.cs.sonoma.edu/IntroCompOrg-RPi/sec-stack-manage.html</a></p>
+<p>The <code>push</code> instruction at the beginning of this function:</p>
+<ol>
+<li>Pushes the return address, the value contained in the <code>lr</code> register, onto the stack.</li>
+<li>Pushes the caller&rsquo;s frame pointer, the value contained in the <code>fp</code> register, onto the stack.</li>
+<li>Updates the <code>sp</code> to show that two 32-bit values have been pushed onto the top of the stack.</li>
+</ol>
+<p>The <code>add</code> instruction adds 4 to the value in the <code>sp</code> register and stores the sum in the <code>fp</code> register, thus setting the frame pointer for this function such that it points to the location on the stack where the frame pointer of the calling function is stored.</p>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">push	{fp, lr}	; 1、返回地址保存在lr (r13) 寄存器中，将lr寄存器中的值入栈;2、将fp寄存器中的值入栈
+.save {fp, lr}
+.setfp fp, sp, #4
+add	fp, sp, #4	; 将sp寄存器中的值加4之后的和，保存到fp寄存器中
+.pad #16
+sub	sp, sp, #16
+</code></pre><p>.save .setfp .pad</p>
+<h4 id="片段2">
+  片段2
+  <a class="anchor" href="#%e7%89%87%e6%ae%b52">#</a>
+</h4>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">ldr	r3, .L3	 	; 将.L3处的值加载到r3寄存器中   代码中.L3处实际的值为33800，即将33800保存到r3寄存器中
+str	r3, [fp, #-16]	; 将r3寄存器中的值保存到栈fp-16的位置
+ldr	r3, [fp, #-16]	; 将栈fp-16位置的值加载到r3寄存器中，这里为何多此一举，担心其它进程覆盖r3吗？
+</code></pre><h4 id="片段3">
+  片段3
+  <a class="anchor" href="#%e7%89%87%e6%ae%b53">#</a>
+</h4>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">mov	r2, r3			; 将r3寄存器中的值拷贝到r2寄存器中
+mov	r3, r2			; 将r2寄存器中的值拷贝到r3寄存器中，这里为何多此一举
+lsl	r3, r3, #1		; Logical shift left逻辑左移1位，相当于乘以2
+add	r3, r3, r2		; 将r2寄存器和r3寄存器中的值相加得到的和，保存到r3寄存器中
+lsl	r3, r3, #2		; Logical shift left逻辑左移2位，相当于乘以4，这里把r3寄存器中值乘以4
+add	r3, r3, r2		; 将r2寄存器和r3寄存器中的值相加得到的和，保存到r3寄存器中
+lsl	r3, r3, #1		; Logical shift left逻辑左移1位，相当于乘以2
+mov	r2, r3			; 将r3寄存器中的值拷贝到r2寄存器中
+mov	r3, #0			; 将数值0拷贝到r3寄存器中
+strd	r2, [fp, #-12]		; 将r2寄存器中的值保存到栈fp-12位置
+ldrd	r2, [fp, #-12]		; 将栈fp-12位置的值保存到r2寄存器中
+ldr	r0, .L3+4		; 将.L3+4处的值保存到r0寄存器中，代码中.L3+4代表[%lld]\012\000，即为printf函数的输入参数
+</code></pre><p>13 * 2 * 33800   =  [ (33800 * 2  + 33800) * 4  + 33800 ] * 2</p>
+<p>可知数字13会被分解成  (2 + 1) * 4 + 1</p>
+<h4 id="片段4">
+  片段4
+  <a class="anchor" href="#%e7%89%87%e6%ae%b54">#</a>
+</h4>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">	bl	printf				; 调用printf函数
+	mov	r3, #0
+	mov	r0, r3
+	sub	sp, fp, #4
+	@ sp needed
+	pop	{fp, pc}
+.L3:
+	.word	33800
+	.word	.LC0
+</code></pre><p>解释1：A calling function uses the <code>bl</code> instruction to call a function, which places the return address in the <code>lr</code> (<code>r13</code>) register.</p>
+<p>解释2：So this instruction effectively pops the caller&rsquo;s frame pointer off the top of the stack, back into the fp register. Then the return address is popped into the pc, and the stack pointer, sp, is updated to the new top of the stack. This acts as an epilogue to clean up the stack after performing the algorithm that is the purpose of this function.</p>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">pop     {fp, pc}
+</code></pre><h2 id="例子2汇编代码">
+  例子2汇编代码
+  <a class="anchor" href="#%e4%be%8b%e5%ad%902%e6%b1%87%e7%bc%96%e4%bb%a3%e7%a0%81">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">33800</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> b <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span><span style="color:#f92672">*</span><span style="color:#ae81ff">1000</span><span style="color:#f92672">*</span><span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">short</span>)<span style="color:#f92672">*</span> (<span style="color:#66d9ef">double</span>)(a<span style="color:#f92672">/</span><span style="color:#ae81ff">1000.0</span>);
+</span></span><span style="display:flex;"><span>	printf(<span style="color:#e6db74">&#34;[%lld]</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>,b);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="汇编片段">
+  汇编片段
+  <a class="anchor" href="#%e6%b1%87%e7%bc%96%e7%89%87%e6%ae%b5">#</a>
+</h4>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">.LC0:
+	.ascii	&#34;[%lld]\012\000&#34;
+	.text
+	.align	2
+	.global	main
+	.arch armv6
+	.syntax unified
+	.arm
+	.fpu vfp
+	.type	main, %function    
+.LFB0:    
+    ......					;省略了部分
+	sub	sp, sp, #16
+	ldr	r3, .L3+16			; 将.L3+16处的值加载到r3寄存器中   代码中.L3+16处实际的值为33800，即将33800保存到r3寄存器中
+	str	r3, [fp, #-8]			; 将r3寄存器中的值保存到栈fp-8的位置 对应代码int a = 33800;将局布变量入栈
+	ldr	r3, [fp, #-8]			; 将栈fp-8位置的值加载到r3寄存器中
+	vmov	s15, r3	@ int			; 将r3寄存器的值(33800)拷贝到s15单精度浮点寄存器中
+	vcvt.f64.s32	d6, s15			; 将s15浮点寄存器中32位单精度浮点数转换为64位双精度浮点保存到d6双精度浮点寄存器中(33800.0)
+	vldr.64	d5, .L3				; 将.L3处的值加载到d5寄存器中 .L3处前32位值为0存为double的低32位，后32位值为1083129856存为double的高32位
+	vdiv.f64	d7, d6, d5		; 将d6保存的double值(33800.0)除以d5保存的double值(1000.0)，得到值保存到d7双精度浮点寄存器中
+	vldr.64	d6, .L3+8			; 将.L3+8处的值加载到d6双精度浮点寄存器中  代码中.L3+8处前32位的值为0，后32位的值为1087988736
+	vmul.f64	d7, d7, d6		; 将d7保存的double值乘以d6保存的double值，得到值保存到d7双精度浮点寄存器中
+	vmov	r0, r1, d7			; 将d7双精度浮点寄存器中的低32位的值保存到r0中，将d7双精度浮点寄存器中的高32位的值保存到r1中
+	bl	__aeabi_d2lz			; double to long long C-style conversion ,此时r0, r1为输入参数
+	mov	r2, r0
+	mov	r3, r1
+	strd	r2, [fp, #-20]
+	ldrd	r2, [fp, #-20]
+	ldr	r0, .L3+20
+	bl	printf
+	mov	r3, #0
+	mov	r0, r3
+	sub	sp, fp, #4
+	@ sp needed
+	pop	{fp, pc}
+.L3:
+	.word	0		;double类型1000.0的低32位
+	.word	1083129856	;double类型1000.0的高32位
+	.word	0		;double类型26000.0的低32位 编译时就进行了计算得到26000
+	.word	1087988736	;double类型26000.0的高32位 编译时就进行了计算得到26000
+	.word	33800
+	.word	.LC0
+</code></pre><h4 id="运算步骤">
+  运算步骤
+  <a class="anchor" href="#%e8%bf%90%e7%ae%97%e6%ad%a5%e9%aa%a4">#</a>
+</h4>
+<ol>
+<li>将32位整型33800赋值到单精度浮点寄存器s15中</li>
+<li>将单精度浮点寄存器s15中的值转换为双精度浮点数，保存到双精度浮点寄存器d6中(33800.0)</li>
+<li>加载1000.0这个双精度浮点数(编译时就转换为双精度了)到双精度浮点寄存器d5中</li>
+<li>将d6保存的double值(33800.0)除以d5保存的double值(1000.0)，得到值保存到d7双精度浮点寄存器中</li>
+<li>加载26000.0这个双精度浮点数(编译时就进行了计算得到26000，并转换为双精度了)到双精度浮点寄存器d6中</li>
+<li>将d7保存的double值乘以d6保存的double值(26000.0)，得到值保存到d7双精度浮点寄存器中</li>
+<li>将d7双精度浮点寄存器中的高32位保存到r0寄存器中，低32位保存到r1寄存器中</li>
+<li>调用__aeabi_d2lz指令，以r0和r1中保存的浮点数为参数，将浮点数转换成long long类型</li>
+</ol>
+<h4 id="代码中的浮点数常量">
+  代码中的浮点数常量
+  <a class="anchor" href="#%e4%bb%a3%e7%a0%81%e4%b8%ad%e7%9a%84%e6%b5%ae%e7%82%b9%e6%95%b0%e5%b8%b8%e9%87%8f">#</a>
+</h4>
+<p>根据国际标准IEEE 754，任意一个二进制浮点数V可以表示成下面的形式：</p>
+<p>
+  <img src="/images/%e6%b5%ae%e7%82%b9%e6%95%b0%e8%ae%a1%e7%ae%97%e8%af%af%e5%b7%ae%e5%88%86%e6%9e%90/ieee754_double.jpg" alt="img" /></p>
+<ol>
+<li>(-1)^s表示符号位，当s=0，V为正数；当s=1，V为负数。</li>
+<li>M表示有效数字，大于等于1，小于2。</li>
+<li>2^E表示指数位。</li>
+</ol>
+<p>对于<strong>double</strong>双精度浮点数，用 1 位表示符号，用 11 位表示指数，52 位表示尾数，其中指数域称为阶码</p>
+<table>
+<thead>
+<tr>
+<th>高32位十进制</th>
+<th>2位二进制表示</th>
+<th>S</th>
+<th>e的二进制</th>
+<th>e的十进制</th>
+<th>E(E = e - 1023)</th>
+<th>M</th>
+<th>V</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1083129856</td>
+<td><code>0100 0000 1000 1111 0100 0000 0000 0000</code></td>
+<td>0</td>
+<td><code>100 0000 1000</code></td>
+<td>1032</td>
+<td>1032-1023=9</td>
+<td>1.111101</td>
+<td>1000</td>
+</tr>
+<tr>
+<td>1087988736</td>
+<td><code>0100 0000 1101 1001 0110 0100 0000 0000</code></td>
+<td>0</td>
+<td><code>100 0000 1101</code></td>
+<td>1037</td>
+<td>1037-1023=14</td>
+<td>1.1001011001</td>
+<td>26000</td>
+</tr>
+</tbody>
+</table>
+<p>由上可知26000和1000.0在编译时就已经提前转换为双精度浮点数保存到.L3指定的常量区域了</p>
+<h2 id="gdb调试跟踪每条指令">
+  gdb调试跟踪每条指令
+  <a class="anchor" href="#gdb%e8%b0%83%e8%af%95%e8%b7%9f%e8%b8%aa%e6%af%8f%e6%9d%a1%e6%8c%87%e4%bb%a4">#</a>
+</h2>
+<h4 id="gdb基本命令">
+  gdb基本命令
+  <a class="anchor" href="#gdb%e5%9f%ba%e6%9c%ac%e5%91%bd%e4%bb%a4">#</a>
+</h4>
+<p>先从简单的gdb命令入手，参考https://bob.cs.sonoma.edu/IntroCompOrg-RPi/sec-gdb1.html#p-342</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> li			<span style="color:#75715e">#打印行号</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> br 8			<span style="color:#75715e">#在第8行打一个断点</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> s			   	<span style="color:#75715e">#执行到下一个断点</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> print b      	<span style="color:#75715e">#打印变量b</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>Starting program: /home/pi/shared/boox/test_double1_gdb 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Breakpoint 1, main <span style="color:#f92672">()</span> at test_double1_gdb.cpp:6
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">6</span>               double  b <span style="color:#f92672">=</span> 13*1000*sizeof<span style="color:#f92672">(</span>short<span style="color:#f92672">)</span>* <span style="color:#f92672">(</span>double<span style="color:#f92672">)(</span>a/1000.0<span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> li
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span>       <span style="color:#75715e">#include &lt;stdio.h&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">2</span>       int main<span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">3</span>       <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">4</span>               int a <span style="color:#f92672">=</span> 33800;
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">5</span>               //long long b <span style="color:#f92672">=</span> 13*1000*sizeof<span style="color:#f92672">(</span>short<span style="color:#f92672">)</span>* <span style="color:#f92672">(</span>double<span style="color:#f92672">)(</span>a/1000.0<span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">6</span>               double  b <span style="color:#f92672">=</span> 13*1000*sizeof<span style="color:#f92672">(</span>short<span style="color:#f92672">)</span>* <span style="color:#f92672">(</span>double<span style="color:#f92672">)(</span>a/1000.0<span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">7</span>               long long c <span style="color:#f92672">=</span> b;
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">8</span>               printf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;[%lf][%lld]\n&#34;</span>,b,c<span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">9</span>       <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> br <span style="color:#ae81ff">8</span>
+</span></span><span style="display:flex;"><span>Note: breakpoint <span style="color:#ae81ff">3</span> also set at pc 0x10508.
+</span></span><span style="display:flex;"><span>Breakpoint <span style="color:#ae81ff">4</span> at 0x10508: file test_double1_gdb.cpp, line 8.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> r
+</span></span><span style="display:flex;"><span>The program being debugged has been started already.
+</span></span><span style="display:flex;"><span>Start it from the beginning? <span style="color:#f92672">(</span>y or n<span style="color:#f92672">)</span> y
+</span></span><span style="display:flex;"><span>Starting program: /home/pi/shared/boox/test_double1_gdb 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Breakpoint 1, main <span style="color:#f92672">()</span> at test_double1_gdb.cpp:6
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">6</span>               double  b <span style="color:#f92672">=</span> 13*1000*sizeof<span style="color:#f92672">(</span>short<span style="color:#f92672">)</span>* <span style="color:#f92672">(</span>double<span style="color:#f92672">)(</span>a/1000.0<span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> s
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Breakpoint 2, main <span style="color:#f92672">()</span> at test_double1_gdb.cpp:7
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">7</span>               long long c <span style="color:#f92672">=</span> b;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> s
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Breakpoint 3, main <span style="color:#f92672">()</span> at test_double1_gdb.cpp:8
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">8</span>               printf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;[%lf][%lld]\n&#34;</span>,b,c<span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> print b
+</span></span><span style="display:flex;"><span>$6 <span style="color:#f92672">=</span> 878799.99999999988
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> print c
+</span></span><span style="display:flex;"><span>$7 <span style="color:#f92672">=</span> <span style="color:#ae81ff">878799</span>
+</span></span></code></pre></div><p>从上面可知浮点计算得到878799.99999999988后，再强制转换为long long丢掉了小数部分，导致最后结果为878799</p>
+<h4 id="对比添加-g选项生成汇编文件">
+  对比添加-g选项生成汇编文件
+  <a class="anchor" href="#%e5%af%b9%e6%af%94%e6%b7%bb%e5%8a%a0-g%e9%80%89%e9%a1%b9%e7%94%9f%e6%88%90%e6%b1%87%e7%bc%96%e6%96%87%e4%bb%b6">#</a>
+</h4>
+<p>由下图可知，编译时添加-g选项后，并不影响真正有用的汇编代码，也不影响寄存器的使用，只是插入了一些辅助的指令而已</p>
+<p>
+  <img src="/images/%e6%b5%ae%e7%82%b9%e6%95%b0%e8%ae%a1%e7%ae%97%e8%af%af%e5%b7%ae%e5%88%86%e6%9e%90/image-20210405235244490.png" alt="image-20210405235244490" /></p>
+<h4 id="gdb打印所有寄存器中的值">
+  gdb打印所有寄存器中的值
+  <a class="anchor" href="#gdb%e6%89%93%e5%8d%b0%e6%89%80%e6%9c%89%e5%af%84%e5%ad%98%e5%99%a8%e4%b8%ad%e7%9a%84%e5%80%bc">#</a>
+</h4>
+<p>通过info all-registers命令可以打印通用寄存器、双精度浮点寄存器d0~d31、单精度浮点寄存器s0~s31的值。使用寄存器的值时，要注意字节序</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> info all-registers
+</span></span><span style="display:flex;"><span>r0             0xd68cf             <span style="color:#ae81ff">878799</span>
+</span></span><span style="display:flex;"><span>r1             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r2             0xd68cf             <span style="color:#ae81ff">878799</span>
+</span></span><span style="display:flex;"><span>r3             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r4             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r5             0x105a8             <span style="color:#ae81ff">66984</span>
+</span></span><span style="display:flex;"><span>r6             0x103d0             <span style="color:#ae81ff">66512</span>
+</span></span><span style="display:flex;"><span>r7             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r8             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r9             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r10            0x76fff000          <span style="color:#ae81ff">1996484608</span>
+</span></span><span style="display:flex;"><span>r11            0x7efff494          <span style="color:#ae81ff">2130703508</span>
+</span></span><span style="display:flex;"><span>r12            0x7efff510          <span style="color:#ae81ff">2130703632</span>
+</span></span><span style="display:flex;"><span>sp             0x7efff480          0x7efff480
+</span></span><span style="display:flex;"><span>lr             0x104f8             <span style="color:#ae81ff">66808</span>
+</span></span><span style="display:flex;"><span>pc             0x10504             0x10504 &lt;main<span style="color:#f92672">()</span>+68&gt;
+</span></span><span style="display:flex;"><span>cpsr           0x20000010          <span style="color:#ae81ff">536870928</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>//以下只列出了使用到的几个双精度浮点寄存器
+</span></span><span style="display:flex;"><span>d5             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x41f00000<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0x41f0000000000000, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x1e<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0x100000000<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>d6             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0xffffffff, 0x412ad19f<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0x412ad19fffffffff, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0xa<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0xd68cf<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>d7             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0xd68cf<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0xd68cf00000000, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x0<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0x0<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>//以下只列出了使用到的几个单精度浮点寄存器
+</span></span><span style="display:flex;"><span>s11            <span style="color:#ae81ff">30</span>                  <span style="color:#f92672">(</span>raw 0x41f00000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s12            -nan<span style="color:#f92672">(</span>0x7fffff<span style="color:#f92672">)</span>      <span style="color:#f92672">(</span>raw 0xffffffff<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s13            10.676177           <span style="color:#f92672">(</span>raw 0x412ad19f<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s14            <span style="color:#ae81ff">0</span>                   <span style="color:#f92672">(</span>raw 0x00000000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s15            1.23145969e-39      <span style="color:#f92672">(</span>raw 0x000d68cf<span style="color:#f92672">)</span>
+</span></span></code></pre></div><h4 id="汇编分解">
+  汇编分解
+  <a class="anchor" href="#%e6%b1%87%e7%bc%96%e5%88%86%e8%a7%a3">#</a>
+</h4>
+<p>将例子2中的汇编指令进行指令级分解，观察每次指令操作后寄存器中值的变化，进而了解浮点运算的每一步动作。</p>
+<p>需要使用的gdb命令：</p>
+<p>参考https://stackoverflow.com/questions/2420813/using-gdb-to-single-step-assembly-code-outside-specified-executable-causes-error</p>
+<pre tabindex="0"><code class="language-gdb" data-lang="gdb">(gdb) display/i $pc			#告诉gdb显示下一个汇编指令
+(gdb) si					#执行下一条汇编指令 step instruction
+(gdb) info all-registers	#打印通用寄存器、双精度浮点寄存器d0~d31、单精度浮点寄存器s0~s31的值
+</code></pre><p>在关键位置打好断点后，先输入s，进入打断点的位置，然后重复输入si，查看每次的汇编指令，同时输入info all-registers查看每次执行一条汇编指令后，寄存器中的值。</p>
+<p>下面逐步分解上面例子2中对应的汇编指令执行后的寄存器状态，只分析最关键的浮点操作部分汇编</p>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">	ldr	r3, .L3+16					; 将.L3+16处的值加载到r3寄存器中   代码中.L3+16处实际的值为33800，即将33800保存到r3寄存器中
+	str	r3, [fp, #-8]				; 将r3寄存器中的值保存到栈fp-8的位置		对应代码int a = 33800;将局布变量入栈
+	ldr	r3, [fp, #-8]				; 将栈fp-8位置的值加载到r3寄存器中
+	vmov	s15, r3	@ int			; 将r3寄存器的值(33800)拷贝到s15单精度浮点寄存器中
+	vcvt.f64.s32	d6, s15			; 将s15浮点寄存器中32位单精度浮点数转换为64位双精度浮点保存到d6双精度浮点寄存器中(33800.0)
+	vldr.64	d5, .L3				    ; 将.L3处的值加载到d5寄存器中 .L3处前32位值为0存为double的低32位，后32位值为1083129856存为double的高32位
+	vdiv.f64	d7, d6, d5			; 将d6保存的double值(33800.0)除以d5保存的double值(1000.0)，得到值保存到d7双精度浮点寄存器中
+	vldr.64	d6, .L3+8				; 将.L3+8处的值加载到d6双精度浮点寄存器中  代码中.L3+8处前32位的值为0，后32位的值为1087988736
+	vmul.f64	d7, d7, d6			; 将d7保存的double值乘以d6保存的double值，得到值保存到d7双精度浮点寄存器中
+	vmov	r0, r1, d7				; 将d7双精度浮点寄存器中的低32位的值保存到r0中，将d7双精度浮点寄存器中的高32位的值保存到r1中
+	bl	__aeabi_d2lz				; double to long long C-style conversion ,此时r0, r1为输入参数
+</code></pre><h5 id="1初始寄存器状态r3中保存的值为局布变量a的值33800">
+  1.初始寄存器状态，r3中保存的值为局布变量a的值33800
+  <a class="anchor" href="#1%e5%88%9d%e5%a7%8b%e5%af%84%e5%ad%98%e5%99%a8%e7%8a%b6%e6%80%81r3%e4%b8%ad%e4%bf%9d%e5%ad%98%e7%9a%84%e5%80%bc%e4%b8%ba%e5%b1%80%e5%b8%83%e5%8f%98%e9%87%8fa%e7%9a%84%e5%80%bc33800">#</a>
+</h5>
+<p>此时所有双精度浮点寄存器和单精度浮点寄存器的值都为0，下面故意没有展示出来，没必要展示。</p>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">   	ldr	r3, .L3+16					; 将.L3+16处的值加载到r3寄存器中   代码中.L3+16处实际的值为33800，即将33800保存到r3寄存器中
+   	str	r3, [fp, #-8]				; 将r3寄存器中的值保存到栈fp-8的位置		对应代码int a = 33800;将局布变量入栈
+   	ldr	r3, [fp, #-8]				; 将栈fp-8位置的值加载到r3寄存器中
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>r0             0x1                 <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>r1             0x7efff5e4          <span style="color:#ae81ff">2130703844</span>
+</span></span><span style="display:flex;"><span>r2             0x7efff5ec          <span style="color:#ae81ff">2130703852</span>
+</span></span><span style="display:flex;"><span>r3             0x8408              <span style="color:#ae81ff">33800</span>
+</span></span><span style="display:flex;"><span>r4             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r5             0x105a8             <span style="color:#ae81ff">66984</span>
+</span></span><span style="display:flex;"><span>r6             0x103d0             <span style="color:#ae81ff">66512</span>
+</span></span><span style="display:flex;"><span>r7             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r8             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r9             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r10            0x76fff000          <span style="color:#ae81ff">1996484608</span>
+</span></span><span style="display:flex;"><span>r11            0x7efff494          <span style="color:#ae81ff">2130703508</span>
+</span></span><span style="display:flex;"><span>r12            0x7efff510          <span style="color:#ae81ff">2130703632</span>
+</span></span><span style="display:flex;"><span>sp             0x7efff480          0x7efff480
+</span></span><span style="display:flex;"><span>lr             0x76e38718          <span style="color:#ae81ff">1994622744</span>
+</span></span><span style="display:flex;"><span>pc             0x104d8             0x104d8 &lt;main<span style="color:#f92672">()</span>+24&gt;
+</span></span><span style="display:flex;"><span>cpsr           0x60000010          <span style="color:#ae81ff">1610612752</span>
+</span></span></code></pre></div><h5 id="2将r3寄存器的值33800拷贝到s15单精度浮点寄存器中">
+  2.将r3寄存器的值(33800)拷贝到s15单精度浮点寄存器中
+  <a class="anchor" href="#2%e5%b0%86r3%e5%af%84%e5%ad%98%e5%99%a8%e7%9a%84%e5%80%bc33800%e6%8b%b7%e8%b4%9d%e5%88%b0s15%e5%8d%95%e7%b2%be%e5%ba%a6%e6%b5%ae%e7%82%b9%e5%af%84%e5%ad%98%e5%99%a8%e4%b8%ad">#</a>
+</h5>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">0x104d8 &lt;main()+24&gt;: vmov    s15, r3		
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>r0             0x1                 <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>r1             0x7efff5e4          <span style="color:#ae81ff">2130703844</span>
+</span></span><span style="display:flex;"><span>r2             0x7efff5ec          <span style="color:#ae81ff">2130703852</span>
+</span></span><span style="display:flex;"><span>r3             0x8408              <span style="color:#ae81ff">33800</span>
+</span></span><span style="display:flex;"><span>r4             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r5             0x105a8             <span style="color:#ae81ff">66984</span>
+</span></span><span style="display:flex;"><span>r6             0x103d0             <span style="color:#ae81ff">66512</span>
+</span></span><span style="display:flex;"><span>r7             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r8             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r9             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r10            0x76fff000          <span style="color:#ae81ff">1996484608</span>
+</span></span><span style="display:flex;"><span>r11            0x7efff494          <span style="color:#ae81ff">2130703508</span>
+</span></span><span style="display:flex;"><span>r12            0x7efff510          <span style="color:#ae81ff">2130703632</span>
+</span></span><span style="display:flex;"><span>sp             0x7efff480          0x7efff480
+</span></span><span style="display:flex;"><span>lr             0x76e38718          <span style="color:#ae81ff">1994622744</span>
+</span></span><span style="display:flex;"><span>pc             0x104dc             0x104dc &lt;main<span style="color:#f92672">()</span>+28&gt;
+</span></span><span style="display:flex;"><span>cpsr           0x60000010          <span style="color:#ae81ff">1610612752</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>d7             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x8408<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0x840800000000, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x0<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0x0<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>s15            4.73638881e-41      <span style="color:#f92672">(</span>raw 0x00008408<span style="color:#f92672">)</span>
+</span></span></code></pre></div><h5 id="3将s15浮点寄存器中32位单精度浮点数转换为64位双精度浮点保存到d6双精度浮点寄存器中338000">
+  3.将s15浮点寄存器中32位单精度浮点数转换为64位双精度浮点保存到d6双精度浮点寄存器中(33800.0)
+  <a class="anchor" href="#3%e5%b0%86s15%e6%b5%ae%e7%82%b9%e5%af%84%e5%ad%98%e5%99%a8%e4%b8%ad32%e4%bd%8d%e5%8d%95%e7%b2%be%e5%ba%a6%e6%b5%ae%e7%82%b9%e6%95%b0%e8%bd%ac%e6%8d%a2%e4%b8%ba64%e4%bd%8d%e5%8f%8c%e7%b2%be%e5%ba%a6%e6%b5%ae%e7%82%b9%e4%bf%9d%e5%ad%98%e5%88%b0d6%e5%8f%8c%e7%b2%be%e5%ba%a6%e6%b5%ae%e7%82%b9%e5%af%84%e5%ad%98%e5%99%a8%e4%b8%ad338000">#</a>
+</h5>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">0x104dc &lt;main()+28&gt;: vcvt.f64.s32    d6, s15 
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> info all-registers
+</span></span><span style="display:flex;"><span>r0             0x1                 <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>r1             0x7efff5e4          <span style="color:#ae81ff">2130703844</span>
+</span></span><span style="display:flex;"><span>r2             0x7efff5ec          <span style="color:#ae81ff">2130703852</span>
+</span></span><span style="display:flex;"><span>r3             0x8408              <span style="color:#ae81ff">33800</span>
+</span></span><span style="display:flex;"><span>r4             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r5             0x105a8             <span style="color:#ae81ff">66984</span>
+</span></span><span style="display:flex;"><span>r6             0x103d0             <span style="color:#ae81ff">66512</span>
+</span></span><span style="display:flex;"><span>r7             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r8             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r9             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r10            0x76fff000          <span style="color:#ae81ff">1996484608</span>
+</span></span><span style="display:flex;"><span>r11            0x7efff494          <span style="color:#ae81ff">2130703508</span>
+</span></span><span style="display:flex;"><span>r12            0x7efff510          <span style="color:#ae81ff">2130703632</span>
+</span></span><span style="display:flex;"><span>sp             0x7efff480          0x7efff480
+</span></span><span style="display:flex;"><span>lr             0x76e38718          <span style="color:#ae81ff">1994622744</span>
+</span></span><span style="display:flex;"><span>pc             0x104e0             0x104e0 &lt;main<span style="color:#f92672">()</span>+32&gt;
+</span></span><span style="display:flex;"><span>cpsr           0x60000010          <span style="color:#ae81ff">1610612752</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>d6             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x40e08100<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0x40e0810000000000, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x7<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0x8408<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>d7             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x8408<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0x840800000000, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x0<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0x0<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>s13            7.01574707          <span style="color:#f92672">(</span>raw 0x40e08100<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s14            <span style="color:#ae81ff">0</span>                   <span style="color:#f92672">(</span>raw 0x00000000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s15            4.73638881e-41      <span style="color:#f92672">(</span>raw 0x00008408<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>可以看出此时d6寄存器中f64值为0x8408，代表浮点数33800.0</p>
+<h5 id="4将l3处的值加载到d5寄存器中-l3处前32位值为0存为double的低32位后32位值为1083129856存为double的高32位">
+  4.将.L3处的值加载到d5寄存器中 .L3处前32位值为0存为double的低32位，后32位值为1083129856存为double的高32位
+  <a class="anchor" href="#4%e5%b0%86l3%e5%a4%84%e7%9a%84%e5%80%bc%e5%8a%a0%e8%bd%bd%e5%88%b0d5%e5%af%84%e5%ad%98%e5%99%a8%e4%b8%ad-l3%e5%a4%84%e5%89%8d32%e4%bd%8d%e5%80%bc%e4%b8%ba0%e5%ad%98%e4%b8%badouble%e7%9a%84%e4%bd%8e32%e4%bd%8d%e5%90%8e32%e4%bd%8d%e5%80%bc%e4%b8%ba1083129856%e5%ad%98%e4%b8%badouble%e7%9a%84%e9%ab%9832%e4%bd%8d">#</a>
+</h5>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">=&gt; 0x104e0 &lt;main()+32&gt;: vldr    d5, [pc, #56]   ; 0x10520 &lt;main()+96&gt; 
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> info all-registers
+</span></span><span style="display:flex;"><span>r0             0x1                 <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>r1             0x7efff5e4          <span style="color:#ae81ff">2130703844</span>
+</span></span><span style="display:flex;"><span>r2             0x7efff5ec          <span style="color:#ae81ff">2130703852</span>
+</span></span><span style="display:flex;"><span>r3             0x8408              <span style="color:#ae81ff">33800</span>
+</span></span><span style="display:flex;"><span>r4             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r5             0x105a8             <span style="color:#ae81ff">66984</span>
+</span></span><span style="display:flex;"><span>r6             0x103d0             <span style="color:#ae81ff">66512</span>
+</span></span><span style="display:flex;"><span>r7             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r8             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r9             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r10            0x76fff000          <span style="color:#ae81ff">1996484608</span>
+</span></span><span style="display:flex;"><span>r11            0x7efff494          <span style="color:#ae81ff">2130703508</span>
+</span></span><span style="display:flex;"><span>r12            0x7efff510          <span style="color:#ae81ff">2130703632</span>
+</span></span><span style="display:flex;"><span>sp             0x7efff480          0x7efff480
+</span></span><span style="display:flex;"><span>lr             0x76e38718          <span style="color:#ae81ff">1994622744</span>
+</span></span><span style="display:flex;"><span>pc             0x104e4             0x104e4 &lt;main<span style="color:#f92672">()</span>+36&gt;
+</span></span><span style="display:flex;"><span>cpsr           0x60000010          <span style="color:#ae81ff">1610612752</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>d5             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x408f4000<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0x408f400000000000, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x4<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0x3e8<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>d6             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x40e08100<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0x40e0810000000000, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x7<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0x8408<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>d7             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x8408<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0x840800000000, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x0<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0x0<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>s11            4.4765625           <span style="color:#f92672">(</span>raw 0x408f4000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s12            <span style="color:#ae81ff">0</span>                   <span style="color:#f92672">(</span>raw 0x00000000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s13            7.01574707          <span style="color:#f92672">(</span>raw 0x40e08100<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s14            <span style="color:#ae81ff">0</span>                   <span style="color:#f92672">(</span>raw 0x00000000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s15            4.73638881e-41      <span style="color:#f92672">(</span>raw 0x00008408<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>可以看出此时d5寄存器中f64值为0x3e8，代表浮点数1000.0</p>
+<h5 id="5将d6保存的double值338000除以d5保存的double值10000得到值保存到d7双精度浮点寄存器中">
+  5.将d6保存的double值(33800.0)除以d5保存的double值(1000.0)，得到值保存到d7双精度浮点寄存器中
+  <a class="anchor" href="#5%e5%b0%86d6%e4%bf%9d%e5%ad%98%e7%9a%84double%e5%80%bc338000%e9%99%a4%e4%bb%a5d5%e4%bf%9d%e5%ad%98%e7%9a%84double%e5%80%bc10000%e5%be%97%e5%88%b0%e5%80%bc%e4%bf%9d%e5%ad%98%e5%88%b0d7%e5%8f%8c%e7%b2%be%e5%ba%a6%e6%b5%ae%e7%82%b9%e5%af%84%e5%ad%98%e5%99%a8%e4%b8%ad">#</a>
+</h5>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">=&gt; 0x104e4 &lt;main()+36&gt;: vdiv.f64        d7, d6, d5
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> info all-registers
+</span></span><span style="display:flex;"><span>r0             0x1                 <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>r1             0x7efff5e4          <span style="color:#ae81ff">2130703844</span>
+</span></span><span style="display:flex;"><span>r2             0x7efff5ec          <span style="color:#ae81ff">2130703852</span>
+</span></span><span style="display:flex;"><span>r3             0x8408              <span style="color:#ae81ff">33800</span>
+</span></span><span style="display:flex;"><span>r4             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r5             0x105a8             <span style="color:#ae81ff">66984</span>
+</span></span><span style="display:flex;"><span>r6             0x103d0             <span style="color:#ae81ff">66512</span>
+</span></span><span style="display:flex;"><span>r7             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r8             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r9             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r10            0x76fff000          <span style="color:#ae81ff">1996484608</span>
+</span></span><span style="display:flex;"><span>r11            0x7efff494          <span style="color:#ae81ff">2130703508</span>
+</span></span><span style="display:flex;"><span>r12            0x7efff510          <span style="color:#ae81ff">2130703632</span>
+</span></span><span style="display:flex;"><span>sp             0x7efff480          0x7efff480
+</span></span><span style="display:flex;"><span>lr             0x76e38718          <span style="color:#ae81ff">1994622744</span>
+</span></span><span style="display:flex;"><span>pc             0x104e8             0x104e8 &lt;main<span style="color:#f92672">()</span>+40&gt;
+</span></span><span style="display:flex;"><span>cpsr           0x60000010          <span style="color:#ae81ff">1610612752</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>d5             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x408f4000<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0x408f400000000000, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x4<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0x3e8<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>d6             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x40e08100<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0x40e0810000000000, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x7<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0x8408<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>d7             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x66666666, 0x4040e666<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0x4040e66666666666, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0xffffffff, 0x3<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0x21<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>s11            4.4765625           <span style="color:#f92672">(</span>raw 0x408f4000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s12            <span style="color:#ae81ff">0</span>                   <span style="color:#f92672">(</span>raw 0x00000000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s13            7.01574707          <span style="color:#f92672">(</span>raw 0x40e08100<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s14            2.72008302e+23      <span style="color:#f92672">(</span>raw 0x66666666<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s15            3.0140624           <span style="color:#f92672">(</span>raw 0x4040e666<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>可以看出此时d7寄存器中f64值为0x21，代表浮点数33.0</p>
+<h5 id="6将l38处的值加载到d6双精度浮点寄存器中--代码中l38处前32位的值为0后32位的值为1087988736">
+  6.将.L3+8处的值加载到d6双精度浮点寄存器中  代码中.L3+8处前32位的值为0，后32位的值为1087988736
+  <a class="anchor" href="#6%e5%b0%86l38%e5%a4%84%e7%9a%84%e5%80%bc%e5%8a%a0%e8%bd%bd%e5%88%b0d6%e5%8f%8c%e7%b2%be%e5%ba%a6%e6%b5%ae%e7%82%b9%e5%af%84%e5%ad%98%e5%99%a8%e4%b8%ad--%e4%bb%a3%e7%a0%81%e4%b8%adl38%e5%a4%84%e5%89%8d32%e4%bd%8d%e7%9a%84%e5%80%bc%e4%b8%ba0%e5%90%8e32%e4%bd%8d%e7%9a%84%e5%80%bc%e4%b8%ba1087988736">#</a>
+</h5>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">=&gt; 0x104e8 &lt;main()+40&gt;: vldr    d6, [pc, #56]   ; 0x10528 &lt;main()+104&gt;
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> info all-registers
+</span></span><span style="display:flex;"><span>r0             0x1                 <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>r1             0x7efff5e4          <span style="color:#ae81ff">2130703844</span>
+</span></span><span style="display:flex;"><span>r2             0x7efff5ec          <span style="color:#ae81ff">2130703852</span>
+</span></span><span style="display:flex;"><span>r3             0x8408              <span style="color:#ae81ff">33800</span>
+</span></span><span style="display:flex;"><span>r4             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r5             0x105a8             <span style="color:#ae81ff">66984</span>
+</span></span><span style="display:flex;"><span>r6             0x103d0             <span style="color:#ae81ff">66512</span>
+</span></span><span style="display:flex;"><span>r7             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r8             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r9             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r10            0x76fff000          <span style="color:#ae81ff">1996484608</span>
+</span></span><span style="display:flex;"><span>r11            0x7efff494          <span style="color:#ae81ff">2130703508</span>
+</span></span><span style="display:flex;"><span>r12            0x7efff510          <span style="color:#ae81ff">2130703632</span>
+</span></span><span style="display:flex;"><span>sp             0x7efff480          0x7efff480
+</span></span><span style="display:flex;"><span>lr             0x76e38718          <span style="color:#ae81ff">1994622744</span>
+</span></span><span style="display:flex;"><span>pc             0x104ec             0x104ec &lt;main<span style="color:#f92672">()</span>+44&gt;
+</span></span><span style="display:flex;"><span>cpsr           0x60000010          <span style="color:#ae81ff">1610612752</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>d5             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x408f4000<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0x408f400000000000, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x4<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0x3e8<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>d6             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x40d96400<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0x40d9640000000000, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x6<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0x6590<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>d7             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x66666666, 0x4040e666<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0x4040e66666666666, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0xffffffff, 0x3<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0x21<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>s11            4.4765625           <span style="color:#f92672">(</span>raw 0x408f4000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s12            <span style="color:#ae81ff">0</span>                   <span style="color:#f92672">(</span>raw 0x00000000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s13            6.79345703          <span style="color:#f92672">(</span>raw 0x40d96400<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s14            2.72008302e+23      <span style="color:#f92672">(</span>raw 0x66666666<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s15            3.0140624           <span style="color:#f92672">(</span>raw 0x4040e666<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>可以看出此时d6寄存器中f64值为0x6590，代表浮点数26000.0</p>
+<h5 id="7d7保存的double值乘以d6保存的double值得到值保存到d7双精度浮点寄存器中">
+  7.d7保存的double值乘以d6保存的double值，得到值保存到d7双精度浮点寄存器中
+  <a class="anchor" href="#7d7%e4%bf%9d%e5%ad%98%e7%9a%84double%e5%80%bc%e4%b9%98%e4%bb%a5d6%e4%bf%9d%e5%ad%98%e7%9a%84double%e5%80%bc%e5%be%97%e5%88%b0%e5%80%bc%e4%bf%9d%e5%ad%98%e5%88%b0d7%e5%8f%8c%e7%b2%be%e5%ba%a6%e6%b5%ae%e7%82%b9%e5%af%84%e5%ad%98%e5%99%a8%e4%b8%ad">#</a>
+</h5>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">=&gt; 0x104ec &lt;main()+44&gt;: vmul.f64        d7, d7, d6
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> info all-registers
+</span></span><span style="display:flex;"><span>r0             0x1                 <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>r1             0x7efff5e4          <span style="color:#ae81ff">2130703844</span>
+</span></span><span style="display:flex;"><span>r2             0x7efff5ec          <span style="color:#ae81ff">2130703852</span>
+</span></span><span style="display:flex;"><span>r3             0x8408              <span style="color:#ae81ff">33800</span>
+</span></span><span style="display:flex;"><span>r4             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r5             0x105a8             <span style="color:#ae81ff">66984</span>
+</span></span><span style="display:flex;"><span>r6             0x103d0             <span style="color:#ae81ff">66512</span>
+</span></span><span style="display:flex;"><span>r7             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r8             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r9             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r10            0x76fff000          <span style="color:#ae81ff">1996484608</span>
+</span></span><span style="display:flex;"><span>r11            0x7efff494          <span style="color:#ae81ff">2130703508</span>
+</span></span><span style="display:flex;"><span>r12            0x7efff510          <span style="color:#ae81ff">2130703632</span>
+</span></span><span style="display:flex;"><span>sp             0x7efff480          0x7efff480
+</span></span><span style="display:flex;"><span>lr             0x76e38718          <span style="color:#ae81ff">1994622744</span>
+</span></span><span style="display:flex;"><span>pc             0x104f0             0x104f0 &lt;main<span style="color:#f92672">()</span>+48&gt;
+</span></span><span style="display:flex;"><span>cpsr           0x60000010          <span style="color:#ae81ff">1610612752</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>d5             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x408f4000<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0x408f400000000000, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x4<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0x3e8<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>d6             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x40d96400<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0x40d9640000000000, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x6<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0x6590<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>d7             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0xffffffff, 0x412ad19f<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0x412ad19fffffffff, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0xa<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0xd68cf<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>s11            4.4765625           <span style="color:#f92672">(</span>raw 0x408f4000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s12            <span style="color:#ae81ff">0</span>                   <span style="color:#f92672">(</span>raw 0x00000000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s13            6.79345703          <span style="color:#f92672">(</span>raw 0x40d96400<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s14            -nan<span style="color:#f92672">(</span>0x7fffff<span style="color:#f92672">)</span>      <span style="color:#f92672">(</span>raw 0xffffffff<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s15            10.676177           <span style="color:#f92672">(</span>raw 0x412ad19f<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>可以看出此时d7寄存器中f64值为0xd68cf，代表浮点数878799.0</p>
+<p>其中高32位为0x412ad19f，低32位为0xffffffff，见下图分解</p>
+<p>
+  <img src="/images/%e6%b5%ae%e7%82%b9%e6%95%b0%e8%ae%a1%e7%ae%97%e8%af%af%e5%b7%ae%e5%88%86%e6%9e%90/image-20210412223825458.png" alt="image-20210412223825458" /></p>
+<h5 id="8将d7双精度浮点寄存器中的低32位的值保存到r0中将d7双精度浮点寄存器中的高32位的值保存到r1中">
+  8.将d7双精度浮点寄存器中的低32位的值保存到r0中，将d7双精度浮点寄存器中的高32位的值保存到r1中
+  <a class="anchor" href="#8%e5%b0%86d7%e5%8f%8c%e7%b2%be%e5%ba%a6%e6%b5%ae%e7%82%b9%e5%af%84%e5%ad%98%e5%99%a8%e4%b8%ad%e7%9a%84%e4%bd%8e32%e4%bd%8d%e7%9a%84%e5%80%bc%e4%bf%9d%e5%ad%98%e5%88%b0r0%e4%b8%ad%e5%b0%86d7%e5%8f%8c%e7%b2%be%e5%ba%a6%e6%b5%ae%e7%82%b9%e5%af%84%e5%ad%98%e5%99%a8%e4%b8%ad%e7%9a%84%e9%ab%9832%e4%bd%8d%e7%9a%84%e5%80%bc%e4%bf%9d%e5%ad%98%e5%88%b0r1%e4%b8%ad">#</a>
+</h5>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">=&gt; 0x104f0 &lt;main()+48&gt;: vmov    r0, r1, d7
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> info all-registers
+</span></span><span style="display:flex;"><span>r0             0xffffffff          <span style="color:#ae81ff">4294967295</span>
+</span></span><span style="display:flex;"><span>r1             0x412ad19f          <span style="color:#ae81ff">1093325215</span>
+</span></span><span style="display:flex;"><span>r2             0x7efff5ec          <span style="color:#ae81ff">2130703852</span>
+</span></span><span style="display:flex;"><span>r3             0x8408              <span style="color:#ae81ff">33800</span>
+</span></span><span style="display:flex;"><span>r4             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r5             0x105a8             <span style="color:#ae81ff">66984</span>
+</span></span><span style="display:flex;"><span>r6             0x103d0             <span style="color:#ae81ff">66512</span>
+</span></span><span style="display:flex;"><span>r7             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r8             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r9             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r10            0x76fff000          <span style="color:#ae81ff">1996484608</span>
+</span></span><span style="display:flex;"><span>r11            0x7efff494          <span style="color:#ae81ff">2130703508</span>
+</span></span><span style="display:flex;"><span>r12            0x7efff510          <span style="color:#ae81ff">2130703632</span>
+</span></span><span style="display:flex;"><span>sp             0x7efff480          0x7efff480
+</span></span><span style="display:flex;"><span>lr             0x76e38718          <span style="color:#ae81ff">1994622744</span>
+</span></span><span style="display:flex;"><span>pc             0x104f4             0x104f4 &lt;main<span style="color:#f92672">()</span>+52&gt;
+</span></span><span style="display:flex;"><span>cpsr           0x60000010          <span style="color:#ae81ff">1610612752</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>d5             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x408f4000<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0x408f400000000000, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x4<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0x3e8<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>d6             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x40d96400<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0x40d9640000000000, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x6<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0x6590<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>d7             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0xffffffff, 0x412ad19f<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0x412ad19fffffffff, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0xa<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0xd68cf<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>s11            4.4765625           <span style="color:#f92672">(</span>raw 0x408f4000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s12            <span style="color:#ae81ff">0</span>                   <span style="color:#f92672">(</span>raw 0x00000000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s13            6.79345703          <span style="color:#f92672">(</span>raw 0x40d96400<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s14            -nan<span style="color:#f92672">(</span>0x7fffff<span style="color:#f92672">)</span>      <span style="color:#f92672">(</span>raw 0xffffffff<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s15            10.676177           <span style="color:#f92672">(</span>raw 0x412ad19f<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>其中r0为浮点数d7寄存器中的低32位0xffffffff，r1为浮点数d7寄存器中的高32位0x412ad19f</p>
+<h5 id="9double-to-long-long-c-style-conversion-此时r0-r1为输入参数">
+  9.double to long long C-style conversion ,此时r0, r1为输入参数
+  <a class="anchor" href="#9double-to-long-long-c-style-conversion-%e6%ad%a4%e6%97%b6r0-r1%e4%b8%ba%e8%be%93%e5%85%a5%e5%8f%82%e6%95%b0">#</a>
+</h5>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">=&gt; 0x104f4 &lt;main()+52&gt;: bl      0x10538 &lt;__fixdfdi&gt;
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> info all-registers
+</span></span><span style="display:flex;"><span>r0             0xffffffff          <span style="color:#ae81ff">4294967295</span>
+</span></span><span style="display:flex;"><span>r1             0x412ad19f          <span style="color:#ae81ff">1093325215</span>
+</span></span><span style="display:flex;"><span>r2             0x7efff5ec          <span style="color:#ae81ff">2130703852</span>
+</span></span><span style="display:flex;"><span>r3             0x8408              <span style="color:#ae81ff">33800</span>
+</span></span><span style="display:flex;"><span>r4             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r5             0x105a8             <span style="color:#ae81ff">66984</span>
+</span></span><span style="display:flex;"><span>r6             0x103d0             <span style="color:#ae81ff">66512</span>
+</span></span><span style="display:flex;"><span>r7             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r8             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r9             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r10            0x76fff000          <span style="color:#ae81ff">1996484608</span>
+</span></span><span style="display:flex;"><span>r11            0x7efff494          <span style="color:#ae81ff">2130703508</span>
+</span></span><span style="display:flex;"><span>r12            0x7efff510          <span style="color:#ae81ff">2130703632</span>
+</span></span><span style="display:flex;"><span>sp             0x7efff480          0x7efff480
+</span></span><span style="display:flex;"><span>lr             0x104f8             <span style="color:#ae81ff">66808</span>
+</span></span><span style="display:flex;"><span>pc             0x10538             0x10538 &lt;__fixdfdi&gt;
+</span></span><span style="display:flex;"><span>cpsr           0x60000010          <span style="color:#ae81ff">1610612752</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>d5             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x408f4000<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0x408f400000000000, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x4<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0x3e8<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>d6             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x40d96400<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0x40d9640000000000, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x6<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0x6590<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>d7             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0xffffffff, 0x412ad19f<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0x412ad19fffffffff, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0xa<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0xd68cf<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>s11            4.4765625           <span style="color:#f92672">(</span>raw 0x408f4000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s12            <span style="color:#ae81ff">0</span>                   <span style="color:#f92672">(</span>raw 0x00000000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s13            6.79345703          <span style="color:#f92672">(</span>raw 0x40d96400<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s14            -nan<span style="color:#f92672">(</span>0x7fffff<span style="color:#f92672">)</span>      <span style="color:#f92672">(</span>raw 0xffffffff<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s15            10.676177           <span style="color:#f92672">(</span>raw 0x412ad19f<span style="color:#f92672">)</span>
+</span></span></code></pre></div><h5 id="10将d7寄存器的高32位保存到r0寄存器中将d7寄存器的低32位保存到r1寄存器中">
+  10.将d7寄存器的高32位保存到r0寄存器中，将d7寄存器的低32位保存到r1寄存器中
+  <a class="anchor" href="#10%e5%b0%86d7%e5%af%84%e5%ad%98%e5%99%a8%e7%9a%84%e9%ab%9832%e4%bd%8d%e4%bf%9d%e5%ad%98%e5%88%b0r0%e5%af%84%e5%ad%98%e5%99%a8%e4%b8%ad%e5%b0%86d7%e5%af%84%e5%ad%98%e5%99%a8%e7%9a%84%e4%bd%8e32%e4%bd%8d%e4%bf%9d%e5%ad%98%e5%88%b0r1%e5%af%84%e5%ad%98%e5%99%a8%e4%b8%ad">#</a>
+</h5>
+<pre><code>从以下寄存器中的值可以看出，__fixdfdi函数执行后，将转换后的long long 值保存在了d7寄存器中，然后d7寄存器中的值转移到r0和r1，从而得到double转换为long long 的结果
+</code></pre>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">=</span>&gt; 0x10538 &lt;__fixdfdi&gt;: vmov    d7, r0, r1
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> info all-registers
+</span></span><span style="display:flex;"><span>r0             0xd68cf             <span style="color:#ae81ff">878799</span>
+</span></span><span style="display:flex;"><span>r1             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r2             0x7efff5ec          <span style="color:#ae81ff">2130703852</span>
+</span></span><span style="display:flex;"><span>r3             0x8408              <span style="color:#ae81ff">33800</span>
+</span></span><span style="display:flex;"><span>r4             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r5             0x105a8             <span style="color:#ae81ff">66984</span>
+</span></span><span style="display:flex;"><span>r6             0x103d0             <span style="color:#ae81ff">66512</span>
+</span></span><span style="display:flex;"><span>r7             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r8             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r9             0x0                 <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>r10            0x76fff000          <span style="color:#ae81ff">1996484608</span>
+</span></span><span style="display:flex;"><span>r11            0x7efff494          <span style="color:#ae81ff">2130703508</span>
+</span></span><span style="display:flex;"><span>r12            0x7efff510          <span style="color:#ae81ff">2130703632</span>
+</span></span><span style="display:flex;"><span>sp             0x7efff480          0x7efff480
+</span></span><span style="display:flex;"><span>lr             0x104f8             <span style="color:#ae81ff">66808</span>
+</span></span><span style="display:flex;"><span>pc             0x104f8             0x104f8 &lt;main<span style="color:#f92672">()</span>+56&gt;
+</span></span><span style="display:flex;"><span>cpsr           0x20000010          <span style="color:#ae81ff">536870928</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>d5             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x41f00000<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0x41f0000000000000, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x1e<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0x100000000<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>d6             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0xffffffff, 0x412ad19f<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0x412ad19fffffffff, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0xa<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0xd68cf<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>d7             <span style="color:#f92672">{</span> u32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0xd68cf<span style="color:#f92672">}</span>, u64 <span style="color:#f92672">=</span> 0xd68cf00000000, f32 <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>0x0, 0x0<span style="color:#f92672">}</span>, f64 <span style="color:#f92672">=</span> 0x0<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>fpscr          0x20000010          <span style="color:#ae81ff">536870928</span>
+</span></span><span style="display:flex;"><span>s0             <span style="color:#ae81ff">0</span>                   <span style="color:#f92672">(</span>raw 0x00000000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s1             <span style="color:#ae81ff">0</span>                   <span style="color:#f92672">(</span>raw 0x00000000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s2             <span style="color:#ae81ff">0</span>                   <span style="color:#f92672">(</span>raw 0x00000000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s3             <span style="color:#ae81ff">0</span>                   <span style="color:#f92672">(</span>raw 0x00000000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s4             <span style="color:#ae81ff">0</span>                   <span style="color:#f92672">(</span>raw 0x00000000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s5             <span style="color:#ae81ff">0</span>                   <span style="color:#f92672">(</span>raw 0x00000000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s6             <span style="color:#ae81ff">0</span>                   <span style="color:#f92672">(</span>raw 0x00000000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s7             <span style="color:#ae81ff">0</span>                   <span style="color:#f92672">(</span>raw 0x00000000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s8             <span style="color:#ae81ff">0</span>                   <span style="color:#f92672">(</span>raw 0x00000000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s9             <span style="color:#ae81ff">0</span>                   <span style="color:#f92672">(</span>raw 0x00000000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s10            <span style="color:#ae81ff">0</span>                   <span style="color:#f92672">(</span>raw 0x00000000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s11            <span style="color:#ae81ff">30</span>                  <span style="color:#f92672">(</span>raw 0x41f00000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s12            -nan<span style="color:#f92672">(</span>0x7fffff<span style="color:#f92672">)</span>      <span style="color:#f92672">(</span>raw 0xffffffff<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s13            10.676177           <span style="color:#f92672">(</span>raw 0x412ad19f<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s14            <span style="color:#ae81ff">0</span>                   <span style="color:#f92672">(</span>raw 0x00000000<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>s15            1.23145969e-39      <span style="color:#f92672">(</span>raw 0x000d68cf<span style="color:#f92672">)</span>
+</span></span></code></pre></div><h1 id="总结">
+  总结
+  <a class="anchor" href="#%e6%80%bb%e7%bb%93">#</a>
+</h1>
+<p>1、不要将浮点运算得到的值，用来做精确的比较后去做某事</p>
+<p>2、计算机中的浮点数也是用二进制表示的，不是所有浮点数都能用二进制精确的表示。</p>
+<p>比如0.2，二进制小数0.00110011，对应的十进制小数0.19921875</p>
+<ul>
+<li>使用二进制表达十进制的小数时，某些数字无法被有限位的二进制小数表示；</li>
+<li>单精度和双精度的浮点数只包括 7 位或者 15 位的有效小数位，存储需要无限位表示的小数时只能存储近似值；</li>
+</ul>
+<h1 id="参考知识">
+  参考知识
+  <a class="anchor" href="#%e5%8f%82%e8%80%83%e7%9f%a5%e8%af%86">#</a>
+</h1>
+<h2 id="gcc参数">
+  gcc参数
+  <a class="anchor" href="#gcc%e5%8f%82%e6%95%b0">#</a>
+</h2>
+<h3 id="使用-save-temps参数产生所有的中间步骤的文件">
+  使用<code>-save-temps</code>参数产生所有的中间步骤的文件
+  <a class="anchor" href="#%e4%bd%bf%e7%94%a8-save-temps%e5%8f%82%e6%95%b0%e4%ba%a7%e7%94%9f%e6%89%80%e6%9c%89%e7%9a%84%e4%b8%ad%e9%97%b4%e6%ad%a5%e9%aa%a4%e7%9a%84%e6%96%87%e4%bb%b6">#</a>
+</h3>
+<p><code>-save-temps</code>可以做4,5,6步骤的工作。通过这个参数，所有中间阶段的文件都会存储在当前文件夹中，注意它也会产生可执行文件。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ gcc -save-temps main.c
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ ls
+</span></span><span style="display:flex;"><span>a.out  main.c  main.i  main.o  main.s
+</span></span></code></pre></div><p>从例子中我们可以看到各个中间文件以及可执行文件。</p>
+<h3 id="-wl">
+  -Wl
+  <a class="anchor" href="#-wl">#</a>
+</h3>
+<blockquote>
+<p>用来向链接器指定参数
+<code>gcc -Wl, --wrap,malloc -Wl,--wrap,free -o int1 A.o B.o</code>
+则链接器的参数会有两个 <code>--wrap malloc --wrap free</code> 可以看到<code>--wrap,free</code> 变成了<code>--wrap free</code> 也就是<code>,</code> 变成了空格</p>
+</blockquote>
+<h2 id="objdump反汇编">
+  objdump反汇编
+  <a class="anchor" href="#objdump%e5%8f%8d%e6%b1%87%e7%bc%96">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>pi@raspberrypi:~/shared/boox $ objdump -d test_double2.o
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>test_double2.o:     file format elf32-littlearm
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Disassembly of section .text:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">00000000</span> &lt;main&gt;:
+</span></span><span style="display:flex;"><span>   0:   e92d4800        push    <span style="color:#f92672">{</span>fp, lr<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>   4:   e28db004        add     fp, sp, <span style="color:#75715e">#4</span>
+</span></span><span style="display:flex;"><span>   8:   e24dd010        sub     sp, sp, <span style="color:#75715e">#16</span>
+</span></span><span style="display:flex;"><span>   c:   e59f3048        ldr     r3, <span style="color:#f92672">[</span>pc, <span style="color:#75715e">#72]   ; 5c &lt;main+0x5c&gt;</span>
+</span></span><span style="display:flex;"><span>  10:   e50b3010        str     r3, <span style="color:#f92672">[</span>fp, <span style="color:#75715e">#-16]</span>
+</span></span><span style="display:flex;"><span>  14:   e51b3010        ldr     r3, <span style="color:#f92672">[</span>fp, <span style="color:#75715e">#-16]</span>
+</span></span><span style="display:flex;"><span>  18:   e1a02003        mov     r2, r3
+</span></span><span style="display:flex;"><span>  1c:   e1a03002        mov     r3, r2
+</span></span><span style="display:flex;"><span>  20:   e1a03083        lsl     r3, r3, <span style="color:#75715e">#1</span>
+</span></span><span style="display:flex;"><span>  24:   e0833002        add     r3, r3, r2
+</span></span><span style="display:flex;"><span>  28:   e1a03103        lsl     r3, r3, <span style="color:#75715e">#2</span>
+</span></span><span style="display:flex;"><span>  2c:   e0833002        add     r3, r3, r2
+</span></span><span style="display:flex;"><span>  30:   e1a03083        lsl     r3, r3, <span style="color:#75715e">#1</span>
+</span></span><span style="display:flex;"><span>  34:   e1a02003        mov     r2, r3
+</span></span><span style="display:flex;"><span>  38:   e3a03000        mov     r3, <span style="color:#75715e">#0</span>
+</span></span><span style="display:flex;"><span>  3c:   e14b20fc        strd    r2, <span style="color:#f92672">[</span>fp, <span style="color:#75715e">#-12]</span>
+</span></span><span style="display:flex;"><span>  40:   e14b20dc        ldrd    r2, <span style="color:#f92672">[</span>fp, <span style="color:#75715e">#-12]</span>
+</span></span><span style="display:flex;"><span>  44:   e59f0014        ldr     r0, <span style="color:#f92672">[</span>pc, <span style="color:#75715e">#20]   ; 60 &lt;main+0x60&gt;</span>
+</span></span><span style="display:flex;"><span>  48:   ebfffffe        bl      <span style="color:#ae81ff">0</span> &lt;printf&gt;
+</span></span><span style="display:flex;"><span>  4c:   e3a03000        mov     r3, <span style="color:#75715e">#0</span>
+</span></span><span style="display:flex;"><span>  50:   e1a00003        mov     r0, r3
+</span></span><span style="display:flex;"><span>  54:   e24bd004        sub     sp, fp, <span style="color:#75715e">#4</span>
+</span></span><span style="display:flex;"><span>  58:   e8bd8800        pop     <span style="color:#f92672">{</span>fp, pc<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  5c:   <span style="color:#ae81ff">00008408</span>        .word   0x00008408
+</span></span><span style="display:flex;"><span>  60:   <span style="color:#ae81ff">00000000</span>        .word   0x00000000
+</span></span></code></pre></div><h2 id="nm查看符号表">
+  nm查看符号表
+  <a class="anchor" href="#nm%e6%9f%a5%e7%9c%8b%e7%ac%a6%e5%8f%b7%e8%a1%a8">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pi@raspberrypi:~/shared/boox $ nm test_double2.o        
+</span></span><span style="display:flex;"><span>         U __aeabi_unwind_cpp_pr1
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">00000000</span> T main
+</span></span><span style="display:flex;"><span>         U printf
+</span></span></code></pre></div><h2 id="fp寄存器解释">
+  fp寄存器解释
+  <a class="anchor" href="#fp%e5%af%84%e5%ad%98%e5%99%a8%e8%a7%a3%e9%87%8a">#</a>
+</h2>
+<p>The frame pointer ($fp) points to the start of the stack frame and does not move for the duration of the subroutine call. This points to the base of the stack frame, and the parameters that are passed in to the subroutine remain at a constant spot relative to the frame pointer.</p>
+<p>
+  <img src="/images/%e6%b5%ae%e7%82%b9%e6%95%b0%e8%ae%a1%e7%ae%97%e8%af%af%e5%b7%ae%e5%88%86%e6%9e%90/fp_register.png" alt="img" /></p>
+<h2 id="寄存器用途">
+  寄存器用途
+  <a class="anchor" href="#%e5%af%84%e5%ad%98%e5%99%a8%e7%94%a8%e9%80%94">#</a>
+</h2>
+<p>The column labeled “Restore Contents?” shows whether the function needs to ensure that the value in the register is the same when it returns to the calling function as it contained when the this function was called.</p>
+<table>
+<thead>
+<tr>
+<th>Register</th>
+<th>Synonym（相同）</th>
+<th>Restore Contents</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>r0</code></td>
+<td></td>
+<td>N</td>
+<td>argument/results</td>
+</tr>
+<tr>
+<td><code>r1</code></td>
+<td></td>
+<td>N</td>
+<td>argument/results</td>
+</tr>
+<tr>
+<td><code>r2</code></td>
+<td></td>
+<td>N</td>
+<td>argument/results</td>
+</tr>
+<tr>
+<td><code>r3</code></td>
+<td></td>
+<td>N</td>
+<td>argument/results</td>
+</tr>
+<tr>
+<td><code>r4</code></td>
+<td></td>
+<td>Y</td>
+<td>local variable</td>
+</tr>
+<tr>
+<td><code>r5</code></td>
+<td></td>
+<td>Y</td>
+<td>local variable</td>
+</tr>
+<tr>
+<td><code>r6</code></td>
+<td></td>
+<td>Y</td>
+<td>local variable</td>
+</tr>
+<tr>
+<td><code>r7</code></td>
+<td></td>
+<td>Y</td>
+<td>local variable</td>
+</tr>
+<tr>
+<td><code>r8</code></td>
+<td></td>
+<td>Y</td>
+<td>local variable</td>
+</tr>
+<tr>
+<td><code>r9</code></td>
+<td></td>
+<td>Y</td>
+<td>depends on platform standard</td>
+</tr>
+<tr>
+<td><code>r10</code></td>
+<td></td>
+<td>Y</td>
+<td>local variable</td>
+</tr>
+<tr>
+<td><code>r11</code></td>
+<td><code>fp</code></td>
+<td>Y</td>
+<td>frame pointer/local variable</td>
+</tr>
+<tr>
+<td><code>r12</code></td>
+<td><code>ip</code></td>
+<td>N</td>
+<td>intra-procedure-call scratch</td>
+</tr>
+<tr>
+<td><code>r13</code></td>
+<td><code>sp</code></td>
+<td>Y</td>
+<td>stack pointer</td>
+</tr>
+<tr>
+<td><code>r14</code></td>
+<td><code>lr</code></td>
+<td>N</td>
+<td>link register</td>
+</tr>
+<tr>
+<td><code>r15</code></td>
+<td><code>pc</code></td>
+<td>N</td>
+<td>program counter</td>
+</tr>
+</tbody>
+</table>
+<h2 id="汇编指令">
+  汇编指令
+  <a class="anchor" href="#%e6%b1%87%e7%bc%96%e6%8c%87%e4%bb%a4">#</a>
+</h2>
+<h3 id="bl">
+  BL
+  <a class="anchor" href="#bl">#</a>
+</h3>
+<p>
+  <img src="/images/%e6%b5%ae%e7%82%b9%e6%95%b0%e8%ae%a1%e7%ae%97%e8%af%af%e5%b7%ae%e5%88%86%e6%9e%90/image-20210406230606785.png" alt="image-20210406230606785" /></p>
+<h3 id="ldr">
+  LDR
+  <a class="anchor" href="#ldr">#</a>
+</h3>
+<p>
+  <img src="/images/%e6%b5%ae%e7%82%b9%e6%95%b0%e8%ae%a1%e7%ae%97%e8%af%af%e5%b7%ae%e5%88%86%e6%9e%90/image-20210406230652114.png" alt="image-20210406230652114" /></p>
+<h3 id="str">
+  STR
+  <a class="anchor" href="#str">#</a>
+</h3>
+<p>
+  <img src="/images/%e6%b5%ae%e7%82%b9%e6%95%b0%e8%ae%a1%e7%ae%97%e8%af%af%e5%b7%ae%e5%88%86%e6%9e%90/image-20210406230723619.png" alt="image-20210406230723619" /></p>
+<h3 id="lsllsr">
+  LSL、LSR
+  <a class="anchor" href="#lsllsr">#</a>
+</h3>
+<p>
+  <img src="/images/%e6%b5%ae%e7%82%b9%e6%95%b0%e8%ae%a1%e7%ae%97%e8%af%af%e5%b7%ae%e5%88%86%e6%9e%90/image-20210406230817687.png" alt="image-20210406230817687" /></p>
+<h3 id="vmov">
+  VMOV
+  <a class="anchor" href="#vmov">#</a>
+</h3>
+<p>
+  <img src="/images/%e6%b5%ae%e7%82%b9%e6%95%b0%e8%ae%a1%e7%ae%97%e8%af%af%e5%b7%ae%e5%88%86%e6%9e%90/image-20210404233915113.png" alt="image-20210404233915113" /></p>
+<h3 id="vcvt">
+  VCVT
+  <a class="anchor" href="#vcvt">#</a>
+</h3>
+<p>
+  <img src="/images/%e6%b5%ae%e7%82%b9%e6%95%b0%e8%ae%a1%e7%ae%97%e8%af%af%e5%b7%ae%e5%88%86%e6%9e%90/image-20210404235040384.png" alt="image-20210404235040384" /></p>
+<h3 id="vldr">
+  VLDR
+  <a class="anchor" href="#vldr">#</a>
+</h3>
+<p>
+  <img src="/images/%e6%b5%ae%e7%82%b9%e6%95%b0%e8%ae%a1%e7%ae%97%e8%af%af%e5%b7%ae%e5%88%86%e6%9e%90/image-20210404235559606.png" alt="image-20210404235559606" /></p>
+<p>参考https://www.codenong.com/cs106577545/</p>
+<p>
+  <a href="https://bob.cs.sonoma.edu/IntroCompOrg-RPi/sec-instrs-1.html#instr-ldr">https://bob.cs.sonoma.edu/IntroCompOrg-RPi/sec-instrs-1.html#instr-ldr</a></p>
+<h1 id="四参考链接">
+  四、参考链接
+  <a class="anchor" href="#%e5%9b%9b%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">#</a>
+</h1>
+<h2 id="浮点数转换">
+  浮点数转换
+  <a class="anchor" href="#%e6%b5%ae%e7%82%b9%e6%95%b0%e8%bd%ac%e6%8d%a2">#</a>
+</h2>
+<p>
+  <a href="https://blog.csdn.net/weixin_43955216/article/details/107385732?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-0&amp;spm=1001.2101.3001.4242">https://blog.csdn.net/weixin_43955216/article/details/107385732?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-0&spm=1001.2101.3001.4242</a></p>
+<h2 id="汇编指令-1">
+  汇编指令
+  <a class="anchor" href="#%e6%b1%87%e7%bc%96%e6%8c%87%e4%bb%a4-1">#</a>
+</h2>
+<p>
+  <a href="https://bob.cs.sonoma.edu/IntroCompOrg-RPi/sec-stack-manage.html">https://bob.cs.sonoma.edu/IntroCompOrg-RPi/sec-stack-manage.html</a></p>
+<h2 id="gdb调试">
+  gdb调试
+  <a class="anchor" href="#gdb%e8%b0%83%e8%af%95">#</a>
+</h2>
+<p>
+  <a href="https://bob.cs.sonoma.edu/IntroCompOrg-RPi/sec-gdb1.html#p-342">https://bob.cs.sonoma.edu/IntroCompOrg-RPi/sec-gdb1.html#p-342</a></p>
+<p>
+  <a href="https://bob.cs.sonoma.edu/IntroCompOrg-RPi/sec-gdb2.html">https://bob.cs.sonoma.edu/IntroCompOrg-RPi/sec-gdb2.html</a></p>
+<p>You can use <code>stepi</code> or <code>nexti</code> (which can be abbreviated to <code>si</code> or <code>ni</code>) to step through your machine code.</p>
+<p>The most useful thing you can do here is <code>display/i $pc</code>, before using <code>stepi</code> as already suggested in R Samuel Klatchko&rsquo;s answer. This tells gdb to disassemble the current instruction just before printing the prompt each time; then you can just keep hitting Enter to repeat the <code>stepi</code> command.</p>
+<p>
+  <a href="https://stackoverflow.com/questions/2420813/using-gdb-to-single-step-assembly-code-outside-specified-executable-causes-error">https://stackoverflow.com/questions/2420813/using-gdb-to-single-step-assembly-code-outside-specified-executable-causes-error</a></p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/swifteen/swifteen.github.io/edit/main/exampleSite/content/posts/%e6%b5%ae%e7%82%b9%e6%95%b0%e8%ae%a1%e7%ae%97%e8%af%af%e5%b7%ae%e5%88%86%e6%9e%90.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function e(n){const e=window.getSelection(),t=document.createRange();t.selectNodeContents(n),e.removeAllRanges(),e.addRange(t)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#版本说明">版本说明</a></li>
+    <li><a href="#浮点数计算误差分析">浮点数计算误差分析</a>
+      <ul>
+        <li><a href="#测试程序">测试程序</a>
+          <ul>
+            <li><a href="#例子-1">例子 1</a></li>
+            <li><a href="#例子-2">例子 2</a></li>
+          </ul>
+        </li>
+        <li><a href="#例子1汇编代码">例子1汇编代码</a>
+          <ul>
+            <li></li>
+          </ul>
+        </li>
+        <li><a href="#例子2汇编代码">例子2汇编代码</a>
+          <ul>
+            <li></li>
+          </ul>
+        </li>
+        <li><a href="#gdb调试跟踪每条指令">gdb调试跟踪每条指令</a>
+          <ul>
+            <li></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+    <li><a href="#参考知识">参考知识</a>
+      <ul>
+        <li><a href="#gcc参数">gcc参数</a>
+          <ul>
+            <li><a href="#使用-save-temps参数产生所有的中间步骤的文件">使用<code>-save-temps</code>参数产生所有的中间步骤的文件</a></li>
+            <li><a href="#-wl">-Wl</a></li>
+          </ul>
+        </li>
+        <li><a href="#objdump反汇编">objdump反汇编</a></li>
+        <li><a href="#nm查看符号表">nm查看符号表</a></li>
+        <li><a href="#fp寄存器解释">fp寄存器解释</a></li>
+        <li><a href="#寄存器用途">寄存器用途</a></li>
+        <li><a href="#汇编指令">汇编指令</a>
+          <ul>
+            <li><a href="#bl">BL</a></li>
+            <li><a href="#ldr">LDR</a></li>
+            <li><a href="#str">STR</a></li>
+            <li><a href="#lsllsr">LSL、LSR</a></li>
+            <li><a href="#vmov">VMOV</a></li>
+            <li><a href="#vcvt">VCVT</a></li>
+            <li><a href="#vldr">VLDR</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#四参考链接">四、参考链接</a>
+      <ul>
+        <li><a href="#浮点数转换">浮点数转换</a></li>
+        <li><a href="#汇编指令-1">汇编指令</a></li>
+        <li><a href="#gdb调试">gdb调试</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

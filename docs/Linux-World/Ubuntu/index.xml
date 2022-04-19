@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Freedom Book</title>
+    <link>https://swifteen.github.io/docs/Linux-World/Ubuntu/</link>
+    <description>Recent content on Freedom Book</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://swifteen.github.io/docs/Linux-World/Ubuntu/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>目录共享配置</title>
+      <link>https://swifteen.github.io/docs/Linux-World/Ubuntu/%E7%9B%AE%E5%BD%95%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/Linux-World/Ubuntu/%E7%9B%AE%E5%BD%95%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE/</guid>
+      <description>Samba配置 #  samba配置后，仍然无法访问 #   https://blog.csdn.net/Panda_YinLP/article/details/104687438
+访问window共享目录 #  sudo mount -t cifs -l //192.168.31.181/raspberry /media/pi/win TFTP配置 #   https://linuxhint.com/install_tftp_server_ubuntu/
+ https://download.samba.org/pub/samba/
+NFS挂载 #   https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-ubuntu-20-04
+将文件系统目录导出 #  解压文件系统
+cd /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/ sudo mkdir tisdk-default-image-am335x-evm sudo tar -Jxf tisdk-default-image-am335x-evm.tar.xz -C tisdk-default-image-am335x-evm 修改/etc/exports增加NFS导出目录后，重新加载 #  $ vi /etc/exports #增加以下内容 /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/tisdk-default-image-am335x-evm *(rw,nohide,insecure,no_subtree_check,async,no_root_squash) 使NFS目录生效 #  $ sudo exportfs -a 查看NFS导出列表 #  #查看NFS导出列表 $ showmount -e Export list for ubuntu: /usr/local/ti-sdk-am335x-evm-07.</description>
+    </item>
+    
+    <item>
+      <title>系统代理和证书</title>
+      <link>https://swifteen.github.io/docs/Linux-World/Ubuntu/%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%90%86%E5%92%8C%E8%AF%81%E4%B9%A6/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/Linux-World/Ubuntu/%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%90%86%E5%92%8C%E8%AF%81%E4%B9%A6/</guid>
+      <description>透明代理 #   https://blog.a1253247.info/2020/01/shadowsocks.html
+代理转换 #  /etc/polipo/config
+/etc/polipo/config  systemctl status polipo  www.codevoila.com/post/16/convert-socks-proxy-to-http-proxy-using-polipo
+测试网速 #  # Server tankywoo@gentoo-local::~/ » iperf -s ------------------------------------------------------------ Server listening on TCP port 5001 TCP window size: 85.3 KByte (default) ------------------------------------------------------------ [ 4] local 127.0.0.1 port 5001 connected with 127.0.0.1 port 56071 [ ID] Interval Transfer Bandwidth [ 4] 0.0-10.0 sec 27.0 GBytes 23.2 Gbits/sec  # Client tankywoo@gentoo-local::~/ » iperf -c localhost ------------------------------------------------------------ Client connecting to localhost, TCP port 5001 TCP window size: 647 KByte (default) ------------------------------------------------------------ [ 3] local 127.</description>
+    </item>
+    
+    <item>
+      <title>其它</title>
+      <link>https://swifteen.github.io/docs/Linux-World/Ubuntu/%E5%85%B6%E5%AE%83/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/Linux-World/Ubuntu/%E5%85%B6%E5%AE%83/</guid>
+      <description>ubuntu扩容 #   https://blog.csdn.net/qq_34160841/article/details/113058756
+linux命令 #   https://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/ldd.html
+安装armhf ubuntu #   https://wiki.ubuntu.com/ARM/RaspberryPi</description>
+    </item>
+    
+  </channel>
+</rss>

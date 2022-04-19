@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>zerotier on Freedom Book</title>
+    <link>https://swifteen.github.io/tags/zerotier/</link>
+    <description>Recent content in zerotier on Freedom Book</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 17 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://swifteen.github.io/tags/zerotier/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ZeroTier内网穿透</title>
+      <link>https://swifteen.github.io/posts/zerotier%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/</link>
+      <pubDate>Sun, 17 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/posts/zerotier%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/</guid>
+      <description>ZeroTier内网穿透 #  安装方式1：脚本自动安装 #  sudo curl -s https://install.zerotier.com|sudo bash 在ubuntu下成功安装，在树莓派上可能失败
+安装方式2：源码安装 #  wget https://github.com/zerotier/ZeroTierOne/archive/refs/tags/1.8.4.tar.gz tar zxvf 1.8.4.tar.gz cd ZeroTierOne-1.8.4/ make -j make install 注册账号 #  申请ID,参考https://blog.csdn.net/kai3123919064/article/details/109662499
+运行 #  1、在每个设备端上运行服务端zerotier-one，并将每一个设备添加到相同的NetworkID组，这样同一下 NetworkID组下的所有成员就能相互穿透了
+先安装zerotier-one服务并运行，这样以后开机自动启动此服务
+#在源码目录下可以看到此文件 ~/Public/ZeroTierOne-1.8.4 $ cat debian/zerotier-one.service [Unit] Description=ZeroTier One After=network-online.target Wants=network-online.target  [Service] ExecStart=/usr/sbin/zerotier-one Restart=always KillMode=process  [Install] WantedBy=multi-user.target 注意检查上面的/usr/sbin/zerotier-one路径是否存在
+#将此文件 拷贝到/lib/systemd/system/目录下 $ cp debian/zerotier-one.service /lib/systemd/system/ #启动服务 $ systemctl start zerotier-one.service #查看服务状态 $ systemctl status zerotier-one.</description>
+    </item>
+    
+  </channel>
+</rss>
