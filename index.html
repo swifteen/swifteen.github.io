@@ -4,7 +4,7 @@
 	<meta name="generator" content="Hugo 0.97.0" />
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Acerbo datus maxime #  Astris ipse furtiva #  Est in vagis et Pittheus tu arge accipiter regia iram vocatur nurus. Omnes ut olivae sensit arma sorori deducit, inesset crudus, ego vetuere aliis, modo arsit? Utinam rapta fiducia valuere litora adicit cursu, ad facies  Suis quot vota #  Ea furtique risere fratres edidit terrae magis. Colla tam mihi tenebat: miseram excita suadent es pecudes iam. Concilio quam velatus posset ait quod nunc!">
+<meta name="description" content="Blog  Google编译规范总结 版本说明 # Google编译规范总结 日期 版本 修改内容 20211029 V0.1 创建 目的 # 使代码易于管理的方法之一是加强代码一致性. 让任何程序员都可以快速读懂你的代码这点非常重要. 项目主页: Google Style Guide Google 开源项目风格指南 - 中文版 代码规范 # 头文件 # 前置声明 # 尽可能地避免使用前置声明。使用 #include 包含需要的头文件即可 前置声明的类是不完全类型（incomplete type），我们只能定义指向该类型的指针或引用，或者声明（但不能定义）以不完全类型作为参数或者返回类型的函数。毕竟编译器不知道不完全类型的定义，我们不能创建其类的任何对象，也不能声明成类内部的数据成员。 If a class only appears in the header as a pointer or reference, then a forward declaration is sufficient 浮点数计算误差分析 浮点数计算误差分析 ZeroTier内网穿透 ZeroTier内网穿透 搭建HUGO博客 搭建HUGO博客 # 安装hugo # 进入 release页面下载，选择下载 hugo_extended_0.   Introduction  记录工作和学习 读书笔记 记录读书笔记，看过的书隔段时间总会忘记，总结在此，方便检索 深入理解计算机系统 第一章 3rd Level of Menu # Nefas discordemque domino montes numen tum humili nexilibusque exit, Iove.">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="Introduction" />
 <meta property="og:description" content="" />
@@ -14,11 +14,9 @@
 <title>Introduction | Freedom Book</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
-  <link rel="alternate" hreflang="ru" href="https://swifteen.github.io/ru/" title="Введение">
-  <link rel="alternate" hreflang="zh" href="https://swifteen.github.io/zh/" title="介绍">
 <link rel="stylesheet" href="/book.min.8af359f8b4ff91864838b7225239a34a4ca449e60ef99ab88e33c978c8685391.css" integrity="sha256-ivNZ&#43;LT/kYZIOLciUjmjSkykSeYO&#43;Zq4jjPJeMhoU5E=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.d45c0ffc37a24fca2ef007edb1d82d27449127aa5b68259acea105adc08ba9ea.js" integrity="sha256-1FwP/DeiT8ou8AftsdgtJ0SRJ6pbaCWazqEFrcCLqeo=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.2d46fabc9153c64d6091b2c334c44a3efd31ca29c4beac22be3e4fc89171cbcf.js" integrity="sha256-LUb6vJFTxk1gkbLDNMRKPv0xyinEvqwivj5PyJFxy88=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <link rel="alternate" type="application/rss+xml" href="https://swifteen.github.io/index.xml" title="Freedom Book" />
@@ -48,51 +46,6 @@ https://github.com/alex-shpak/hugo-book
   <ul id="book-search-results"></ul>
 </div>
 
-
-
-  
-
-
-
-  
-    
-  
-    
-  
-
-
-  
-
-  
-
-
-<ul class="book-languages">
-  <li>
-    <input type="checkbox" id="languages" class="toggle" />
-    <label for="languages" class="flex justify-between">
-      <a role="button" class="flex align-center">
-        <img src="/svg/translate.svg" class="book-icon" alt="Languages" />
-        English
-      </a>
-    </label>
-
-    <ul>
-      
-      <li>
-        <a href="https://swifteen.github.io/ru/">
-          Russian
-        </a>
-      </li>
-      
-      <li>
-        <a href="https://swifteen.github.io/zh/">
-          Chinese
-        </a>
-      </li>
-      
-    </ul>
-  </li>
-</ul>
 
 
 
@@ -673,16 +626,7 @@ https://github.com/alex-shpak/hugo-book
   <aside class="hidden clearfix">
     
   
-<nav id="TableOfContents">
-  <ul>
-    <li><a href="#acerbo-datus-maxime">Acerbo datus maxime</a>
-      <ul>
-        <li><a href="#tempora-nisi-nunc">Tempora nisi nunc</a></li>
-        <li><a href="#locis-suis-novi-cum-suoque-decidit-eadem">Locis suis novi cum suoque decidit eadem</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
+<nav id="TableOfContents"></nav>
 
 
 
@@ -693,54 +637,25 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><h1 id="acerbo-datus-maxime">
-  Acerbo datus maxime
-  <a class="anchor" href="#acerbo-datus-maxime">#</a>
-</h1>
-<div class="book-columns flex flex-wrap">
+  <article class="markdown"><dl>
 
-  <div class="flex-even markdown-inner">
-    <h2 id="astris-ipse-furtiva">
-  Astris ipse furtiva
-  <a class="anchor" href="#astris-ipse-furtiva">#</a>
-</h2>
-<p>Est in vagis et Pittheus tu arge accipiter regia iram vocatur nurus. Omnes ut
-olivae sensit <strong>arma sorori</strong> deducit, inesset <strong>crudus</strong>, ego vetuere aliis,
-modo arsit? Utinam rapta fiducia valuere litora <em>adicit cursu</em>, ad facies
-  </div>
+  <dt>
+    <a href="/posts/">Blog</a>
+  </dt>
+  <dd class="markdown-inner">
+    Google编译规范总结  版本说明 # Google编译规范总结 日期 版本 修改内容 20211029 V0.1 创建 目的 # 使代码易于管理的方法之一是加强代码一致性. 让任何程序员都可以快速读懂你的代码这点非常重要. 项目主页: Google Style Guide Google 开源项目风格指南 - 中文版 代码规范 # 头文件 # 前置声明 # 尽可能地避免使用前置声明。使用 #include 包含需要的头文件即可 前置声明的类是不完全类型（incomplete type），我们只能定义指向该类型的指针或引用，或者声明（但不能定义）以不完全类型作为参数或者返回类型的函数。毕竟编译器不知道不完全类型的定义，我们不能创建其类的任何对象，也不能声明成类内部的数据成员。 If a class only appears in the header as a pointer or reference, then a forward declaration is sufficient   浮点数计算误差分析  浮点数计算误差分析   ZeroTier内网穿透  ZeroTier内网穿透   搭建HUGO博客  搭建HUGO博客 # 安装hugo # 进入 release页面下载，选择下载 hugo_extended_0.
+  </dd>
 
-  <div class="flex-even markdown-inner">
-    <h2 id="suis-quot-vota">
-  Suis quot vota
-  <a class="anchor" href="#suis-quot-vota">#</a>
-</h2>
-<p>Ea <em>furtique</em> risere fratres edidit terrae magis. Colla tam mihi tenebat:
-miseram excita suadent es pecudes iam. Concilio <em>quam</em> velatus posset ait quod
-nunc! Fragosis suae dextra geruntur functus vulgata.
-  </div>
+  <dt>
+    <a href="/docs/">Introduction</a>
+  </dt>
+  <dd class="markdown-inner">
+    记录工作和学习
+  读书笔记  记录读书笔记，看过的书隔段时间总会忘记，总结在此，方便检索 深入理解计算机系统 第一章 3rd Level of Menu # Nefas discordemque domino montes numen tum humili nexilibusque exit, Iove. Quae miror esse, scelerisque Melaneus viribus. Miseri laurus. Hoc est proposita me ante aliquid, aura inponere candidioribus quidque accendit bella, sumpta. Intravit quam erat figentem hunc, motus de fontes parvo tempestate. iscsi_virus = pitch(json_in_on(eupViral), northbridge_services_troubleshooting, personal( firmware_rw.trash_rw_crm.device(interactive_gopher_personal, software, -1), megabit, ergonomicsSoftware(cmyk_usb_panel, mips_whitelist_duplex, cpa))); if (5) { managementNetwork += dma - boolean; kilohertz_token = 2; honeypot_affiliate_ergonomics = fiber; } mouseNorthbridge = byte(nybble_xmp_modem.
+  </dd>
 
-</div>
+</dl>
 
-<h2 id="tempora-nisi-nunc">
-  Tempora nisi nunc
-  <a class="anchor" href="#tempora-nisi-nunc">#</a>
-</h2>
-<p>Lorem <strong>markdownum</strong> emicat gestu. Cannis sol pressit ducta. <strong>Est</strong> Idaei,
-tremens ausim se tutaeque, illi ulnis hausit, sed, lumina cutem. Quae avis
-sequens!</p>
-<pre><code>var panel = ram_design;
-if (backup + system) {
-    file.readPoint = network_native;
-    sidebar_engine_device(cell_tftp_raster,
-            dual_login_paper.adf_vci.application_reader_design(
-            graphicsNvramCdma, lpi_footer_snmp, integer_model));
-}
-</code></pre>
-<h2 id="locis-suis-novi-cum-suoque-decidit-eadem">
-  Locis suis novi cum suoque decidit eadem
-  <a class="anchor" href="#locis-suis-novi-cum-suoque-decidit-eadem">#</a>
-</h2>
-<p>Idmoniae ripis, at aves, ali missa adest, ut <em>et autem</em>, et ab?</p>
 </article>
  
       
@@ -749,6 +664,12 @@ if (backup + system) {
         
   <div class="flex flex-wrap justify-between">
 
+
+  <div><a class="flex align-center" href="https://github.com/swifteen/swifteen.github.io/commit/e505f6a790d01d435c8b483ae2f475203dab2db9" title='Last modified by swifteen | April 20, 2022' target="_blank" rel="noopener">
+      <img src="/svg/calendar.svg" class="book-icon" alt="Calendar" />
+      <span>April 20, 2022</span>
+    </a>
+  </div>
 
 
 
@@ -787,16 +708,7 @@ if (backup + system) {
       <div class="book-toc-content">
         
   
-<nav id="TableOfContents">
-  <ul>
-    <li><a href="#acerbo-datus-maxime">Acerbo datus maxime</a>
-      <ul>
-        <li><a href="#tempora-nisi-nunc">Tempora nisi nunc</a></li>
-        <li><a href="#locis-suis-novi-cum-suoque-decidit-eadem">Locis suis novi cum suoque decidit eadem</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
+<nav id="TableOfContents"></nav>
 
 
  

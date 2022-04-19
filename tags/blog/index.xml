@@ -7,6 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Sun, 17 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://swifteen.github.io/tags/blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Google编译规范总结</title>
+      <link>https://swifteen.github.io/posts/Google%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Sun, 17 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/posts/Google%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83%E6%80%BB%E7%BB%93/</guid>
+      <description>版本说明 #   Google编译规范总结     日期 版本 修改内容     20211029 V0.1 创建    目的 #  使代码易于管理的方法之一是加强代码一致性. 让任何程序员都可以快速读懂你的代码这点非常重要.
+项目主页:
+  Google Style Guide  Google 开源项目风格指南 - 中文版  代码规范 #  头文件 #  前置声明 #    尽可能地避免使用前置声明。使用 #include 包含需要的头文件即可
+  前置声明的类是不完全类型（incomplete type），我们只能定义指向该类型的指针或引用，或者声明（但不能定义）以不完全类型作为参数或者返回类型的函数。毕竟编译器不知道不完全类型的定义，我们不能创建其类的任何对象，也不能声明成类内部的数据成员。
+ If a class only appears in the header as a pointer or reference, then a forward declaration is sufficient</description>
+    </item>
+    
+    <item>
       <title>搭建HUGO博客</title>
       <link>https://swifteen.github.io/posts/Hugo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%B5%81%E7%A8%8B/</link>
       <pubDate>Sun, 17 Apr 2022 00:00:00 +0000</pubDate>

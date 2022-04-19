@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="ZeroTier内网穿透  ZeroTier内网穿透   搭建HUGO博客  搭建HUGO博客 # 安装hugo # 进入 release页面下载，选择下载 hugo_extended_0.97.0_Linux-64bit.deb带extended后缀的安装包 sudo dpkg -i hugo_extended_0.97.0_Linux-64bit.deb 创建hugo工程 # mkdir ~/Public/Book cd ~/Public/Book hugo new site ./ 下载主题 # git init git submodule add https://github.com/alex-shpak/hugo-book themes/hugo-book cp -R themes/hugo-book/exampleSite/content . 运行Web服务 # ubuntu:~/Public/Book$ hugo server --minify --theme hugo-book --bind=&#34;0.0.0.0&#34; -p 8888 Start building sites … hugo v0.97.0-c07f3626e7c8160943591f4d209977efa02c3dca&#43;extended linux/amd64 BuildDate=2022-04-14T08:45:07Z VendorInfo=gohugoio WARN 2022/04/16 01:47:16 Expand shortcode is deprecated. Use &#39;details&#39; instead.">
+<meta name="description" content="Google编译规范总结  版本说明 # Google编译规范总结 日期 版本 修改内容 20211029 V0.1 创建 目的 # 使代码易于管理的方法之一是加强代码一致性. 让任何程序员都可以快速读懂你的代码这点非常重要. 项目主页: Google Style Guide Google 开源项目风格指南 - 中文版 代码规范 # 头文件 # 前置声明 # 尽可能地避免使用前置声明。使用 #include 包含需要的头文件即可 前置声明的类是不完全类型（incomplete type），我们只能定义指向该类型的指针或引用，或者声明（但不能定义）以不完全类型作为参数或者返回类型的函数。毕竟编译器不知道不完全类型的定义，我们不能创建其类的任何对象，也不能声明成类内部的数据成员。 If a class only appears in the header as a pointer or reference, then a forward declaration is sufficient   浮点数计算误差分析  浮点数计算误差分析   ZeroTier内网穿透  ZeroTier内网穿透   搭建HUGO博客  搭建HUGO博客 # 安装hugo # 进入 release页面下载，选择下载 hugo_extended_0.">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="Blog" />
 <meta property="og:description" content="" />
@@ -15,7 +15,7 @@
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.8af359f8b4ff91864838b7225239a34a4ca449e60ef99ab88e33c978c8685391.css" integrity="sha256-ivNZ&#43;LT/kYZIOLciUjmjSkykSeYO&#43;Zq4jjPJeMhoU5E=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.d45c0ffc37a24fca2ef007edb1d82d27449127aa5b68259acea105adc08ba9ea.js" integrity="sha256-1FwP/DeiT8ou8AftsdgtJ0SRJ6pbaCWazqEFrcCLqeo=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.2d46fabc9153c64d6091b2c334c44a3efd31ca29c4beac22be3e4fc89171cbcf.js" integrity="sha256-LUb6vJFTxk1gkbLDNMRKPv0xyinEvqwivj5PyJFxy88=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <link rel="alternate" type="application/rss+xml" href="https://swifteen.github.io/posts/index.xml" title="Freedom Book" />
@@ -45,47 +45,6 @@ https://github.com/alex-shpak/hugo-book
   <ul id="book-search-results"></ul>
 </div>
 
-
-
-  
-
-
-
-  
-    
-  
-    
-  
-
-
-
-<ul class="book-languages">
-  <li>
-    <input type="checkbox" id="languages" class="toggle" />
-    <label for="languages" class="flex justify-between">
-      <a role="button" class="flex align-center">
-        <img src="/svg/translate.svg" class="book-icon" alt="Languages" />
-        English
-      </a>
-    </label>
-
-    <ul>
-      
-      <li>
-        <a href="https://swifteen.github.io/ru/">
-          Russian
-        </a>
-      </li>
-      
-      <li>
-        <a href="https://swifteen.github.io/zh/">
-          Chinese
-        </a>
-      </li>
-      
-    </ul>
-  </li>
-</ul>
 
 
 
@@ -680,7 +639,7 @@ https://github.com/alex-shpak/hugo-book
       
         <li class="flex justify-between">
           <a href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
-          <span>2</span>
+          <span>3</span>
         </li>
       
       </ul>
@@ -694,7 +653,7 @@ https://github.com/alex-shpak/hugo-book
       
         <li class="flex justify-between">
           <a href="/tags/blog/">blog</a>
-          <span>1</span>
+          <span>2</span>
         </li>
       
         <li class="flex justify-between">
@@ -704,7 +663,7 @@ https://github.com/alex-shpak/hugo-book
       
         <li class="flex justify-between">
           <a href="/tags/HUGO/">HUGO</a>
-          <span>1</span>
+          <span>2</span>
         </li>
       
         <li class="flex justify-between">
@@ -742,6 +701,79 @@ https://github.com/alex-shpak/hugo-book
 
       
       
+  
+  <article class="markdown book-post">
+    <h2>
+      <a href="/posts/Google%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83%E6%80%BB%E7%BB%93/">Google编译规范总结</a>
+    </h2>
+    
+  <h5>April 17, 2022</h5>
+
+
+
+  
+  <div>
+    
+      <a href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+  </div>
+  
+
+  
+  <div>
+    
+      <a href="/tags/HUGO/">HUGO</a>, 
+      <a href="/tags/blog/">blog</a>
+  </div>
+  
+
+
+
+
+    <p>版本说明 #   Google编译规范总结     日期 版本 修改内容     20211029 V0.1 创建    目的 #  使代码易于管理的方法之一是加强代码一致性. 让任何程序员都可以快速读懂你的代码这点非常重要.
+项目主页:
+  Google Style Guide  Google 开源项目风格指南 - 中文版  代码规范 #  头文件 #  前置声明 #    尽可能地避免使用前置声明。使用 #include 包含需要的头文件即可
+  前置声明的类是不完全类型（incomplete type），我们只能定义指向该类型的指针或引用，或者声明（但不能定义）以不完全类型作为参数或者返回类型的函数。毕竟编译器不知道不完全类型的定义，我们不能创建其类的任何对象，也不能声明成类内部的数据成员。
+ If a class only appears in the header as a pointer or reference, then a forward declaration is sufficient
+        <a href="/posts/Google%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83%E6%80%BB%E7%BB%93/">...</a>
+      
+    </p>
+  </article>
+  
+  <article class="markdown book-post">
+    <h2>
+      <a href="/posts/%E6%B5%AE%E7%82%B9%E6%95%B0%E8%AE%A1%E7%AE%97%E8%AF%AF%E5%B7%AE%E5%88%86%E6%9E%90/">浮点数计算误差分析</a>
+    </h2>
+    
+  <h5>April 17, 2022</h5>
+
+
+
+  
+  <div>
+    
+      <a href="/categories/GDB/">GDB</a>
+  </div>
+  
+
+  
+  <div>
+    
+      <a href="/tags/%E6%B5%AE%E7%82%B9%E6%95%B0/">浮点数</a>, 
+      <a href="/tags/GDB/">GDB</a>
+  </div>
+  
+
+
+
+
+    <p>版本说明 #   内容: 浮点数计算误差分析 时间: 2022/02/28 版本: V 0.1  浮点数计算误差分析 #  通过分析汇编代码，分析浮点数运行产生的误差
+测试程序 #  例子 1 #  #include &lt;stdio.h&gt;int main() { 	int a = 33800; 	long long b = 13*sizeof(short)*(a); 	printf(&#34;[%lld]\n&#34;,b); } 例子 2 #  #include &lt;stdio.h&gt;int main() { 	int a = 33800; 	long long b = 13*1000*sizeof(short)* (double)(a/1000.0); 	printf(&#34;[%lld]\n&#34;,b); } 例子1输出878800 例子2输出878799
+为何会产生差异呢，只能从汇编代码入手，一点一点分析浮点计算的过程
+例子1汇编代码 #  例子1不涉及浮点数，因此汇编代码比较简单，先通过例子1的汇编代码进行了解。
+        <a href="/posts/%E6%B5%AE%E7%82%B9%E6%95%B0%E8%AE%A1%E7%AE%97%E8%AF%AF%E5%B7%AE%E5%88%86%E6%9E%90/">...</a>
+      
+    </p>
+  </article>
   
   <article class="markdown book-post">
     <h2>
@@ -816,66 +848,6 @@ sudo dpkg -i hugo_extended_0.97.0_Linux-64bit.deb 创建hugo工程 #  mkdir ~/Pu
     </p>
   </article>
   
-  <article class="markdown book-post">
-    <h2>
-      <a href="/posts/%E6%B5%AE%E7%82%B9%E6%95%B0%E8%AE%A1%E7%AE%97%E8%AF%AF%E5%B7%AE%E5%88%86%E6%9E%90/">浮点数计算误差分析</a>
-    </h2>
-    
-  <h5>April 17, 2022</h5>
-
-
-
-  
-  <div>
-    
-      <a href="/categories/GDB/">GDB</a>
-  </div>
-  
-
-  
-  <div>
-    
-      <a href="/tags/%E6%B5%AE%E7%82%B9%E6%95%B0/">浮点数</a>, 
-      <a href="/tags/GDB/">GDB</a>
-  </div>
-  
-
-
-
-
-    <p>版本说明 #   内容: 浮点数计算误差分析 时间: 2022/02/28 版本: V 0.1  浮点数计算误差分析 #  通过分析汇编代码，分析浮点数运行产生的误差
-测试程序 #  例子 1 #  #include &lt;stdio.h&gt;int main() { 	int a = 33800; 	long long b = 13*sizeof(short)*(a); 	printf(&#34;[%lld]\n&#34;,b); } 例子 2 #  #include &lt;stdio.h&gt;int main() { 	int a = 33800; 	long long b = 13*1000*sizeof(short)* (double)(a/1000.0); 	printf(&#34;[%lld]\n&#34;,b); } 例子1输出878800 例子2输出878799
-为何会产生差异呢，只能从汇编代码入手，一点一点分析浮点计算的过程
-例子1汇编代码 #  例子1不涉及浮点数，因此汇编代码比较简单，先通过例子1的汇编代码进行了解。
-        <a href="/posts/%E6%B5%AE%E7%82%B9%E6%95%B0%E8%AE%A1%E7%AE%97%E8%AF%AF%E5%B7%AE%E5%88%86%E6%9E%90/">...</a>
-      
-    </p>
-  </article>
-  
-  <article class="markdown book-post">
-    <h2>
-      <a href="/posts/Google%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83%E6%80%BB%E7%BB%93/">Google编程规范总结</a>
-    </h2>
-    
-
-
-  
-
-  
-
-
-
-
-    <p>版本说明 #   Google编译规范总结     日期 版本 修改内容     20211029 V0.1 创建    目的 #  使代码易于管理的方法之一是加强代码一致性. 让任何程序员都可以快速读懂你的代码这点非常重要.
-项目主页:
-  Google Style Guide  Google 开源项目风格指南 - 中文版  代码规范 #  头文件 #  前置声明 #    尽可能地避免使用前置声明。使用 #include 包含需要的头文件即可
-  前置声明的类是不完全类型（incomplete type），我们只能定义指向该类型的指针或引用，或者声明（但不能定义）以不完全类型作为参数或者返回类型的函数。毕竟编译器不知道不完全类型的定义，我们不能创建其类的任何对象，也不能声明成类内部的数据成员。
- If a class only appears in the header as a pointer or reference, then a forward declaration is sufficient
-        <a href="/posts/Google%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83%E6%80%BB%E7%BB%93/">...</a>
-      
-    </p>
-  </article>
-  
 
   
  
@@ -885,6 +857,12 @@ sudo dpkg -i hugo_extended_0.97.0_Linux-64bit.deb 创建hugo工程 #  mkdir ~/Pu
         
   <div class="flex flex-wrap justify-between">
 
+
+  <div><a class="flex align-center" href="https://github.com/swifteen/swifteen.github.io/commit/e505f6a790d01d435c8b483ae2f475203dab2db9" title='Last modified by swifteen | April 20, 2022' target="_blank" rel="noopener">
+      <img src="/svg/calendar.svg" class="book-icon" alt="Calendar" />
+      <span>April 20, 2022</span>
+    </a>
+  </div>
 
 
 
@@ -937,7 +915,7 @@ sudo dpkg -i hugo_extended_0.97.0_Linux-64bit.deb 创建hugo工程 #  mkdir ~/Pu
       
         <li class="flex justify-between">
           <a href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
-          <span>2</span>
+          <span>3</span>
         </li>
       
       </ul>
@@ -951,7 +929,7 @@ sudo dpkg -i hugo_extended_0.97.0_Linux-64bit.deb 创建hugo工程 #  mkdir ~/Pu
       
         <li class="flex justify-between">
           <a href="/tags/blog/">blog</a>
-          <span>1</span>
+          <span>2</span>
         </li>
       
         <li class="flex justify-between">
@@ -961,7 +939,7 @@ sudo dpkg -i hugo_extended_0.97.0_Linux-64bit.deb 创建hugo工程 #  mkdir ~/Pu
       
         <li class="flex justify-between">
           <a href="/tags/HUGO/">HUGO</a>
-          <span>1</span>
+          <span>2</span>
         </li>
       
         <li class="flex justify-between">
