@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Introduction #  #    FalconMode模式  版本说明 # FalconMode模式 日期 版本 修改内容 2021/11/21 V0.1 创建 FalconMode模式 # Normal mode: U-Boot SPL -&gt; U-Boot -&gt; Kernel Falcon mode: U-Boot SPL -&gt; Kernel https://forum.digikey.com/t/beaglebone-black-u-boot-overlays-and-falcon-mode/3008/7 Once you are booted up into the Linux Kernel there should be NO difference. 测试启动时间 # 模式 文件系统 tftp下载时间 内核到telnet时间 正常uBooty启动模式 tisdk-tiny-image-am335x-evm 6秒 10秒 正常uBooty启动模式 tisdk-base-image-am335x-evm 6秒 40~60秒 Falcon模式 Out-of-the-Box (OOB) boot times of the TI Processor Linux SDK   BBB板使用NFS挂载文件系统  版本说明 # BBB板使用NFS挂载文件系统 日期 版本 修改内容 2022/03/03 V0.">
+<meta name="description" content="Introduction #  记录各种感兴趣的尝试
+  FalconMode模式  版本说明 # FalconMode模式 日期 版本 修改内容 2021/11/21 V0.1 创建 FalconMode模式 # Normal mode: U-Boot SPL -&gt; U-Boot -&gt; Kernel Falcon mode: U-Boot SPL -&gt; Kernel https://forum.digikey.com/t/beaglebone-black-u-boot-overlays-and-falcon-mode/3008/7 Once you are booted up into the Linux Kernel there should be NO difference. 测试启动时间 # 模式 文件系统 tftp下载时间 内核到telnet时间 正常uBooty启动模式 tisdk-tiny-image-am335x-evm 6秒 10秒 正常uBooty启动模式 tisdk-base-image-am335x-evm 6秒 40~60秒 Falcon模式 Out-of-the-Box (OOB) boot times of the TI Processor Linux SDK   BBB板使用NFS挂载文件系统  版本说明 # BBB板使用NFS挂载文件系统 日期 版本 修改内容 2022/03/03 V0.">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="工程实践" />
 <meta property="og:description" content="" />
@@ -15,7 +16,7 @@
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.8af359f8b4ff91864838b7225239a34a4ca449e60ef99ab88e33c978c8685391.css" integrity="sha256-ivNZ&#43;LT/kYZIOLciUjmjSkykSeYO&#43;Zq4jjPJeMhoU5E=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.2d46fabc9153c64d6091b2c334c44a3efd31ca29c4beac22be3e4fc89171cbcf.js" integrity="sha256-LUb6vJFTxk1gkbLDNMRKPv0xyinEvqwivj5PyJFxy88=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.8d7e7866566ac9205ec9d229a96873852a20677d4c9d3f923bece69e1d8a5bd8.js" integrity="sha256-jX54ZlZqySBeydIpqWhzhSogZ31MnT&#43;SO&#43;zmnh2KW9g=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <link rel="alternate" type="application/rss+xml" href="https://swifteen.github.io/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/index.xml" title="Freedom Book" />
@@ -304,6 +305,63 @@ https://github.com/alex-shpak/hugo-book
 
   
     <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF/" class="">日志模块实现思路</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/Qt%E6%80%BB%E7%BB%93/" class="">Qt总结</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Qt%E6%80%BB%E7%BB%93/%E5%B8%B8%E7%94%A8%E7%B1%BB%E4%BD%BF%E7%94%A8/" class="">常见类使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Qt%E6%80%BB%E7%BB%93/snippet/" class="">snippet</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Qt%E6%80%BB%E7%BB%93/QSS%E6%A0%B7%E5%BC%8F/" class="">QSS样式</a>
   
 
         </li>
@@ -628,7 +686,6 @@ https://github.com/alex-shpak/hugo-book
 <nav id="TableOfContents">
   <ul>
     <li><a href="#introduction">Introduction</a></li>
-    <li><a href="#heading"></a></li>
   </ul>
 </nav>
 
@@ -645,10 +702,7 @@ https://github.com/alex-shpak/hugo-book
   Introduction
   <a class="anchor" href="#introduction">#</a>
 </h1>
-<h1 id="heading">
-  
-  <a class="anchor" href="#heading">#</a>
-</h1>
+<p>记录各种感兴趣的尝试</p>
 <dl>
 
   <dt>
@@ -681,9 +735,9 @@ cd /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/ sudo mkdir tisdk-defaul
   <div class="flex flex-wrap justify-between">
 
 
-  <div><a class="flex align-center" href="https://github.com/swifteen/swifteen.github.io/commit/e505f6a790d01d435c8b483ae2f475203dab2db9" title='Last modified by swifteen | April 20, 2022' target="_blank" rel="noopener">
+  <div><a class="flex align-center" href="https://github.com/swifteen/swifteen.github.io/commit/3272ed8abb50bf10296c64340b2cb3c44ecbf66f" title='Last modified by swifteen | April 22, 2022' target="_blank" rel="noopener">
       <img src="/svg/calendar.svg" class="book-icon" alt="Calendar" />
-      <span>April 20, 2022</span>
+      <span>April 22, 2022</span>
     </a>
   </div>
 
@@ -727,7 +781,6 @@ cd /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/ sudo mkdir tisdk-defaul
 <nav id="TableOfContents">
   <ul>
     <li><a href="#introduction">Introduction</a></li>
-    <li><a href="#heading"></a></li>
   </ul>
 </nav>
 

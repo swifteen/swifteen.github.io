@@ -3,27 +3,27 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="透明代理 #   https://blog.a1253247.info/2020/01/shadowsocks.html
+<meta name="description" content="系统代理 #  vi ~/.profile  export http_proxy=&#39;http://myproxy.example.com:1080/&#39; export https_proxy=&#39;https://myproxy.example.com:1080/&#39; export ftp_proxy=&#39;http://myproxy.example.com:1080/&#39; export ALL_PROXY=&#39;socks://myproxy.example.com:1080/&#39; export all_proxy=&#39;socks://myproxy.example.com:1080/&#39; export no_proxy=&#39;example.com&#39; $ sudo apt-get install socat $ wget http://git.yoctoproject.org/cgit/cgit.cgi/poky/plain/scripts/oe-git-proxy $ cp oe-git-proxy ~/bin $ chmod &#43;x ~/bin/oe-git-proxy  export GIT_PROXY_COMMAND=&#34;oe-git-proxy&#34; export NO_PROXY=$no_proxy vi ~/.wgetrc  https_proxy = http://socks.example.com:1080 http_proxy = http://socks.example.com:1080 ftp_proxy = http://socks.example.com:1080 no_proxy = example.com:1080;127.0.0.1 use_proxy = on  https://wiki.yoctoproject.org/wiki/Working_Behind_a_Network_Proxy
+透明代理 #   https://blog.a1253247.info/2020/01/shadowsocks.html
 代理转换 #  /etc/polipo/config
-/etc/polipo/config  systemctl status polipo  www.codevoila.com/post/16/convert-socks-proxy-to-http-proxy-using-polipo
-测试网速 #  # Server tankywoo@gentoo-local::~/ » iperf -s ------------------------------------------------------------ Server listening on TCP port 5001 TCP window size: 85.3 KByte (default) ------------------------------------------------------------ [ 4] local 127.0.0.1 port 5001 connected with 127.0.0.1 port 56071 [ ID] Interval Transfer Bandwidth [ 4] 0.0-10.0 sec 27.0 GBytes 23.2 Gbits/sec  # Client tankywoo@gentoo-local::~/ » iperf -c localhost ------------------------------------------------------------ Client connecting to localhost, TCP port 5001 TCP window size: 647 KByte (default) ------------------------------------------------------------ [ 3] local 127.">
+/etc/polipo/config  systemctl status polipo  www.">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="系统代理和证书" />
-<meta property="og:description" content="透明代理 #   https://blog.a1253247.info/2020/01/shadowsocks.html
+<meta property="og:description" content="系统代理 #  vi ~/.profile  export http_proxy=&#39;http://myproxy.example.com:1080/&#39; export https_proxy=&#39;https://myproxy.example.com:1080/&#39; export ftp_proxy=&#39;http://myproxy.example.com:1080/&#39; export ALL_PROXY=&#39;socks://myproxy.example.com:1080/&#39; export all_proxy=&#39;socks://myproxy.example.com:1080/&#39; export no_proxy=&#39;example.com&#39; $ sudo apt-get install socat $ wget http://git.yoctoproject.org/cgit/cgit.cgi/poky/plain/scripts/oe-git-proxy $ cp oe-git-proxy ~/bin $ chmod &#43;x ~/bin/oe-git-proxy  export GIT_PROXY_COMMAND=&#34;oe-git-proxy&#34; export NO_PROXY=$no_proxy vi ~/.wgetrc  https_proxy = http://socks.example.com:1080 http_proxy = http://socks.example.com:1080 ftp_proxy = http://socks.example.com:1080 no_proxy = example.com:1080;127.0.0.1 use_proxy = on  https://wiki.yoctoproject.org/wiki/Working_Behind_a_Network_Proxy
+透明代理 #   https://blog.a1253247.info/2020/01/shadowsocks.html
 代理转换 #  /etc/polipo/config
-/etc/polipo/config  systemctl status polipo  www.codevoila.com/post/16/convert-socks-proxy-to-http-proxy-using-polipo
-测试网速 #  # Server tankywoo@gentoo-local::~/ » iperf -s ------------------------------------------------------------ Server listening on TCP port 5001 TCP window size: 85.3 KByte (default) ------------------------------------------------------------ [ 4] local 127.0.0.1 port 5001 connected with 127.0.0.1 port 56071 [ ID] Interval Transfer Bandwidth [ 4] 0.0-10.0 sec 27.0 GBytes 23.2 Gbits/sec  # Client tankywoo@gentoo-local::~/ » iperf -c localhost ------------------------------------------------------------ Client connecting to localhost, TCP port 5001 TCP window size: 647 KByte (default) ------------------------------------------------------------ [ 3] local 127." />
+/etc/polipo/config  systemctl status polipo  www." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://swifteen.github.io/docs/Linux-World/Ubuntu/%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%90%86%E5%92%8C%E8%AF%81%E4%B9%A6/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-04-20T00:59:50+08:00" />
+<meta property="article:modified_time" content="2022-04-22T00:16:26+08:00" />
 
 <title>系统代理和证书 | Freedom Book</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.8af359f8b4ff91864838b7225239a34a4ca449e60ef99ab88e33c978c8685391.css" integrity="sha256-ivNZ&#43;LT/kYZIOLciUjmjSkykSeYO&#43;Zq4jjPJeMhoU5E=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.2d46fabc9153c64d6091b2c334c44a3efd31ca29c4beac22be3e4fc89171cbcf.js" integrity="sha256-LUb6vJFTxk1gkbLDNMRKPv0xyinEvqwivj5PyJFxy88=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.8d7e7866566ac9205ec9d229a96873852a20677d4c9d3f923bece69e1d8a5bd8.js" integrity="sha256-jX54ZlZqySBeydIpqWhzhSogZ31MnT&#43;SO&#43;zmnh2KW9g=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <!--
@@ -311,6 +311,63 @@ https://github.com/alex-shpak/hugo-book
 
   
     <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF/" class="">日志模块实现思路</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/Qt%E6%80%BB%E7%BB%93/" class="">Qt总结</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Qt%E6%80%BB%E7%BB%93/%E5%B8%B8%E7%94%A8%E7%B1%BB%E4%BD%BF%E7%94%A8/" class="">常见类使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Qt%E6%80%BB%E7%BB%93/snippet/" class="">snippet</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Qt%E6%80%BB%E7%BB%93/QSS%E6%A0%B7%E5%BC%8F/" class="">QSS样式</a>
   
 
         </li>
@@ -636,6 +693,7 @@ https://github.com/alex-shpak/hugo-book
   <ul>
     <li>
       <ul>
+        <li><a href="#系统代理">系统代理</a></li>
         <li><a href="#透明代理">透明代理</a></li>
         <li><a href="#代理转换">代理转换</a></li>
         <li><a href="#测试网速">测试网速</a></li>
@@ -655,7 +713,35 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><h2 id="透明代理">
+  <article class="markdown"><h2 id="系统代理">
+  系统代理
+  <a class="anchor" href="#%e7%b3%bb%e7%bb%9f%e4%bb%a3%e7%90%86">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>vi ~/.profile
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>export http_proxy<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;http://myproxy.example.com:1080/&#39;</span>
+</span></span><span style="display:flex;"><span>export https_proxy<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;https://myproxy.example.com:1080/&#39;</span>
+</span></span><span style="display:flex;"><span>export ftp_proxy<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;http://myproxy.example.com:1080/&#39;</span>
+</span></span><span style="display:flex;"><span>export ALL_PROXY<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;socks://myproxy.example.com:1080/&#39;</span>
+</span></span><span style="display:flex;"><span>export all_proxy<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;socks://myproxy.example.com:1080/&#39;</span>
+</span></span><span style="display:flex;"><span>export no_proxy<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;example.com&#39;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ sudo apt-get install socat
+</span></span><span style="display:flex;"><span>$ wget http://git.yoctoproject.org/cgit/cgit.cgi/poky/plain/scripts/oe-git-proxy
+</span></span><span style="display:flex;"><span>$ cp oe-git-proxy ~/bin
+</span></span><span style="display:flex;"><span>$ chmod +x ~/bin/oe-git-proxy
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>export GIT_PROXY_COMMAND<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;oe-git-proxy&#34;</span>
+</span></span><span style="display:flex;"><span>export NO_PROXY<span style="color:#f92672">=</span>$no_proxy
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>vi ~/.wgetrc
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>https_proxy <span style="color:#f92672">=</span> http://socks.example.com:1080
+</span></span><span style="display:flex;"><span>http_proxy <span style="color:#f92672">=</span> http://socks.example.com:1080
+</span></span><span style="display:flex;"><span>ftp_proxy <span style="color:#f92672">=</span> http://socks.example.com:1080
+</span></span><span style="display:flex;"><span>no_proxy <span style="color:#f92672">=</span> example.com:1080;127.0.0.1
+</span></span><span style="display:flex;"><span>use_proxy <span style="color:#f92672">=</span> on
+</span></span></code></pre></div><p>
+  <a href="https://wiki.yoctoproject.org/wiki/Working_Behind_a_Network_Proxy">https://wiki.yoctoproject.org/wiki/Working_Behind_a_Network_Proxy</a></p>
+<h2 id="透明代理">
   透明代理
   <a class="anchor" href="#%e9%80%8f%e6%98%8e%e4%bb%a3%e7%90%86">#</a>
 </h2>
@@ -714,9 +800,9 @@ https://github.com/alex-shpak/hugo-book
   <div class="flex flex-wrap justify-between">
 
 
-  <div><a class="flex align-center" href="https://github.com/swifteen/swifteen.github.io/commit/e505f6a790d01d435c8b483ae2f475203dab2db9" title='Last modified by swifteen | April 20, 2022' target="_blank" rel="noopener">
+  <div><a class="flex align-center" href="https://github.com/swifteen/swifteen.github.io/commit/3272ed8abb50bf10296c64340b2cb3c44ecbf66f" title='Last modified by swifteen | April 22, 2022' target="_blank" rel="noopener">
       <img src="/svg/calendar.svg" class="book-icon" alt="Calendar" />
-      <span>April 20, 2022</span>
+      <span>April 22, 2022</span>
     </a>
   </div>
 
@@ -761,6 +847,7 @@ https://github.com/alex-shpak/hugo-book
   <ul>
     <li>
       <ul>
+        <li><a href="#系统代理">系统代理</a></li>
         <li><a href="#透明代理">透明代理</a></li>
         <li><a href="#代理转换">代理转换</a></li>
         <li><a href="#测试网速">测试网速</a></li>

@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="QSS样式 #  直接调用控件的 setstylesheet, 结果是每个控件 style 返回的对象都是不同的(地址不同足以证明是不同的对象), 而只给 QApplication 对象 setStyleSheet, 每个控件的 style 函数返回的对象都是相同的. 基于以上原因, 在开发时, 无论是出于维护的便捷性, 还是节省内存资源的考虑, 都应该有 一个 qss 文件来存放所有的样式表, 而不应该将 setStyleSheet 写的到处都是.
+默认程序中获取焦点以后会有虚边框，如果看着觉得碍眼不舒服可以去掉，设置样式即可：setStyleSheet(&quot;*{outline:0px;}&quot;);
+outline （轮廓）是控件有焦点时, 绘制在边框边缘的外围,可起到突出作用,轮廓线不占据控 件, 也不一定是矩形
+outline: none; width, height 两个属性, 设置的均是盒子的内容的宽高, 而我们在 c&#43;&#43; 代码中的窗口的 width 与 height 指的是整个盒子的宽度与高度,
+指示器设置样式 #   可以对整体的指示器设置样式，而不需要单独对每个控件的指示器设置，  *::down-arrow{}*::menu-indicator{}*::up-arrow:disabled{}*::up-arrow:off{} QPushButton左对齐文字 #    QPushButton左对齐文字，需要设置样式表
+QPushButton{text-align:left;}   三种设置文本的方法 #  QLabel有三种设置文本的方法，掌握好Qt的属性系统，举一反三，可以做出很多效果。
+//常规办法 ui-&gt;label-&gt;setText(&#34;hello&#34;); //取巧办法 ui-&gt;label-&gt;setProperty(&#34;text&#34;, &#34;hello&#34;); //属性大法 ui-&gt;label-&gt;setStyleSheet(&#34;qproperty-text:hello;&#34;); 样式表不起作用 #   Qt中继承QWidget之后，样式表不起作用，解决办法有三个。强烈推荐方法一。   方法一：设置属性 this-&gt;setAttribute(Qt::WA_StyledBackground, true); 方法二：改成继承QFrame，因为QFrame自带paintEvent函数已做了实现，在使用样式表时会进行解析和绘制。 方法三：重新实现QWidget的paintEvent函数时，使用QStylePainter绘制。  void Widget::paintEvent(QPaintEvent *){QStyleOption option;option.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="QSS样式" />
+<meta property="og:description" content="QSS样式 #  直接调用控件的 setstylesheet, 结果是每个控件 style 返回的对象都是不同的(地址不同足以证明是不同的对象), 而只给 QApplication 对象 setStyleSheet, 每个控件的 style 函数返回的对象都是相同的. 基于以上原因, 在开发时, 无论是出于维护的便捷性, 还是节省内存资源的考虑, 都应该有 一个 qss 文件来存放所有的样式表, 而不应该将 setStyleSheet 写的到处都是.
+默认程序中获取焦点以后会有虚边框，如果看着觉得碍眼不舒服可以去掉，设置样式即可：setStyleSheet(&quot;*{outline:0px;}&quot;);
+outline （轮廓）是控件有焦点时, 绘制在边框边缘的外围,可起到突出作用,轮廓线不占据控 件, 也不一定是矩形
+outline: none; width, height 两个属性, 设置的均是盒子的内容的宽高, 而我们在 c&#43;&#43; 代码中的窗口的 width 与 height 指的是整个盒子的宽度与高度,
+指示器设置样式 #   可以对整体的指示器设置样式，而不需要单独对每个控件的指示器设置，  *::down-arrow{}*::menu-indicator{}*::up-arrow:disabled{}*::up-arrow:off{} QPushButton左对齐文字 #    QPushButton左对齐文字，需要设置样式表
+QPushButton{text-align:left;}   三种设置文本的方法 #  QLabel有三种设置文本的方法，掌握好Qt的属性系统，举一反三，可以做出很多效果。
+//常规办法 ui-&gt;label-&gt;setText(&#34;hello&#34;); //取巧办法 ui-&gt;label-&gt;setProperty(&#34;text&#34;, &#34;hello&#34;); //属性大法 ui-&gt;label-&gt;setStyleSheet(&#34;qproperty-text:hello;&#34;); 样式表不起作用 #   Qt中继承QWidget之后，样式表不起作用，解决办法有三个。强烈推荐方法一。   方法一：设置属性 this-&gt;setAttribute(Qt::WA_StyledBackground, true); 方法二：改成继承QFrame，因为QFrame自带paintEvent函数已做了实现，在使用样式表时会进行解析和绘制。 方法三：重新实现QWidget的paintEvent函数时，使用QStylePainter绘制。  void Widget::paintEvent(QPaintEvent *){QStyleOption option;option." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://swifteen.github.io/docs/Qt%E6%80%BB%E7%BB%93/QSS%E6%A0%B7%E5%BC%8F/" /><meta property="article:section" content="docs" />
+
+<meta property="article:modified_time" content="2022-04-22T00:16:26+08:00" />
+
+<title>QSS样式 | Freedom Book</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.8af359f8b4ff91864838b7225239a34a4ca449e60ef99ab88e33c978c8685391.css" integrity="sha256-ivNZ&#43;LT/kYZIOLciUjmjSkykSeYO&#43;Zq4jjPJeMhoU5E=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.8d7e7866566ac9205ec9d229a96873852a20677d4c9d3f923bece69e1d8a5bd8.js" integrity="sha256-jX54ZlZqySBeydIpqWhzhSogZ31MnT&#43;SO&#43;zmnh2KW9g=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Freedom Book</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" class="">读书笔记</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="toggle"  />
+    <label for="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="flex justify-between">
+      <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/" class="">深入理解计算机系统</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/" class="">第一章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/4th-level/" class="">4th Level</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/" class="">5th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/6th-level/" class="">6th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/" class="">第二章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/" class="">7th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/12th-level/" class="">12th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/8th-level/" class="">8th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/" class="">工程实践</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/FalconMode/" class="">FalconMode模式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/BBB%E6%9D%BF%E4%BD%BF%E7%94%A8NFS%E6%8C%82%E8%BD%BD%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" class="">BBB板使用NFS挂载文件系统</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/" class="">工作总结</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">数据库</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF/" class="">日志模块实现思路</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/Qt%E6%80%BB%E7%BB%93/" class="">Qt总结</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Qt%E6%80%BB%E7%BB%93/%E5%B8%B8%E7%94%A8%E7%B1%BB%E4%BD%BF%E7%94%A8/" class="">常见类使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Qt%E6%80%BB%E7%BB%93/snippet/" class="">snippet</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Qt%E6%80%BB%E7%BB%93/QSS%E6%A0%B7%E5%BC%8F/" class=" active">QSS样式</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/" class="">Linux World</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/" class="">工具</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="toggle"  />
+    <label for="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Git常用配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" class="">git基本使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8/" class="">git高级使用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-d5b311234c6410083508e37cc63fc1b6" class="toggle"  />
+    <label for="section-d5b311234c6410083508e37cc63fc1b6" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/" class="">Vim</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/%E9%85%8D%E7%BD%AE/" class="">配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/" class="">常用 Linux命令</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4a2fe1f775a45aa533a141965b5ef749" class="toggle"  />
+    <label for="section-4a2fe1f775a45aa533a141965b5ef749" class="flex justify-between">
+      <a href="/docs/Linux-World/Raspberry/" class="">Raspberry</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Raspberry/%E5%B8%B8%E7%94%A8/" class="">常用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-23ec4bc7089b12961617b50da77ae792" class="toggle"  />
+    <label for="section-23ec4bc7089b12961617b50da77ae792" class="flex justify-between">
+      <a href="/docs/Linux-World/Ubuntu/" class="">Ubuntu</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%9B%AE%E5%BD%95%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE/" class="">目录共享配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%90%86%E5%92%8C%E8%AF%81%E4%B9%A6/" class="">系统代理和证书</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E5%85%B6%E5%AE%83/" class="">其它</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://github.com/swifteen/" target="_blank" rel="noopener">
+        Github
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://themes.gohugo.io/hugo-book/" target="_blank" rel="noopener">
+        Hugo Themes
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>QSS样式</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#qss样式">QSS样式</a>
+      <ul>
+        <li><a href="#指示器设置样式">指示器设置样式</a></li>
+        <li><a href="#qpushbutton左对齐文字">QPushButton左对齐文字</a></li>
+        <li><a href="#三种设置文本的方法">三种设置文本的方法</a></li>
+        <li><a href="#样式表不起作用">样式表不起作用</a></li>
+        <li><a href="#直接传入样式表文件路径">直接传入样式表文件路径</a></li>
+        <li><a href="#qcheckbox">QCheckBox</a></li>
+        <li><a href="#qtabbar">QTabBar</a></li>
+        <li><a href="#设置字体">设置字体</a></li>
+        <li><a href="#qss优先级">qss优先级</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="qss样式">
+  QSS样式
+  <a class="anchor" href="#qss%e6%a0%b7%e5%bc%8f">#</a>
+</h1>
+<p>直接调用控件的 setstylesheet, 结果是每个控件 style 返回的对象都是不同的(地址不同足以证明是不同的对象), 而只给 QApplication 对象 setStyleSheet, 每个控件的 style 函数返回的对象都是相同的. 基于以上原因, 在开发时, 无论是出于维护的便捷性, 还是节省内存资源的考虑, 都应该有 一个 qss 文件来存放所有的样式表, 而不应该将 setStyleSheet 写的到处都是.</p>
+<p>默认程序中获取焦点以后会有虚边框，如果看着觉得碍眼不舒服可以去掉，设置样式即可：setStyleSheet(&quot;*{outline:0px;}&quot;);</p>
+<p>outline （轮廓）是控件有焦点时, 绘制在边框边缘的外围,可起到突出作用,轮廓线不占据控 件, 也不一定是矩形</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#f92672">outline</span><span style="color:#f92672">:</span> <span style="color:#f92672">none</span><span style="color:#f92672">;</span>
+</span></span></code></pre></div><p>width, height 两个属性, 设置的均是盒子的内容的宽高, 而我们在 c++ 代码中的窗口的 width 与 height 指的是整个盒子的宽度与高度,</p>
+<h2 id="指示器设置样式">
+  指示器设置样式
+  <a class="anchor" href="#%e6%8c%87%e7%a4%ba%e5%99%a8%e8%ae%be%e7%bd%ae%e6%a0%b7%e5%bc%8f">#</a>
+</h2>
+<ol>
+<li>可以对整体的指示器设置样式，而不需要单独对每个控件的指示器设置，</li>
+</ol>
+<pre tabindex="0"><code>*::down-arrow{}
+*::menu-indicator{}
+*::up-arrow:disabled{}
+*::up-arrow:off{}
+</code></pre><h2 id="qpushbutton左对齐文字">
+  QPushButton左对齐文字
+  <a class="anchor" href="#qpushbutton%e5%b7%a6%e5%af%b9%e9%bd%90%e6%96%87%e5%ad%97">#</a>
+</h2>
+<ol>
+<li>
+<p>QPushButton左对齐文字，需要设置样式表</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-CSS" data-lang="CSS"><span style="display:flex;"><span><span style="color:#f92672">QPushButton</span>{<span style="color:#66d9ef">text-align</span>:<span style="color:#66d9ef">left</span>;}
+</span></span></code></pre></div></li>
+</ol>
+<h2 id="三种设置文本的方法">
+  三种设置文本的方法
+  <a class="anchor" href="#%e4%b8%89%e7%a7%8d%e8%ae%be%e7%bd%ae%e6%96%87%e6%9c%ac%e7%9a%84%e6%96%b9%e6%b3%95">#</a>
+</h2>
+<p>QLabel有三种设置文本的方法，掌握好Qt的属性系统，举一反三，可以做出很多效果。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#75715e">//常规办法
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>ui<span style="color:#f92672">-&gt;</span>label<span style="color:#f92672">-&gt;</span>setText(<span style="color:#e6db74">&#34;hello&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//取巧办法
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>ui<span style="color:#f92672">-&gt;</span>label<span style="color:#f92672">-&gt;</span>setProperty(<span style="color:#e6db74">&#34;text&#34;</span>, <span style="color:#e6db74">&#34;hello&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//属性大法
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>ui<span style="color:#f92672">-&gt;</span>label<span style="color:#f92672">-&gt;</span>setStyleSheet(<span style="color:#e6db74">&#34;qproperty-text:hello;&#34;</span>);
+</span></span></code></pre></div><h2 id="样式表不起作用">
+  样式表不起作用
+  <a class="anchor" href="#%e6%a0%b7%e5%bc%8f%e8%a1%a8%e4%b8%8d%e8%b5%b7%e4%bd%9c%e7%94%a8">#</a>
+</h2>
+<ol>
+<li>Qt中继承QWidget之后，样式表不起作用，解决办法有三个。强烈推荐方法一。</li>
+</ol>
+<ul>
+<li>方法一：设置属性 this-&gt;setAttribute(Qt::WA_StyledBackground, true);</li>
+<li>方法二：改成继承QFrame，因为QFrame自带paintEvent函数已做了实现，在使用样式表时会进行解析和绘制。</li>
+<li>方法三：重新实现QWidget的paintEvent函数时，使用QStylePainter绘制。</li>
+</ul>
+<pre tabindex="0"><code>void Widget::paintEvent(QPaintEvent *)
+{
+    QStyleOption option;
+    option.initFrom(this);
+    QPainter painter(this);
+    style()-&gt;drawPrimitive(QStyle::PE_Widget, &amp;option, &amp;painter, this);
+}
+</code></pre><h2 id="直接传入样式表文件路径">
+  直接传入样式表文件路径
+  <a class="anchor" href="#%e7%9b%b4%e6%8e%a5%e4%bc%a0%e5%85%a5%e6%a0%b7%e5%bc%8f%e8%a1%a8%e6%96%87%e4%bb%b6%e8%b7%af%e5%be%84">#</a>
+</h2>
+<p>设置样式表支持直接传入样式表文件路径，亲测4.7到5.15任意版本，通过查看对应函数的源码可以看到内部会检查是否是 &lsquo;file:///&rsquo; 开头，是的话则自动读取样式表文件进行设置，无需手动读取。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#75715e">//以前都是下面的方法
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>QFile <span style="color:#a6e22e">file</span>(<span style="color:#e6db74">&#34;:/qss/psblack.css&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (file.open(QFile<span style="color:#f92672">::</span>ReadOnly)) {
+</span></span><span style="display:flex;"><span>    QString qss <span style="color:#f92672">=</span> QLatin1String(file.readAll());
+</span></span><span style="display:flex;"><span>    qApp<span style="color:#f92672">-&gt;</span>setStyleSheet(qss);
+</span></span><span style="display:flex;"><span>    file.close();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//其实一行代码就行
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>qApp<span style="color:#f92672">-&gt;</span>setStyleSheet(<span style="color:#e6db74">&#34;file:///:/qss/psblack.css&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//特别说明，只支持qApp-&gt;setStyleSheet 不支持其他比如widget-&gt;setStyleSheet
+</span></span></span></code></pre></div><h2 id="qcheckbox">
+  QCheckBox
+  <a class="anchor" href="#qcheckbox">#</a>
+</h2>
+<p>对于QListView（QListWidget）、QTreeView（QTreeWidget）、QTableView（QTableWidget）这种类型的控件，可以通过setChecked来让对应的item产生复选框效果，很多人（包括曾经的自己）误以为这就是复选框控件，其实不是的，他是对应控件的indicator指示器，所以想要更换样式，不能说设置了QCheckBox的样式就有效果，而要单独对齐indicator指示器设置样式才行。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#f92672">QCheckBox</span>::<span style="color:#a6e22e">indicator</span><span style="color:#f92672">,</span><span style="color:#f92672">QGroupBox</span>::<span style="color:#a6e22e">indicator</span><span style="color:#f92672">,</span><span style="color:#f92672">QTreeWidget</span>::<span style="color:#a6e22e">indicator</span><span style="color:#f92672">,</span><span style="color:#f92672">QListWidget</span>::<span style="color:#a6e22e">indicator</span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">width</span>:<span style="color:#ae81ff">13</span><span style="color:#66d9ef">px</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">height</span>:<span style="color:#ae81ff">13</span><span style="color:#66d9ef">px</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">QCheckBox</span>::<span style="color:#a6e22e">indicator</span>:<span style="color:#a6e22e">unchecked</span><span style="color:#f92672">,</span><span style="color:#f92672">QGroupBox</span>::<span style="color:#a6e22e">indicator</span>:<span style="color:#a6e22e">unchecked</span><span style="color:#f92672">,</span><span style="color:#f92672">QTreeWidget</span>::<span style="color:#a6e22e">indicator</span>:<span style="color:#a6e22e">unchecked</span><span style="color:#f92672">,</span><span style="color:#f92672">QListWidget</span>::<span style="color:#a6e22e">indicator</span>:<span style="color:#a6e22e">unchecked</span>{
+</span></span><span style="display:flex;"><span>image:url(<span style="color:#e6db74">:/qss/flatwhite/checkbox_unchecked.png</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">QCheckBox</span>::<span style="color:#a6e22e">indicator</span>:<span style="color:#a6e22e">unchecked</span>:<span style="color:#a6e22e">disabled</span><span style="color:#f92672">,</span><span style="color:#f92672">QGroupBox</span>::<span style="color:#a6e22e">indicator</span>:<span style="color:#a6e22e">unchecked</span>:<span style="color:#a6e22e">disabled</span><span style="color:#f92672">,</span><span style="color:#f92672">QTreeWidget</span>::<span style="color:#a6e22e">indicator</span>:<span style="color:#a6e22e">unchecked</span>:<span style="color:#a6e22e">disabled</span><span style="color:#f92672">,</span><span style="color:#f92672">QListWidget</span>::<span style="color:#a6e22e">indicator</span>:<span style="color:#a6e22e">disabled</span>{
+</span></span><span style="display:flex;"><span>image:url(<span style="color:#e6db74">:/qss/flatwhite/checkbox_unchecked_disable.png</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">QCheckBox</span>::<span style="color:#a6e22e">indicator</span>:<span style="color:#a6e22e">checked</span><span style="color:#f92672">,</span><span style="color:#f92672">QGroupBox</span>::<span style="color:#a6e22e">indicator</span>:<span style="color:#a6e22e">checked</span><span style="color:#f92672">,</span><span style="color:#f92672">QTreeWidget</span>::<span style="color:#a6e22e">indicator</span>:<span style="color:#a6e22e">checked</span><span style="color:#f92672">,</span><span style="color:#f92672">QListWidget</span>::<span style="color:#a6e22e">indicator</span>:<span style="color:#a6e22e">checked</span>{
+</span></span><span style="display:flex;"><span>image:url(<span style="color:#e6db74">:/qss/flatwhite/checkbox_checked.png</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">QCheckBox</span>::<span style="color:#a6e22e">indicator</span>:<span style="color:#a6e22e">checked</span>:<span style="color:#a6e22e">disabled</span><span style="color:#f92672">,</span><span style="color:#f92672">QGroupBox</span>::<span style="color:#a6e22e">indicator</span>:<span style="color:#a6e22e">checked</span>:<span style="color:#a6e22e">disabled</span><span style="color:#f92672">,</span><span style="color:#f92672">QTreeWidget</span>::<span style="color:#a6e22e">indicator</span>:<span style="color:#a6e22e">checked</span>:<span style="color:#a6e22e">disabled</span><span style="color:#f92672">,</span><span style="color:#f92672">QListWidget</span>::<span style="color:#a6e22e">indicator</span>:<span style="color:#a6e22e">checked</span>:<span style="color:#a6e22e">disabled</span>{
+</span></span><span style="display:flex;"><span>image:url(<span style="color:#e6db74">:/qss/flatwhite/checkbox_checked_disable.png</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">QCheckBox</span>::<span style="color:#a6e22e">indicator</span>:<span style="color:#a6e22e">indeterminate</span><span style="color:#f92672">,</span><span style="color:#f92672">QGroupBox</span>::<span style="color:#a6e22e">indicator</span>:<span style="color:#a6e22e">indeterminate</span><span style="color:#f92672">,</span><span style="color:#f92672">QTreeWidget</span>::<span style="color:#a6e22e">indicator</span>:<span style="color:#a6e22e">indeterminate</span><span style="color:#f92672">,</span><span style="color:#f92672">QListWidget</span>::<span style="color:#a6e22e">indicator</span>:<span style="color:#a6e22e">indeterminate</span>{
+</span></span><span style="display:flex;"><span>image:url(<span style="color:#e6db74">:/qss/flatwhite/checkbox_parcial.png</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">QCheckBox</span>::<span style="color:#a6e22e">indicator</span>:<span style="color:#a6e22e">indeterminate</span>:<span style="color:#a6e22e">disabled</span><span style="color:#f92672">,</span><span style="color:#f92672">QGroupBox</span>::<span style="color:#a6e22e">indicator</span>:<span style="color:#a6e22e">indeterminate</span>:<span style="color:#a6e22e">disabled</span><span style="color:#f92672">,</span><span style="color:#f92672">QTreeWidget</span>::<span style="color:#a6e22e">indicator</span>:<span style="color:#a6e22e">indeterminate</span>:<span style="color:#a6e22e">disabled</span><span style="color:#f92672">,</span><span style="color:#f92672">QListWidget</span>::<span style="color:#a6e22e">indicator</span>:<span style="color:#a6e22e">indeterminate</span>:<span style="color:#a6e22e">disabled</span>{
+</span></span><span style="display:flex;"><span>image:url(<span style="color:#e6db74">:/qss/flatwhite/checkbox_parcial_disable.png</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="qtabbar">
+  QTabBar
+  <a class="anchor" href="#qtabbar">#</a>
+</h2>
+<p>QTabWidget选项卡有个自动生成按钮切换选项卡的机制，有时候不想看到这个烦人的切换按钮，可以设置usesScrollButtons为假，其实QTabWidget的usesScrollButtons属性最终是应用到QTabWidget的QTabBar对象上，所以只要设置全局的QTabBar的这个属性关闭即可。为啥要设置全局的呢，因为如果只是对QTabWidget设置了该属性，而在QMainWindow窗体中QDockWidget合并自动形成的选项卡只有QTabBar对象导致依然是有切换按钮。</p>
+<pre tabindex="0"><code>//对tabWidget设置无切换按钮
+ui-&gt;tabWidget-&gt;setUsesScrollButtons(false);
+//对tabBar设置无切换按钮
+ui-&gt;tabWidget-&gt;tabBar()-&gt;setUsesScrollButtons(false);
+//对整个系统的选项卡设置无切换按钮
+QTabBar{qproperty-usesScrollButtons:false;}
+//设置选项卡自动拉伸 这玩意居然之前自动计算来设置原来内置了哇咔咔
+QTabBar{qproperty-expanding:false;}
+//设置选项卡关闭按钮可见
+QTabBar{qproperty-tabsClosable:true;}
+//还有其他属性参见QTabBar头文件有惊喜
+//依旧是万能大法所有可视化类的 Q_PROPERTY 包含的属性都可以这样设置
+</code></pre><h2 id="设置字体">
+  设置字体
+  <a class="anchor" href="#%e8%ae%be%e7%bd%ae%e5%ad%97%e4%bd%93">#</a>
+</h2>
+<p>设置字体，大概都会经历一个误区，本来是打算设置整个窗体包括子控件的字体大小的，结果发现只有主窗体自己应用了字体而子控件没有。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#75715e">//假设窗体中有子控件，默认字体12px，父类类型是QWidget，父类类名是Widget
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//下面几种方法只会设置主窗体的字体，子控件不会应用，需要按个调用setFont
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>QFont font;
+</span></span><span style="display:flex;"><span>font.setPixelSize(<span style="color:#ae81ff">20</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>setFont(font);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>setStyleSheet(<span style="color:#e6db74">&#34;{font:26px;}&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>setStyleSheet(<span style="color:#e6db74">&#34;QWidget{font:26px;}&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>setStyleSheet(<span style="color:#e6db74">&#34;Widget{font:26px;}&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//下面才是通过样式表设置整个控件+子控件的字体
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>setStyleSheet(<span style="color:#e6db74">&#34;font:26px;&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>setStyleSheet(<span style="color:#e6db74">&#34;*{font:26px;}&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>setStyleSheet(<span style="color:#e6db74">&#34;QWidget&gt;*{font:26px;}&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>setStyleSheet(<span style="color:#e6db74">&#34;Widget&gt;*{font:26px;}&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//下面设置全局字体
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>qApp<span style="color:#f92672">-&gt;</span>setFont(font);
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#f92672">*</span>{<span style="color:#66d9ef">font</span>: <span style="color:#66d9ef">normal</span> <span style="color:#ae81ff">20</span><span style="color:#66d9ef">px</span> <span style="color:#960050;background-color:#1e0010">“微软雅黑”</span>;}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">QPushButton</span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">color</span>: <span style="color:#66d9ef">blue</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">namespace</span> <span style="color:#f92672">ns</span> {
+</span></span><span style="display:flex;"><span> <span style="color:#960050;background-color:#1e0010">class</span> MyPushButton : public QPushButton <span style="color:#960050;background-color:#1e0010">{</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">//</span> <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">//</span> <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">qApp-</span><span style="color:#f92672">&gt;</span><span style="color:#f92672">setStyleSheet</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;ns--MyPushButton { background: yellow; }&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">QPushButton</span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">color</span>: <span style="color:#66d9ef">blue</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">QAbstractSpinBox</span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">min-height</span>: <span style="color:#ae81ff">30</span><span style="color:#66d9ef">px</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">max-height</span>: <span style="color:#ae81ff">30</span><span style="color:#66d9ef">px</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">border-width</span>: <span style="color:#ae81ff">1</span><span style="color:#66d9ef">px</span>;
+</span></span><span style="display:flex;"><span>rder-style: <span style="color:#66d9ef">solid</span>;
+</span></span><span style="display:flex;"><span>order-color: <span style="color:#66d9ef">gray</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">padding</span>: <span style="color:#ae81ff">0</span><span style="color:#66d9ef">px</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>#button_1{
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">color</span>: <span style="color:#66d9ef">red</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">QPushButton</span>#settings_popup_fileDialog_button{
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">min-height</span>: <span style="color:#ae81ff">31</span><span style="color:#66d9ef">px</span>;
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">min-width</span>: <span style="color:#ae81ff">70</span><span style="color:#66d9ef">px</span>;
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">border</span>: <span style="color:#ae81ff">1</span><span style="color:#66d9ef">px</span> <span style="color:#66d9ef">solid</span> <span style="color:#66d9ef">black</span>;
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">color</span>: <span style="color:#ae81ff">#F0F0F0</span>;
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">min-height</span>: <span style="color:#ae81ff">10</span><span style="color:#66d9ef">px</span>;
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">border-radius</span>:<span style="color:#ae81ff">3</span><span style="color:#66d9ef">px</span>;
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">background</span>: <span style="color:#a6e22e">qlineargradient</span>(spread<span style="color:#960050;background-color:#1e0010">:</span>pad, x1<span style="color:#960050;background-color:#1e0010">:</span><span style="color:#ae81ff">0</span>, y1<span style="color:#960050;background-color:#1e0010">:</span><span style="color:#ae81ff">0</span>, x2<span style="color:#960050;background-color:#1e0010">:</span><span style="color:#ae81ff">0</span>, y2<span style="color:#960050;background-color:#1e0010">:</span><span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>stop<span style="color:#960050;background-color:#1e0010">:</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">#454648</span>, stop<span style="color:#960050;background-color:#1e0010">:</span><span style="color:#ae81ff">1</span> <span style="color:#ae81ff">#7A7A7A</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">BaseDialog</span> <span style="color:#f92672">QPushButton</span>{
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">min-width</span>: <span style="color:#ae81ff">120</span><span style="color:#66d9ef">px</span>;
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">min-height</span>: <span style="color:#ae81ff">40</span><span style="color:#66d9ef">px</span>;
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">max-width</span>: <span style="color:#ae81ff">120</span><span style="color:#66d9ef">px</span>;
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">max-height</span>: <span style="color:#ae81ff">40</span><span style="color:#66d9ef">px</span>;
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">font-size</span>: <span style="color:#ae81ff">20</span><span style="color:#66d9ef">px</span>;
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">padding</span>: <span style="color:#ae81ff">0</span><span style="color:#66d9ef">px</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">QGroupBox</span> <span style="color:#f92672">&gt;</span> .<span style="color:#a6e22e">QCheckBox</span>{
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">color</span>: <span style="color:#66d9ef">blue</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span><span style="color:#f92672">objectName</span><span style="color:#f92672">~=</span><span style="color:#e6db74">&#34;button&#34;</span><span style="color:#f92672">]</span>{
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">color</span>: <span style="color:#66d9ef">red</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">QLineEdit</span><span style="color:#f92672">,</span> .<span style="color:#a6e22e">QComboBox</span>{
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">border</span>: <span style="color:#ae81ff">1</span><span style="color:#66d9ef">px</span> <span style="color:#66d9ef">solid</span> <span style="color:#66d9ef">gray</span>;
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">background-color</span>:<span style="color:#66d9ef">white</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="qss优先级">
+  qss优先级
+  <a class="anchor" href="#qss%e4%bc%98%e5%85%88%e7%ba%a7">#</a>
+</h2>
+<p>给控件直接设置的样式 &gt; 给 QApplication 设置的样式</p>
+<p>如果是间接选中,那么最终的样式就是离目标最近的那个</p>
+<p>后面的样式会覆盖掉前面的样 式</p>
+<p>Id &gt; 类 &gt; 类型 &gt; 通配符 &gt; 继承 &gt; 默认</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+  <div><a class="flex align-center" href="https://github.com/swifteen/swifteen.github.io/commit/3272ed8abb50bf10296c64340b2cb3c44ecbf66f" title='Last modified by swifteen | April 22, 2022' target="_blank" rel="noopener">
+      <img src="/svg/calendar.svg" class="book-icon" alt="Calendar" />
+      <span>April 22, 2022</span>
+    </a>
+  </div>
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/swifteen/swifteen.github.io/edit/main/exampleSite/content/docs/Qt%e6%80%bb%e7%bb%93/QSS%e6%a0%b7%e5%bc%8f.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function e(n){const e=window.getSelection(),t=document.createRange();t.selectNodeContents(n),e.removeAllRanges(),e.addRange(t)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#qss样式">QSS样式</a>
+      <ul>
+        <li><a href="#指示器设置样式">指示器设置样式</a></li>
+        <li><a href="#qpushbutton左对齐文字">QPushButton左对齐文字</a></li>
+        <li><a href="#三种设置文本的方法">三种设置文本的方法</a></li>
+        <li><a href="#样式表不起作用">样式表不起作用</a></li>
+        <li><a href="#直接传入样式表文件路径">直接传入样式表文件路径</a></li>
+        <li><a href="#qcheckbox">QCheckBox</a></li>
+        <li><a href="#qtabbar">QTabBar</a></li>
+        <li><a href="#设置字体">设置字体</a></li>
+        <li><a href="#qss优先级">qss优先级</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

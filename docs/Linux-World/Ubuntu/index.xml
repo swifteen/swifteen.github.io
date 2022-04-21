@@ -25,10 +25,10 @@ cd /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/ sudo mkdir tisdk-defaul
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://swifteen.github.io/docs/Linux-World/Ubuntu/%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%90%86%E5%92%8C%E8%AF%81%E4%B9%A6/</guid>
-      <description>透明代理 #   https://blog.a1253247.info/2020/01/shadowsocks.html
+      <description>系统代理 #  vi ~/.profile  export http_proxy=&amp;#39;http://myproxy.example.com:1080/&amp;#39; export https_proxy=&amp;#39;https://myproxy.example.com:1080/&amp;#39; export ftp_proxy=&amp;#39;http://myproxy.example.com:1080/&amp;#39; export ALL_PROXY=&amp;#39;socks://myproxy.example.com:1080/&amp;#39; export all_proxy=&amp;#39;socks://myproxy.example.com:1080/&amp;#39; export no_proxy=&amp;#39;example.com&amp;#39; $ sudo apt-get install socat $ wget http://git.yoctoproject.org/cgit/cgit.cgi/poky/plain/scripts/oe-git-proxy $ cp oe-git-proxy ~/bin $ chmod +x ~/bin/oe-git-proxy  export GIT_PROXY_COMMAND=&amp;#34;oe-git-proxy&amp;#34; export NO_PROXY=$no_proxy vi ~/.wgetrc  https_proxy = http://socks.example.com:1080 http_proxy = http://socks.example.com:1080 ftp_proxy = http://socks.example.com:1080 no_proxy = example.com:1080;127.0.0.1 use_proxy = on  https://wiki.yoctoproject.org/wiki/Working_Behind_a_Network_Proxy
+透明代理 #   https://blog.a1253247.info/2020/01/shadowsocks.html
 代理转换 #  /etc/polipo/config
-/etc/polipo/config  systemctl status polipo  www.codevoila.com/post/16/convert-socks-proxy-to-http-proxy-using-polipo
-测试网速 #  # Server tankywoo@gentoo-local::~/ » iperf -s ------------------------------------------------------------ Server listening on TCP port 5001 TCP window size: 85.3 KByte (default) ------------------------------------------------------------ [ 4] local 127.0.0.1 port 5001 connected with 127.0.0.1 port 56071 [ ID] Interval Transfer Bandwidth [ 4] 0.0-10.0 sec 27.0 GBytes 23.2 Gbits/sec  # Client tankywoo@gentoo-local::~/ » iperf -c localhost ------------------------------------------------------------ Client connecting to localhost, TCP port 5001 TCP window size: 647 KByte (default) ------------------------------------------------------------ [ 3] local 127.</description>
+/etc/polipo/config  systemctl status polipo  www.</description>
     </item>
     
     <item>

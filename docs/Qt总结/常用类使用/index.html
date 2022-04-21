@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="常见类使用 #  QTableWidget #  关于QTableWidget等控件调用自带的removeRow、clearContents、clear函数删除了里面的item和内容，会自动调用item或者cellwidget的析构函数进行资源释放，不用自己手动再去释放。
+//每次调用 clearContents 都会自动清理之前的item ui-&gt;tableWidget-&gt;clearContents(); for (int i = 0; i &lt; count; &#43;&#43;i) {  ui-&gt;tableWidget-&gt;setItem(i, 0, new QTableWidgetItem(&#34;aaa&#34;));  ui-&gt;tableWidget-&gt;setItem(i, 1, new QTableWidgetItem(&#34;bbb&#34;));  ui-&gt;tableWidget-&gt;setCellWidget(i, 2, new QPushButton(&#34;ccc&#34;)); } QTabWidget选项卡控件，生成的tabbar选项卡宽度是按照文本自动设置的，文本越长选项卡的宽度越大，很多时候，我们需要的是一样的宽度或者等分填充，
+//方法1：字符串空格填充 ui-&gt;tabWidget-&gt;addTab(httpClient1, &#34;测 试&#34;); ui-&gt;tabWidget-&gt;addTab(httpClient1, &#34;人员管理&#34;); ui-&gt;tabWidget-&gt;addTab(httpClient1, &#34;系统设置&#34;);  //方法2：识别尺寸改变事件自动设置最小宽度 void MainWindow::resizeEvent(QResizeEvent *e) {  int count = ui-&gt;tabWidget-&gt;tabBar()-&gt;count();  int width = this-&gt;width() - 30;  QString qss = QString(&#34;QTabBar::tab{min-width:%1px;}&#34;).arg(width / count);  this-&gt;setStyleSheet(qss); }  //方法3：设置全局样式，不同选项卡个数的设置不同的宽度 QStringList list; list &lt;&lt; QString(&#34;QTabWidget[tabCount=\&#34;2\&#34;]&gt;QTabBar::tab{min-width:%1px;}&#34;).">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="常见类使用" />
+<meta property="og:description" content="常见类使用 #  QTableWidget #  关于QTableWidget等控件调用自带的removeRow、clearContents、clear函数删除了里面的item和内容，会自动调用item或者cellwidget的析构函数进行资源释放，不用自己手动再去释放。
+//每次调用 clearContents 都会自动清理之前的item ui-&gt;tableWidget-&gt;clearContents(); for (int i = 0; i &lt; count; &#43;&#43;i) {  ui-&gt;tableWidget-&gt;setItem(i, 0, new QTableWidgetItem(&#34;aaa&#34;));  ui-&gt;tableWidget-&gt;setItem(i, 1, new QTableWidgetItem(&#34;bbb&#34;));  ui-&gt;tableWidget-&gt;setCellWidget(i, 2, new QPushButton(&#34;ccc&#34;)); } QTabWidget选项卡控件，生成的tabbar选项卡宽度是按照文本自动设置的，文本越长选项卡的宽度越大，很多时候，我们需要的是一样的宽度或者等分填充，
+//方法1：字符串空格填充 ui-&gt;tabWidget-&gt;addTab(httpClient1, &#34;测 试&#34;); ui-&gt;tabWidget-&gt;addTab(httpClient1, &#34;人员管理&#34;); ui-&gt;tabWidget-&gt;addTab(httpClient1, &#34;系统设置&#34;);  //方法2：识别尺寸改变事件自动设置最小宽度 void MainWindow::resizeEvent(QResizeEvent *e) {  int count = ui-&gt;tabWidget-&gt;tabBar()-&gt;count();  int width = this-&gt;width() - 30;  QString qss = QString(&#34;QTabBar::tab{min-width:%1px;}&#34;).arg(width / count);  this-&gt;setStyleSheet(qss); }  //方法3：设置全局样式，不同选项卡个数的设置不同的宽度 QStringList list; list &lt;&lt; QString(&#34;QTabWidget[tabCount=\&#34;2\&#34;]&gt;QTabBar::tab{min-width:%1px;}&#34;)." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://swifteen.github.io/docs/Qt%E6%80%BB%E7%BB%93/%E5%B8%B8%E7%94%A8%E7%B1%BB%E4%BD%BF%E7%94%A8/" /><meta property="article:section" content="docs" />
+
+<meta property="article:modified_time" content="2022-04-22T00:16:26+08:00" />
+
+<title>常见类使用 | Freedom Book</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.8af359f8b4ff91864838b7225239a34a4ca449e60ef99ab88e33c978c8685391.css" integrity="sha256-ivNZ&#43;LT/kYZIOLciUjmjSkykSeYO&#43;Zq4jjPJeMhoU5E=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.8d7e7866566ac9205ec9d229a96873852a20677d4c9d3f923bece69e1d8a5bd8.js" integrity="sha256-jX54ZlZqySBeydIpqWhzhSogZ31MnT&#43;SO&#43;zmnh2KW9g=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Freedom Book</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" class="">读书笔记</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="toggle"  />
+    <label for="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="flex justify-between">
+      <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/" class="">深入理解计算机系统</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/" class="">第一章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/4th-level/" class="">4th Level</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/" class="">5th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/6th-level/" class="">6th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/" class="">第二章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/" class="">7th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/12th-level/" class="">12th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/8th-level/" class="">8th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/" class="">工程实践</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/FalconMode/" class="">FalconMode模式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/BBB%E6%9D%BF%E4%BD%BF%E7%94%A8NFS%E6%8C%82%E8%BD%BD%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" class="">BBB板使用NFS挂载文件系统</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/" class="">工作总结</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">数据库</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF/" class="">日志模块实现思路</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/Qt%E6%80%BB%E7%BB%93/" class="">Qt总结</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Qt%E6%80%BB%E7%BB%93/%E5%B8%B8%E7%94%A8%E7%B1%BB%E4%BD%BF%E7%94%A8/" class=" active">常见类使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Qt%E6%80%BB%E7%BB%93/snippet/" class="">snippet</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Qt%E6%80%BB%E7%BB%93/QSS%E6%A0%B7%E5%BC%8F/" class="">QSS样式</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/" class="">Linux World</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/" class="">工具</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="toggle"  />
+    <label for="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Git常用配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" class="">git基本使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8/" class="">git高级使用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-d5b311234c6410083508e37cc63fc1b6" class="toggle"  />
+    <label for="section-d5b311234c6410083508e37cc63fc1b6" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/" class="">Vim</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/%E9%85%8D%E7%BD%AE/" class="">配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/" class="">常用 Linux命令</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4a2fe1f775a45aa533a141965b5ef749" class="toggle"  />
+    <label for="section-4a2fe1f775a45aa533a141965b5ef749" class="flex justify-between">
+      <a href="/docs/Linux-World/Raspberry/" class="">Raspberry</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Raspberry/%E5%B8%B8%E7%94%A8/" class="">常用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-23ec4bc7089b12961617b50da77ae792" class="toggle"  />
+    <label for="section-23ec4bc7089b12961617b50da77ae792" class="flex justify-between">
+      <a href="/docs/Linux-World/Ubuntu/" class="">Ubuntu</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%9B%AE%E5%BD%95%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE/" class="">目录共享配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%90%86%E5%92%8C%E8%AF%81%E4%B9%A6/" class="">系统代理和证书</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E5%85%B6%E5%AE%83/" class="">其它</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://github.com/swifteen/" target="_blank" rel="noopener">
+        Github
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://themes.gohugo.io/hugo-book/" target="_blank" rel="noopener">
+        Hugo Themes
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>常见类使用</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#常见类使用">常见类使用</a>
+      <ul>
+        <li><a href="#qtablewidget">QTableWidget</a></li>
+        <li><a href="#qtableview">QTableView</a></li>
+        <li><a href="#qsqltablemodel">QSqlTableModel</a></li>
+        <li><a href="#qlistqmapqhash">QList、QMap、QHash</a></li>
+        <li><a href="#qlocale">QLocale</a></li>
+        <li><a href="#qapplication">QApplication</a></li>
+        <li><a href="#qrandomgenerator">QRandomGenerator</a></li>
+        <li><a href="#qstring">QString</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="常见类使用">
+  常见类使用
+  <a class="anchor" href="#%e5%b8%b8%e8%a7%81%e7%b1%bb%e4%bd%bf%e7%94%a8">#</a>
+</h1>
+<h2 id="qtablewidget">
+  QTableWidget
+  <a class="anchor" href="#qtablewidget">#</a>
+</h2>
+<p>关于QTableWidget等控件调用自带的removeRow、clearContents、clear函数删除了里面的item和内容，会自动调用item或者cellwidget的析构函数进行资源释放，不用自己手动再去释放。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">//每次调用 clearContents 都会自动清理之前的item
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>ui<span style="color:#f92672">-&gt;</span>tableWidget<span style="color:#f92672">-&gt;</span>clearContents();
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> count; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>    ui<span style="color:#f92672">-&gt;</span>tableWidget<span style="color:#f92672">-&gt;</span>setItem(i, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">new</span> QTableWidgetItem(<span style="color:#e6db74">&#34;aaa&#34;</span>));
+</span></span><span style="display:flex;"><span>    ui<span style="color:#f92672">-&gt;</span>tableWidget<span style="color:#f92672">-&gt;</span>setItem(i, <span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">new</span> QTableWidgetItem(<span style="color:#e6db74">&#34;bbb&#34;</span>));
+</span></span><span style="display:flex;"><span>    ui<span style="color:#f92672">-&gt;</span>tableWidget<span style="color:#f92672">-&gt;</span>setCellWidget(i, <span style="color:#ae81ff">2</span>, <span style="color:#66d9ef">new</span> QPushButton(<span style="color:#e6db74">&#34;ccc&#34;</span>));
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>QTabWidget选项卡控件，生成的tabbar选项卡宽度是按照文本自动设置的，文本越长选项卡的宽度越大，很多时候，我们需要的是一样的宽度或者等分填充，</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">//方法1：字符串空格填充
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>ui<span style="color:#f92672">-&gt;</span>tabWidget<span style="color:#f92672">-&gt;</span>addTab(httpClient1, <span style="color:#e6db74">&#34;测    试&#34;</span>);
+</span></span><span style="display:flex;"><span>ui<span style="color:#f92672">-&gt;</span>tabWidget<span style="color:#f92672">-&gt;</span>addTab(httpClient1, <span style="color:#e6db74">&#34;人员管理&#34;</span>);
+</span></span><span style="display:flex;"><span>ui<span style="color:#f92672">-&gt;</span>tabWidget<span style="color:#f92672">-&gt;</span>addTab(httpClient1, <span style="color:#e6db74">&#34;系统设置&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//方法2：识别尺寸改变事件自动设置最小宽度
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> MainWindow<span style="color:#f92672">::</span>resizeEvent(QResizeEvent <span style="color:#f92672">*</span>e)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> count <span style="color:#f92672">=</span> ui<span style="color:#f92672">-&gt;</span>tabWidget<span style="color:#f92672">-&gt;</span>tabBar()<span style="color:#f92672">-&gt;</span>count();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> width <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>width() <span style="color:#f92672">-</span> <span style="color:#ae81ff">30</span>;
+</span></span><span style="display:flex;"><span>    QString qss <span style="color:#f92672">=</span> QString(<span style="color:#e6db74">&#34;QTabBar::tab{min-width:%1px;}&#34;</span>).arg(width <span style="color:#f92672">/</span> count);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>setStyleSheet(qss);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//方法3：设置全局样式，不同选项卡个数的设置不同的宽度
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>QStringList list;
+</span></span><span style="display:flex;"><span>list <span style="color:#f92672">&lt;&lt;</span> QString(<span style="color:#e6db74">&#34;QTabWidget[tabCount=</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">2</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">]&gt;QTabBar::tab{min-width:%1px;}&#34;</span>).arg(<span style="color:#ae81ff">100</span>);
+</span></span><span style="display:flex;"><span>list <span style="color:#f92672">&lt;&lt;</span> QString(<span style="color:#e6db74">&#34;QTabWidget[tabCount=</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">3</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">]&gt;QTabBar::tab{min-width:%1px;}&#34;</span>).arg(<span style="color:#ae81ff">70</span>);
+</span></span><span style="display:flex;"><span>qApp<span style="color:#f92672">-&gt;</span>setStyleSheet(list.join(<span style="color:#e6db74">&#34;&#34;</span>));
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//设置了tabCount弱属性自动去找对应的宽度设置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>ui<span style="color:#f92672">-&gt;</span>tabWidget<span style="color:#f92672">-&gt;</span>setProperty(<span style="color:#e6db74">&#34;tabCount&#34;</span>, <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>ui<span style="color:#f92672">-&gt;</span>tabWidget<span style="color:#f92672">-&gt;</span>setProperty(<span style="color:#e6db74">&#34;tabCount&#34;</span>, <span style="color:#ae81ff">3</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//方法4：强烈推荐-》使用内置的方法 setExpanding setDocumentMode 两个属性都必须设置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//Qt4的tabBar()是propected的，所以建议还是通过样式表设置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>ui<span style="color:#f92672">-&gt;</span>tabWidget<span style="color:#f92672">-&gt;</span>tabBar()<span style="color:#f92672">-&gt;</span>setDocumentMode(true);
+</span></span><span style="display:flex;"><span>ui<span style="color:#f92672">-&gt;</span>tabWidget<span style="color:#f92672">-&gt;</span>tabBar()<span style="color:#f92672">-&gt;</span>setExpanding(true);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//样式表一步到位不用每个都单独设置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>QString(<span style="color:#e6db74">&#34;QTabBar{qproperty-usesScrollButtons:false;qproperty-documentMode:true;qproperty-expanding:true;}&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//在5.9以前开启这个设置后，貌似选项卡个数按照真实个数+1计算宽度，也就是永远会留空一个tab的占位。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//5.9以后貌似修复了这个BUG，按照理想中的拉伸填充等分设置tab的宽度。
+</span></span></span></code></pre></div><h2 id="qtableview">
+  QTableView
+  <a class="anchor" href="#qtableview">#</a>
+</h2>
+<p>关于QTableView（采用model数据源）、QTableWidget列名列宽设置，有时候发现没有起作用，原来是对代码设置的顺序有要求，比如setColumnWidth前必须先setColumnCount，不然列数都没有，哪来的列宽，包括setHorizontalHeaderLabels设置列标题集合也是，前提都要先有列。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> frmSimple<span style="color:#f92672">::</span>initForm()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//实例化数据模型
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    model <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> QStandardItemModel(<span style="color:#66d9ef">this</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//设置行数列数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    row <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>;
+</span></span><span style="display:flex;"><span>    column <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//设置列名列宽
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> column; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        columnNames <span style="color:#f92672">&lt;&lt;</span> QString(<span style="color:#e6db74">&#34;列%1&#34;</span>).arg(i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        columnWidths <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">60</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> frmSimple<span style="color:#f92672">::</span>on_btnLoad1_clicked()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//先设置数据模型,否则 setColumnWidth 不起作用
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ui<span style="color:#f92672">-&gt;</span>tableView<span style="color:#f92672">-&gt;</span>setModel(model);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//设置列数及列标题和列宽
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    model<span style="color:#f92672">-&gt;</span>setColumnCount(column);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//简便方法设置列标题集合
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    model<span style="color:#f92672">-&gt;</span>setHorizontalHeaderLabels(columnNames);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> column; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        ui<span style="color:#f92672">-&gt;</span>tableView<span style="color:#f92672">-&gt;</span>setColumnWidth(i, columnWidths.at(i));
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//循环添加行数据
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    QDateTime now <span style="color:#f92672">=</span> QDateTime<span style="color:#f92672">::</span>currentDateTime();
+</span></span><span style="display:flex;"><span>    model<span style="color:#f92672">-&gt;</span>setRowCount(row);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> row; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> column; <span style="color:#f92672">++</span>j) {
+</span></span><span style="display:flex;"><span>            QStandardItem <span style="color:#f92672">*</span>item <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> QStandardItem;
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//最后一列显示时间区别开来
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (j <span style="color:#f92672">==</span> column <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>                item<span style="color:#f92672">-&gt;</span>setText(now.addSecs(i).toString(<span style="color:#e6db74">&#34;yyyy-MM-dd HH:mm:ss&#34;</span>));
+</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                item<span style="color:#f92672">-&gt;</span>setText(QString(<span style="color:#e6db74">&#34;%1_%2&#34;</span>).arg(i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>).arg(j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            model<span style="color:#f92672">-&gt;</span>setItem(i, j, item);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> frmSimple<span style="color:#f92672">::</span>on_btnLoad2_clicked()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//设置列标题和列数及列宽
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ui<span style="color:#f92672">-&gt;</span>tableWidget<span style="color:#f92672">-&gt;</span>setColumnCount(column);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//简便方法设置列标题集合
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ui<span style="color:#f92672">-&gt;</span>tableWidget<span style="color:#f92672">-&gt;</span>setHorizontalHeaderLabels(columnNames);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> column; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        ui<span style="color:#f92672">-&gt;</span>tableWidget<span style="color:#f92672">-&gt;</span>setColumnWidth(i, columnWidths.at(i));
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//添加数据
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    QDateTime now <span style="color:#f92672">=</span> QDateTime<span style="color:#f92672">::</span>currentDateTime();
+</span></span><span style="display:flex;"><span>    ui<span style="color:#f92672">-&gt;</span>tableWidget<span style="color:#f92672">-&gt;</span>setRowCount(row);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> row; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> column; <span style="color:#f92672">++</span>j) {
+</span></span><span style="display:flex;"><span>            QTableWidgetItem <span style="color:#f92672">*</span>item <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> QTableWidgetItem;
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//最后一列显示时间区别开来
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (j <span style="color:#f92672">==</span> column <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>                item<span style="color:#f92672">-&gt;</span>setText(now.addSecs(i).toString(<span style="color:#e6db74">&#34;yyyy-MM-dd HH:mm:ss&#34;</span>));
+</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                item<span style="color:#f92672">-&gt;</span>setText(QString(<span style="color:#e6db74">&#34;%1_%2&#34;</span>).arg(i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>).arg(j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            ui<span style="color:#f92672">-&gt;</span>tableWidget<span style="color:#f92672">-&gt;</span>setItem(i, j, item);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Qt表格控件一些常用的设置封装，QTableWidget继承自QTableView，所以下面这个函数支持传入QTableWidget。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> QUIHelper<span style="color:#f92672">::</span>initTableView(QTableView <span style="color:#f92672">*</span>tableView, <span style="color:#66d9ef">int</span> rowHeight, <span style="color:#66d9ef">bool</span> headVisible, <span style="color:#66d9ef">bool</span> edit)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//奇数偶数行颜色交替
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    tableView<span style="color:#f92672">-&gt;</span>setAlternatingRowColors(false);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//垂直表头是否可见
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    tableView<span style="color:#f92672">-&gt;</span>verticalHeader()<span style="color:#f92672">-&gt;</span>setVisible(headVisible);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//选中一行表头是否加粗
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    tableView<span style="color:#f92672">-&gt;</span>horizontalHeader()<span style="color:#f92672">-&gt;</span>setHighlightSections(false);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//最后一行拉伸填充
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    tableView<span style="color:#f92672">-&gt;</span>horizontalHeader()<span style="color:#f92672">-&gt;</span>setStretchLastSection(true);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//行标题最小宽度尺寸
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    tableView<span style="color:#f92672">-&gt;</span>horizontalHeader()<span style="color:#f92672">-&gt;</span>setMinimumSectionSize(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//行标题最大高度
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    tableView<span style="color:#f92672">-&gt;</span>horizontalHeader()<span style="color:#f92672">-&gt;</span>setMaximumHeight(rowHeight);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//默认行高
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    tableView<span style="color:#f92672">-&gt;</span>verticalHeader()<span style="color:#f92672">-&gt;</span>setDefaultSectionSize(rowHeight);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//选中时一行整体选中
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    tableView<span style="color:#f92672">-&gt;</span>setSelectionBehavior(QAbstractItemView<span style="color:#f92672">::</span>SelectRows);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//只允许选择单个
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    tableView<span style="color:#f92672">-&gt;</span>setSelectionMode(QAbstractItemView<span style="color:#f92672">::</span>SingleSelection);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//表头不可单击
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#if (QT_VERSION &gt; QT_VERSION_CHECK(5,0,0))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    tableView<span style="color:#f92672">-&gt;</span>horizontalHeader()<span style="color:#f92672">-&gt;</span>setSectionsClickable(false);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#else
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    tableView<span style="color:#f92672">-&gt;</span>horizontalHeader()<span style="color:#f92672">-&gt;</span>setClickable(false);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#endif
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//鼠标按下即进入编辑模式
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (edit) {
+</span></span><span style="display:flex;"><span>        tableView<span style="color:#f92672">-&gt;</span>setEditTriggers(QAbstractItemView<span style="color:#f92672">::</span>CurrentChanged <span style="color:#f92672">|</span> QAbstractItemView<span style="color:#f92672">::</span>DoubleClicked);
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        tableView<span style="color:#f92672">-&gt;</span>setEditTriggers(QAbstractItemView<span style="color:#f92672">::</span>NoEditTriggers);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="qsqltablemodel">
+  QSqlTableModel
+  <a class="anchor" href="#qsqltablemodel">#</a>
+</h2>
+<p>QSqlTableModel大大简化了对数据库表的显示、添加、删除、修改等，唯独对数据库分页操作有点绕弯。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">//实例化数据库表模型
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>QSqlTableModel <span style="color:#f92672">*</span>model <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> QSqlTableModel(<span style="color:#66d9ef">this</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//指定表名
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>model<span style="color:#f92672">-&gt;</span>setTable(<span style="color:#e6db74">&#34;table&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//设置列排序
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>model<span style="color:#f92672">-&gt;</span>setSort(<span style="color:#ae81ff">0</span>, Qt<span style="color:#f92672">::</span>AscendingOrder);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//设置提交模式
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>model<span style="color:#f92672">-&gt;</span>setEditStrategy(QSqlTableModel<span style="color:#f92672">::</span>OnManualSubmit);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//立即查询一次
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>model<span style="color:#f92672">-&gt;</span>select();
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//将数据库表模型设置到表格上
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>ui<span style="color:#f92672">-&gt;</span>tableView<span style="color:#f92672">-&gt;</span>setModel(model);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//测试发现过滤条件中除了可以带where语句还可以带排序及limit等
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>model<span style="color:#f92672">-&gt;</span>setFilter(<span style="color:#e6db74">&#34;1=1 order by id desc limit 100&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//如果在过滤条件中设置了排序语句则不可以再使用setSort方法
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//下面的代码结果是执行出错，可能因为setSort又重新增加了order by语句导致多个order by语句冲突了。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>model<span style="color:#f92672">-&gt;</span>setSort(<span style="color:#ae81ff">0</span>, Qt<span style="color:#f92672">::</span>AscendingOrder);
+</span></span><span style="display:flex;"><span>model<span style="color:#f92672">-&gt;</span>setFilter(<span style="color:#e6db74">&#34;1=1 order by id desc limit 100&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//通过setFilter设置单纯的where语句可以不用加1=1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>model<span style="color:#f92672">-&gt;</span>setFilter(<span style="color:#e6db74">&#34;name=&#39;张三&#39;&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//如果还有其他语句比如排序或者limit等则需要最前面加上1=1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//下面表示按照id升序排序，查询结果显示第5-15条记录。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>model<span style="color:#f92672">-&gt;</span>setFilter(<span style="color:#e6db74">&#34;1=1 order by id asc limit 5,10&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//多个条件用and连接
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//建议任何时候用了setFilter则最前面写1=1最末尾加上 ; 防止有些地方无法正确执行。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>model<span style="color:#f92672">-&gt;</span>setFilter(<span style="color:#e6db74">&#34;1=1 and name=&#39;张三&#39; and result&gt;=70;&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//下面表示查询姓名是张三的记录，按照id字段降序排序，结果从第10条开始100条，相当于从第10条到110条记录。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>model<span style="color:#f92672">-&gt;</span>setFilter(<span style="color:#e6db74">&#34;1=1 and name=&#39;张三&#39; order by id desc limit 10,100;&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//在第3行开始添加一条记录
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>model<span style="color:#f92672">-&gt;</span>insertRow(<span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//立即填充刚刚新增加的行，默认为空需要用户手动在表格中输入。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>model<span style="color:#f92672">-&gt;</span>setData(model<span style="color:#f92672">-&gt;</span>index(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">100</span>);
+</span></span><span style="display:flex;"><span>model<span style="color:#f92672">-&gt;</span>setData(model<span style="color:#f92672">-&gt;</span>index(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>), <span style="color:#e6db74">&#34;张三&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//提交更新
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>model<span style="color:#f92672">-&gt;</span>submitAll();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//删除第4行
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>model<span style="color:#f92672">-&gt;</span>removeRow(<span style="color:#ae81ff">3</span>);
+</span></span><span style="display:flex;"><span>model<span style="color:#f92672">-&gt;</span>submitAll();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//总之有增删改操作后都需要调用model-&gt;submitAll();来真正执行，否则仅仅是数据模型更新了数据，并不会更新到数据库中。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//撤销更改
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>model<span style="color:#f92672">-&gt;</span>revertAll();
+</span></span></code></pre></div><h2 id="qlistqmapqhash">
+  QList、QMap、QHash
+  <a class="anchor" href="#qlistqmapqhash">#</a>
+</h2>
+<p>Qt内置了一些QList、QMap、QHash相关的类型，可以直接用，不用自己写个长长的类型。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">//qwindowdefs.h
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> QList<span style="color:#f92672">&lt;</span>QWidget <span style="color:#f92672">*&gt;</span> QWidgetList;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> QList<span style="color:#f92672">&lt;</span>QWindow <span style="color:#f92672">*&gt;</span> QWindowList;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> QHash<span style="color:#f92672">&lt;</span>WId, QWidget <span style="color:#f92672">*&gt;</span> QWidgetMapper;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> QSet<span style="color:#f92672">&lt;</span>QWidget <span style="color:#f92672">*&gt;</span> QWidgetSet;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//qmetatype.h
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> QList<span style="color:#f92672">&lt;</span>QVariant<span style="color:#f92672">&gt;</span> QVariantList;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> QMap<span style="color:#f92672">&lt;</span>QString, QVariant<span style="color:#f92672">&gt;</span> QVariantMap;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> QHash<span style="color:#f92672">&lt;</span>QString, QVariant<span style="color:#f92672">&gt;</span> QVariantHash;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> QList<span style="color:#f92672">&lt;</span>QByteArray<span style="color:#f92672">&gt;</span> QByteArrayList;
+</span></span></code></pre></div><h2 id="qlocale">
+  QLocale
+  <a class="anchor" href="#qlocale">#</a>
+</h2>
+<p>QDateTime可以直接格式化输出星期几周几，Qt6默认按照英文输出比如 ddd = 周二 Tue dddd = 星期二 Tuesday ，此时如果只想永远是中文就需要用到QLocale进行转换。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">//格式化输出受到本地操作系统语言的影响
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//英文操作系统
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//这样获取到的是Mon到Sun，英文星期的3个字母的缩写。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>QDateTime<span style="color:#f92672">::</span>currentDateTime().toString(<span style="color:#e6db74">&#34;ddd&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//这样获取到的是Monday到Sunday，英文星期完整单词。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>QDateTime<span style="color:#f92672">::</span>currentDateTime().toString(<span style="color:#e6db74">&#34;dddd&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//中文操作系统
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//这样获取到的是周一到周日。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>QDateTime<span style="color:#f92672">::</span>currentDateTime().toString(<span style="color:#e6db74">&#34;ddd&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//这样获取到的是星期一到星期日。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>QDateTime<span style="color:#f92672">::</span>currentDateTime().toString(<span style="color:#e6db74">&#34;dddd&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//主动指定语言转换
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//如果没有指定本地语言则默认采用系统的语言环境。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>QLocale locale;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//QLocale locale = QLocale::Chinese;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//QLocale locale = QLocale::English;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//QLocale locale = QLocale::Japanese;C
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//下面永远输出中文的周一到周日
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>locale.toString(QDateTime<span style="color:#f92672">::</span>currentDateTime(), <span style="color:#e6db74">&#34;ddd&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//下面永远输出中文的星期一到星期日
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>locale.toString(QDateTime<span style="color:#f92672">::</span>currentDateTime(), <span style="color:#e6db74">&#34;dddd&#34;</span>);
+</span></span></code></pre></div><h2 id="qapplication">
+  QApplication
+  <a class="anchor" href="#qapplication">#</a>
+</h2>
+<p>Qt中基本上有三大类型的项目，控制台项目对应QCoreApplication、传统QWidget界面程序对应QApplication、quick/qml项目程序对应QGuiApplication。有很多属性的开启需要在main函数的最前面执行才有效果，比如开启高分屏支持、设置opengl模式等。不同类型的项目需要对应的QApplication。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#75715e">//如果是控制台程序则下面的QApplication换成QCoreApplication
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//如果是quick/qml程序则下面的QApplication换成QGuiApplication
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>argv[])
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//可以用下面这行测试Qt自带的输入法 qtvirtualkeyboard
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    qputenv(<span style="color:#e6db74">&#34;QT_IM_MODULE&#34;</span>, QByteArray(<span style="color:#e6db74">&#34;qtvirtualkeyboard&#34;</span>));
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//设置不应用操作系统设置比如字体
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    QApplication<span style="color:#f92672">::</span>setDesktopSettingsAware(false);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#if (QT_VERSION &gt;= QT_VERSION_CHECK(6,0,0))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//设置高分屏缩放舍入策略
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    QApplication<span style="color:#f92672">::</span>setHighDpiScaleFactorRoundingPolicy(Qt<span style="color:#f92672">::</span>HighDpiScaleFactorRoundingPolicy<span style="color:#f92672">::</span>Floor);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#endif
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#if (QT_VERSION &gt; QT_VERSION_CHECK(5,6,0))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//设置启用高分屏缩放支持
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//要注意开启后计算到的控件或界面宽度高度可能都不对,全部需要用缩放比例运算下
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    QApplication<span style="color:#f92672">::</span>setAttribute(Qt<span style="color:#f92672">::</span>AA_EnableHighDpiScaling);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//设置启用高分屏图片支持
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    QApplication<span style="color:#f92672">::</span>setAttribute(Qt<span style="color:#f92672">::</span>AA_UseHighDpiPixmaps);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#endif
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#if (QT_VERSION &gt; QT_VERSION_CHECK(5,4,0))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//设置opengl模式 AA_UseDesktopOpenGL(默认) AA_UseOpenGLES AA_UseSoftwareOpenGL
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//在一些很旧的设备上或者对opengl支持很低的设备上需要使用AA_UseOpenGLES表示禁用硬件加速
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//如果开启的是AA_UseOpenGLES则无法使用硬件加速比如ffmpeg的dxva2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//QApplication::setAttribute(Qt::AA_UseOpenGLES);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//设置opengl共享上下文
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    QApplication<span style="color:#f92672">::</span>setAttribute(Qt<span style="color:#f92672">::</span>AA_ShareOpenGLContexts);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#endif
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    QApplication a(argc, argv);
+</span></span><span style="display:flex;"><span>    QWidget w;
+</span></span><span style="display:flex;"><span>    w.show();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a.exec();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="qrandomgenerator">
+  QRandomGenerator
+  <a class="anchor" href="#qrandomgenerator">#</a>
+</h2>
+<p>Qt5.10以后提供了新的类 QRandomGenerator QRandomGenerator64 管理随机数，使用更方便，尤其是取某个区间的随机数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#75715e">//早期处理办法 先初始化随机数种子然后取随机数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>qsrand(QTime<span style="color:#f92672">::</span>currentTime().msec());
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//取 0-10 之间的随机数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>qrand() <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//取 0-1 之间的浮点数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>qrand() <span style="color:#f92672">/</span> <span style="color:#66d9ef">double</span>(RAND_MAX);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//新版处理办法 支持5.10以后的所有版本包括qt6
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>QRandomGenerator<span style="color:#f92672">::</span>global()<span style="color:#f92672">-&gt;</span>bounded(<span style="color:#ae81ff">10</span>);      <span style="color:#75715e">//生成一个0和10之间的整数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>QRandomGenerator<span style="color:#f92672">::</span>global()<span style="color:#f92672">-&gt;</span>bounded(<span style="color:#ae81ff">10.123</span>);  <span style="color:#75715e">//生成一个0和10.123之间的浮点数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>QRandomGenerator<span style="color:#f92672">::</span>global()<span style="color:#f92672">-&gt;</span>bounded(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">15</span>);  <span style="color:#75715e">//生成一个10和15之间的整数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//兼容qt4-qt6及以后所有版本的方法 就是用标准c++的随机数函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>srand(QTime<span style="color:#f92672">::</span>currentTime().msec());
+</span></span><span style="display:flex;"><span>rand() <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span>rand() <span style="color:#f92672">/</span> <span style="color:#66d9ef">double</span>(RAND_MAX);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//通用公式 a是起始值,n是整数的范围
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> value <span style="color:#f92672">=</span> a <span style="color:#f92672">+</span> rand() <span style="color:#f92672">%</span> n;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//(min, max)的随机数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> value <span style="color:#f92672">=</span> min <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> (rand() <span style="color:#f92672">%</span> (max <span style="color:#f92672">-</span> min <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//(min, max]的随机数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> value <span style="color:#f92672">=</span> min <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> (rand() <span style="color:#f92672">%</span> (max <span style="color:#f92672">-</span> min <span style="color:#f92672">+</span> <span style="color:#ae81ff">0</span>));
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//[min, max)的随机数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> value <span style="color:#f92672">=</span> min <span style="color:#f92672">+</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">+</span> (rand() <span style="color:#f92672">%</span> (max <span style="color:#f92672">-</span> min <span style="color:#f92672">+</span> <span style="color:#ae81ff">0</span>));
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//[min, max]的随机数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> value <span style="color:#f92672">=</span> min <span style="color:#f92672">+</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">+</span> (rand() <span style="color:#f92672">%</span> (max <span style="color:#f92672">-</span> min <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//如果在线程中取随机数，线程启动的时间几乎一样，很可能出现取到的随机数一样的问题，就算设置随机数为当前时间啥的也没用，电脑太快很可能还是一样的时间，同一个毫秒。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//取巧办法就是在run函数之前最前面将当前线程的id作为种子设置。时间不可靠，线程的id才是唯一的。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//切记 void * 转换到数值必须用 long long，在32位是可以int但是在64位必须long，确保万一直接用quint64最大
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>srand((<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span>)currentThreadId());
+</span></span><span style="display:flex;"><span>qrand((<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span>)currentThreadId());
+</span></span></code></pre></div><h2 id="qstring">
+  QString
+  <a class="anchor" href="#qstring">#</a>
+</h2>
+<p>QString的replace函数会改变原字符串，切记，他在返回替换后的新字符串的同时也会改变原字符串</p>
+<p>QString内置了很多转换函数，比如可以调用toDouble转为double数据，但是当你转完并打印的时候你会发现精确少了，只剩下三位了，其实原始数据还是完整的精确度的，只是打印的时候优化成了三位，如果要保证完整的精确度，可以调用 qSetRealNumberPrecision 函数设置精确度位数即可。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>QString s1, s2;
+</span></span><span style="display:flex;"><span>s1 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;666.5567124&#34;</span>;
+</span></span><span style="display:flex;"><span>s2.setNum(<span style="color:#ae81ff">888.5632123</span>, <span style="color:#e6db74">&#39;f&#39;</span>, <span style="color:#ae81ff">7</span>);
+</span></span><span style="display:flex;"><span>qDebug() <span style="color:#f92672">&lt;&lt;</span> qSetRealNumberPrecision(<span style="color:#ae81ff">10</span>) <span style="color:#f92672">&lt;&lt;</span> s1.toDouble() <span style="color:#f92672">&lt;&lt;</span> s2.toDouble();
+</span></span></code></pre></div></article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+  <div><a class="flex align-center" href="https://github.com/swifteen/swifteen.github.io/commit/3272ed8abb50bf10296c64340b2cb3c44ecbf66f" title='Last modified by swifteen | April 22, 2022' target="_blank" rel="noopener">
+      <img src="/svg/calendar.svg" class="book-icon" alt="Calendar" />
+      <span>April 22, 2022</span>
+    </a>
+  </div>
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/swifteen/swifteen.github.io/edit/main/exampleSite/content/docs/Qt%e6%80%bb%e7%bb%93/%e5%b8%b8%e7%94%a8%e7%b1%bb%e4%bd%bf%e7%94%a8.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function e(n){const e=window.getSelection(),t=document.createRange();t.selectNodeContents(n),e.removeAllRanges(),e.addRange(t)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#常见类使用">常见类使用</a>
+      <ul>
+        <li><a href="#qtablewidget">QTableWidget</a></li>
+        <li><a href="#qtableview">QTableView</a></li>
+        <li><a href="#qsqltablemodel">QSqlTableModel</a></li>
+        <li><a href="#qlistqmapqhash">QList、QMap、QHash</a></li>
+        <li><a href="#qlocale">QLocale</a></li>
+        <li><a href="#qapplication">QApplication</a></li>
+        <li><a href="#qrandomgenerator">QRandomGenerator</a></li>
+        <li><a href="#qstring">QString</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

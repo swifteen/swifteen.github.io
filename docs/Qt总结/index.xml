@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Qt总结 on Freedom Book</title>
+    <link>https://swifteen.github.io/docs/Qt%E6%80%BB%E7%BB%93/</link>
+    <description>Recent content in Qt总结 on Freedom Book</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://swifteen.github.io/docs/Qt%E6%80%BB%E7%BB%93/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>常见类使用</title>
+      <link>https://swifteen.github.io/docs/Qt%E6%80%BB%E7%BB%93/%E5%B8%B8%E7%94%A8%E7%B1%BB%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/Qt%E6%80%BB%E7%BB%93/%E5%B8%B8%E7%94%A8%E7%B1%BB%E4%BD%BF%E7%94%A8/</guid>
+      <description>常见类使用 #  QTableWidget #  关于QTableWidget等控件调用自带的removeRow、clearContents、clear函数删除了里面的item和内容，会自动调用item或者cellwidget的析构函数进行资源释放，不用自己手动再去释放。
+//每次调用 clearContents 都会自动清理之前的item ui-&amp;gt;tableWidget-&amp;gt;clearContents(); for (int i = 0; i &amp;lt; count; ++i) {  ui-&amp;gt;tableWidget-&amp;gt;setItem(i, 0, new QTableWidgetItem(&amp;#34;aaa&amp;#34;));  ui-&amp;gt;tableWidget-&amp;gt;setItem(i, 1, new QTableWidgetItem(&amp;#34;bbb&amp;#34;));  ui-&amp;gt;tableWidget-&amp;gt;setCellWidget(i, 2, new QPushButton(&amp;#34;ccc&amp;#34;)); } QTabWidget选项卡控件，生成的tabbar选项卡宽度是按照文本自动设置的，文本越长选项卡的宽度越大，很多时候，我们需要的是一样的宽度或者等分填充，
+//方法1：字符串空格填充 ui-&amp;gt;tabWidget-&amp;gt;addTab(httpClient1, &amp;#34;测 试&amp;#34;); ui-&amp;gt;tabWidget-&amp;gt;addTab(httpClient1, &amp;#34;人员管理&amp;#34;); ui-&amp;gt;tabWidget-&amp;gt;addTab(httpClient1, &amp;#34;系统设置&amp;#34;);  //方法2：识别尺寸改变事件自动设置最小宽度 void MainWindow::resizeEvent(QResizeEvent *e) {  int count = ui-&amp;gt;tabWidget-&amp;gt;tabBar()-&amp;gt;count();  int width = this-&amp;gt;width() - 30;  QString qss = QString(&amp;#34;QTabBar::tab{min-width:%1px;}&amp;#34;).arg(width / count);  this-&amp;gt;setStyleSheet(qss); }  //方法3：设置全局样式，不同选项卡个数的设置不同的宽度 QStringList list; list &amp;lt;&amp;lt; QString(&amp;#34;QTabWidget[tabCount=\&amp;#34;2\&amp;#34;]&amp;gt;QTabBar::tab{min-width:%1px;}&amp;#34;).</description>
+    </item>
+    
+    <item>
+      <title>snippet</title>
+      <link>https://swifteen.github.io/docs/Qt%E6%80%BB%E7%BB%93/snippet/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/Qt%E6%80%BB%E7%BB%93/snippet/</guid>
+      <description>延时异步加载 #  用QTimer::singleShot单次定时器和QMetaObject::invokeMethod可以解决意想不到的问题。比如在窗体初始化的时候加载一个耗时的操作，很容易卡主界面的显示，要在加载完以后才会显示界面，这就导致了体验很卡不友好的感觉，此时你可以将耗时的加载（有时候这些加载又必须在主线程，比如用QStackWidget堆栈窗体加载一些子窗体），延时或者异步进行加载，这样就会在界面显示后去执行，而不是卡住主界面。
+//异步执行load函数QMetaObject::invokeMethod(this, &amp;#34;load&amp;#34;, Qt::QueuedConnection);//延时10毫秒执行load函数QTimer::singleShot(10, this, SLOT(load())); 获取类的属性和方法 #  //拿到控件元对象 const QMetaObject *metaObject = widget-&amp;gt;metaObject();  //所有属性的数量 int propertyCount = metaObject-&amp;gt;propertyCount(); //propertyOffset是自定义的属性开始的位置 int propertyOffset = metaObject-&amp;gt;propertyOffset(); //循环取出控件的自定义属性, int i = 0 表示所有属性 for (int i = propertyOffset; i &amp;lt; propertyCount; ++i) {  QMetaProperty metaProperty = metaObject-&amp;gt;property(i);  const char *name = metaProperty.name();  const char *type = metaProperty.typeName();  QVariant value = widget-&amp;gt;property(name);  qDebug() &amp;lt;&amp;lt; name &amp;lt;&amp;lt; type &amp;lt;&amp;lt; value; }  //所有方法的数量 int methodCount = metaObject-&amp;gt;methodCount(); //methodOffset是自定义的方法开始的位置 int methodOffset = metaObject-&amp;gt;methodOffset(); //循环取出控件的自定义方法, int i = 0 表示所有方法 for (int i = methodOffset; i &amp;lt; methodCount; ++i) {  QMetaMethod metaMethod = metaObject-&amp;gt;method(i);  const char *name = metaMethod.</description>
+    </item>
+    
+    <item>
+      <title>QSS样式</title>
+      <link>https://swifteen.github.io/docs/Qt%E6%80%BB%E7%BB%93/QSS%E6%A0%B7%E5%BC%8F/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/Qt%E6%80%BB%E7%BB%93/QSS%E6%A0%B7%E5%BC%8F/</guid>
+      <description>QSS样式 #  直接调用控件的 setstylesheet, 结果是每个控件 style 返回的对象都是不同的(地址不同足以证明是不同的对象), 而只给 QApplication 对象 setStyleSheet, 每个控件的 style 函数返回的对象都是相同的. 基于以上原因, 在开发时, 无论是出于维护的便捷性, 还是节省内存资源的考虑, 都应该有 一个 qss 文件来存放所有的样式表, 而不应该将 setStyleSheet 写的到处都是.
+默认程序中获取焦点以后会有虚边框，如果看着觉得碍眼不舒服可以去掉，设置样式即可：setStyleSheet(&amp;quot;*{outline:0px;}&amp;quot;);
+outline （轮廓）是控件有焦点时, 绘制在边框边缘的外围,可起到突出作用,轮廓线不占据控 件, 也不一定是矩形
+outline: none; width, height 两个属性, 设置的均是盒子的内容的宽高, 而我们在 c++ 代码中的窗口的 width 与 height 指的是整个盒子的宽度与高度,
+指示器设置样式 #   可以对整体的指示器设置样式，而不需要单独对每个控件的指示器设置，  *::down-arrow{}*::menu-indicator{}*::up-arrow:disabled{}*::up-arrow:off{} QPushButton左对齐文字 #    QPushButton左对齐文字，需要设置样式表
+QPushButton{text-align:left;}   三种设置文本的方法 #  QLabel有三种设置文本的方法，掌握好Qt的属性系统，举一反三，可以做出很多效果。
+//常规办法 ui-&amp;gt;label-&amp;gt;setText(&amp;#34;hello&amp;#34;); //取巧办法 ui-&amp;gt;label-&amp;gt;setProperty(&amp;#34;text&amp;#34;, &amp;#34;hello&amp;#34;); //属性大法 ui-&amp;gt;label-&amp;gt;setStyleSheet(&amp;#34;qproperty-text:hello;&amp;#34;); 样式表不起作用 #   Qt中继承QWidget之后，样式表不起作用，解决办法有三个。强烈推荐方法一。   方法一：设置属性 this-&amp;gt;setAttribute(Qt::WA_StyledBackground, true); 方法二：改成继承QFrame，因为QFrame自带paintEvent函数已做了实现，在使用样式表时会进行解析和绘制。 方法三：重新实现QWidget的paintEvent函数时，使用QStylePainter绘制。  void Widget::paintEvent(QPaintEvent *){QStyleOption option;option.</description>
+    </item>
+    
+  </channel>
+</rss>
