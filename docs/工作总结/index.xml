@@ -7,6 +7,18 @@
     <generator>Hugo -- gohugo.io</generator><atom:link href="https://swifteen.github.io/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title></title>
+      <link>https://swifteen.github.io/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E4%B9%B1%E7%A0%81/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E4%B9%B1%E7%A0%81/</guid>
+      <description>因此以下几行等价（以 UTF-8 编码保存 C++ 源文件）：
+const char s1[] = &amp;#34; 最喜欢 C++ 了！ &amp;#34;; const char s2[] = &amp;#34;\xe6\x9c\x80\xe5\x96\x9c\xe6\xac\xa2\x43\x2b&amp;#34; &amp;#34;\x2b\xe4\xba\x86\xef\xbc\x81&amp;#34;; const char s3[] = { 0xe6, 0x9c, 0x80, 0xe5, 0x96, 0x9c, 0xe6, 0xac, 0xa2, 0x43, 0x2b, 0x2b, 0xe4, 0xba, 0x86, 0xef, 0xbc, 0x81, 0x00 }; 在兼顾了计算性能和存储性能之后， Qt 小组决定 将 UTF-16 作为 QString 的编码格式
+源代码中出现的中文字符串常量，在被 Qt 使用之前， 都经历了一次由「多字节编码」转换为 UTF-16 的过程
+QString 可以在必要的时候由 const char* 隐 式 或 显 式 转 换 而 成 。 这 个 过 程 中 使 用 的 编 码 ， 就 是 QTextCodec::codecForCStrings</description>
+    </item>
+    
+    <item>
+      <title></title>
       <link>https://swifteen.github.io/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       

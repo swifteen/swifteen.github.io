@@ -6,16 +6,26 @@
     <description>Recent content in Introduction on Freedom Book</description>
     <generator>Hugo -- gohugo.io</generator><atom:link href="https://swifteen.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Google编译规范总结</title>
+      <title>Google编程规范总结</title>
       <link>https://swifteen.github.io/posts/Google%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83%E6%80%BB%E7%BB%93/</link>
       <pubDate>Sun, 17 Apr 2022 00:00:00 +0000</pubDate>
       
       <guid>https://swifteen.github.io/posts/Google%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83%E6%80%BB%E7%BB%93/</guid>
-      <description>版本说明 #   Google编译规范总结     日期 版本 修改内容     20211029 V0.1 创建    目的 #  使代码易于管理的方法之一是加强代码一致性. 让任何程序员都可以快速读懂你的代码这点非常重要.
+      <description>版本说明 #   Google编程规范总结     日期 版本 修改内容     20211029 V0.1 创建    目的 #  使代码易于管理的方法之一是加强代码一致性. 让任何程序员都可以快速读懂你的代码这点非常重要.
 项目主页:
   Google Style Guide  Google 开源项目风格指南 - 中文版  代码规范 #  头文件 #  前置声明 #    尽可能地避免使用前置声明。使用 #include 包含需要的头文件即可
   前置声明的类是不完全类型（incomplete type），我们只能定义指向该类型的指针或引用，或者声明（但不能定义）以不完全类型作为参数或者返回类型的函数。毕竟编译器不知道不完全类型的定义，我们不能创建其类的任何对象，也不能声明成类内部的数据成员。
  If a class only appears in the header as a pointer or reference, then a forward declaration is sufficient</description>
+    </item>
+    
+    <item>
+      <title>Accustoming Yourself to C&#43;&#43;</title>
+      <link>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/%E8%AE%A9%E8%87%AA%E5%B7%B1%E4%B9%A0%E6%83%AFC&#43;&#43;/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/%E8%AE%A9%E8%87%AA%E5%B7%B1%E4%B9%A0%E6%83%AFC&#43;&#43;/</guid>
+      <description>将构造函数声明为explicit，可阻止被用来执行隐式类型转换，仍可被用来进行显示类型转换
+class C{ public:  explicit C(int x); } 区分copy构造和copy赋值 #  class Widget{ public:  Widget();//default构造  Widget(const Widget&amp;amp; rhs);//copy构造  Widget&amp;amp; operator=(const Widget&amp;amp; rhs);//copy assignment操作符 }; Widget w1;//default构造 Widget w2(w1);//copy构造 w1 = w2;//copy assignment操作符 Widget w3 = w2;//copy构造 通过是否真正产生新的对象来区分copy构造和拷贝赋值 Accustoming Yourself to C++ #  View C++ as a federation of languages #   C Object-Oriented C++ Template C++ STL  Perfer consts,enums,and inlines to#defines #  一旦宏被定义，在其后的编译过程中一直有效，除非在某处被#undef</description>
     </item>
     
     <item>
@@ -94,6 +104,17 @@ linus在google的演讲感悟 链接：https://www.zhihu.com/question/19601997/a
       <guid>https://swifteen.github.io/docs/Qt%E6%80%BB%E7%BB%93/snippet/</guid>
       <description>延时异步加载 #  用QTimer::singleShot单次定时器和QMetaObject::invokeMethod可以解决意想不到的问题。比如在窗体初始化的时候加载一个耗时的操作，很容易卡主界面的显示，要在加载完以后才会显示界面，这就导致了体验很卡不友好的感觉，此时你可以将耗时的加载（有时候这些加载又必须在主线程，比如用QStackWidget堆栈窗体加载一些子窗体），延时或者异步进行加载，这样就会在界面显示后去执行，而不是卡住主界面。
 //异步执行load函数QMetaObject::invokeMethod(this, &amp;#34;load&amp;#34;, Qt::QueuedConnection);//延时10毫秒执行load函数QTimer::singleShot(10, this, SLOT(load())); 获取类的属性和方法 #  //拿到控件元对象 const QMetaObject *metaObject = widget-&amp;gt;metaObject();  //所有属性的数量 int propertyCount = metaObject-&amp;gt;propertyCount(); //propertyOffset是自定义的属性开始的位置 int propertyOffset = metaObject-&amp;gt;propertyOffset(); //循环取出控件的自定义属性, int i = 0 表示所有属性 for (int i = propertyOffset; i &amp;lt; propertyCount; ++i) {  QMetaProperty metaProperty = metaObject-&amp;gt;property(i);  const char *name = metaProperty.name();  const char *type = metaProperty.typeName();  QVariant value = widget-&amp;gt;property(name);  qDebug() &amp;lt;&amp;lt; name &amp;lt;&amp;lt; type &amp;lt;&amp;lt; value; }  //所有方法的数量 int methodCount = metaObject-&amp;gt;methodCount(); //methodOffset是自定义的方法开始的位置 int methodOffset = metaObject-&amp;gt;methodOffset(); //循环取出控件的自定义方法, int i = 0 表示所有方法 for (int i = methodOffset; i &amp;lt; methodCount; ++i) {  QMetaMethod metaMethod = metaObject-&amp;gt;method(i);  const char *name = metaMethod.</description>
+    </item>
+    
+    <item>
+      <title>构造、析构、赋值运算</title>
+      <link>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E8%B5%8B%E5%80%BC%E8%BF%90%E7%AE%97/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E8%B5%8B%E5%80%BC%E8%BF%90%E7%AE%97/</guid>
+      <description>Constructors,Destructors,and Assignment Operators #  6.Know what functions C++ silently writes and calls #    编译器可以暗自为class创建default构造函数 、copy构造函数、copy assignment操作符，以及析构函数
+  所有编译器产出的函数都是public，为驳回编译器自动提供的机能，可将相应的成员函数声明为Private并且不予实现
+#define Q_DISABLE_COPY(Class) \ 	Class(const Class &amp;amp;) = delete;\ 	Class &amp;amp;operator=(const Class &amp;amp;) = delete; class Uncopyable { protected://允许derived对象构造和析构  Uncopyable(){}  ~Uncopyable(){} private:  Uncopyable(const Uncopyable&amp;amp;);  Uncopyable&amp;amp; operator=(const Uncopyable&amp;amp;); } //继承Uncopyable可以阻止HomeForSale对象被拷贝 class HomeForSale:private Uncopyable {  ... }   7.Declare destructors virtual in polymorphic base classes #    只有当class内含至少一个virtual函数才为它声明virtual析构函数</description>
     </item>
     
     <item>
@@ -234,6 +255,28 @@ vim设置colorSchema #  mkdir -p ~/.vim/colors  https://github.com/tomasr/moloka
     
     <item>
       <title></title>
+      <link>https://swifteen.github.io/docs/Qt%E6%80%BB%E7%BB%93/%E6%95%B4%E7%90%86Qt-snippet/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/Qt%E6%80%BB%E7%BB%93/%E6%95%B4%E7%90%86Qt-snippet/</guid>
+      <description>延时异步加载 #  用QTimer::singleShot单次定时器和QMetaObject::invokeMethod可以解决意想不到的问题。比如在窗体初始化的时候加载一个耗时的操作，很容易卡主界面的显示，要在加载完以后才会显示界面，这就导致了体验很卡不友好的感觉，此时你可以将耗时的加载（有时候这些加载又必须在主线程，比如用QStackWidget堆栈窗体加载一些子窗体），延时或者异步进行加载，这样就会在界面显示后去执行，而不是卡住主界面。
+//异步执行load函数QMetaObject::invokeMethod(this, &amp;#34;load&amp;#34;, Qt::QueuedConnection);//延时10毫秒执行load函数QTimer::singleShot(10, this, SLOT(load())); 获取类的属性和方法 #  //拿到控件元对象 const QMetaObject *metaObject = widget-&amp;gt;metaObject();  //所有属性的数量 int propertyCount = metaObject-&amp;gt;propertyCount(); //propertyOffset是自定义的属性开始的位置 int propertyOffset = metaObject-&amp;gt;propertyOffset(); //循环取出控件的自定义属性, int i = 0 表示所有属性 for (int i = propertyOffset; i &amp;lt; propertyCount; ++i) {  QMetaProperty metaProperty = metaObject-&amp;gt;property(i);  const char *name = metaProperty.name();  const char *type = metaProperty.typeName();  QVariant value = widget-&amp;gt;property(name);  qDebug() &amp;lt;&amp;lt; name &amp;lt;&amp;lt; type &amp;lt;&amp;lt; value; }  //所有方法的数量 int methodCount = metaObject-&amp;gt;methodCount(); //methodOffset是自定义的方法开始的位置 int methodOffset = metaObject-&amp;gt;methodOffset(); //循环取出控件的自定义方法, int i = 0 表示所有方法 for (int i = methodOffset; i &amp;lt; methodCount; ++i) {  QMetaMethod metaMethod = metaObject-&amp;gt;method(i);  const char *name = metaMethod.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://swifteen.github.io/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E4%B9%B1%E7%A0%81/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E4%B9%B1%E7%A0%81/</guid>
+      <description>因此以下几行等价（以 UTF-8 编码保存 C++ 源文件）：
+const char s1[] = &amp;#34; 最喜欢 C++ 了！ &amp;#34;; const char s2[] = &amp;#34;\xe6\x9c\x80\xe5\x96\x9c\xe6\xac\xa2\x43\x2b&amp;#34; &amp;#34;\x2b\xe4\xba\x86\xef\xbc\x81&amp;#34;; const char s3[] = { 0xe6, 0x9c, 0x80, 0xe5, 0x96, 0x9c, 0xe6, 0xac, 0xa2, 0x43, 0x2b, 0x2b, 0xe4, 0xba, 0x86, 0xef, 0xbc, 0x81, 0x00 }; 在兼顾了计算性能和存储性能之后， Qt 小组决定 将 UTF-16 作为 QString 的编码格式
+源代码中出现的中文字符串常量，在被 Qt 使用之前， 都经历了一次由「多字节编码」转换为 UTF-16 的过程
+QString 可以在必要的时候由 const char* 隐 式 或 显 式 转 换 而 成 。 这 个 过 程 中 使 用 的 编 码 ， 就 是 QTextCodec::codecForCStrings</description>
+    </item>
+    
+    <item>
+      <title></title>
       <link>https://swifteen.github.io/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -254,6 +297,24 @@ CREATE INDEX tag_titles ON tags (title);EXPLAIN QUERY PLAN SELECT * FROM tags W
   能做到内存中始终能导出最近的日志到U盘中
   程序崩溃后，发生崩溃点的日志保存处理(在DEBUG版本中，将日志输出缓冲设置为0)
   参考实现 #  Qt5官方日志QLoggingCategory测试 #  QLoggingCategory represents a certain logging category - identified by a string - at runtime. A category can be configured to enable or disable logging of messages per message type.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Advanced-Qt-Programming/Table-Model/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Advanced-Qt-Programming/Table-Model/</guid>
+      <description>Qt&amp;rsquo;s model/view architecture #   Qt&amp;rsquo;s model hierarchy #   关联Table Model中的数据到QComboBox，并过滤重复数据 #  void MainWindow::createComboBoxModel(QComboBox *comboBox, int column) { 	delete comboBox-&amp;gt;model(); 	UniqueProxyModel *uniqueProxyModel = new UniqueProxyModel(column,this); 	uniqueProxyModel-&amp;gt;setSourceModel(model); 	uniqueProxyModel-&amp;gt;sort(column, Qt::AscendingOrder); 	comboBox-&amp;gt;setModel(uniqueProxyModel); 	comboBox-&amp;gt;setModelColumn(column); } 清除QTableView中的选择 #  QItemSelectionModel *selectionModel = tableView-&amp;gt;selectionModel(); selectionModel-&amp;gt;clearSelection(); QItemSelection和QItemSelectionModel进行任意行组合选择 #   QItemSelection selection;  int firstSelectedRow = -1;  for (int row = 0; row &amp;lt; proxyModel-&amp;gt;rowCount(); ++row) {  QModelIndex index = proxyModel-&amp;gt;index(row, Zipcode);   QItemSelection rowSelection(index, index);  selection.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Advanced-Qt-Programming/Tree-Model/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Advanced-Qt-Programming/Tree-Model/</guid>
+      <description></description>
     </item>
     
     <item>

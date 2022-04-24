@@ -16,7 +16,7 @@
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.8af359f8b4ff91864838b7225239a34a4ca449e60ef99ab88e33c978c8685391.css" integrity="sha256-ivNZ&#43;LT/kYZIOLciUjmjSkykSeYO&#43;Zq4jjPJeMhoU5E=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.8d7e7866566ac9205ec9d229a96873852a20677d4c9d3f923bece69e1d8a5bd8.js" integrity="sha256-jX54ZlZqySBeydIpqWhzhSogZ31MnT&#43;SO&#43;zmnh2KW9g=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.5930dbed539abf626258d8ea7d99d7ba178364ddfa8765ada2203d946c67b57d.js" integrity="sha256-WTDb7VOav2JiWNjqfZnXuheDZN36h2WtoiA9lGxntX0=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <link rel="alternate" type="application/rss+xml" href="https://swifteen.github.io/docs/Qt%E6%80%BB%E7%BB%93/index.xml" title="Freedom Book" />
@@ -222,6 +222,89 @@ https://github.com/alex-shpak/hugo-book
         </li>
       
     
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-dd5f1074ae82c341625837814d568aa3" class="toggle"  />
+    <label for="section-dd5f1074ae82c341625837814d568aa3" class="flex justify-between">
+      <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/" class="">Effective Cpp</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/%E8%AE%A9%E8%87%AA%E5%B7%B1%E4%B9%A0%E6%83%AFC&#43;&#43;/" class="">Accustoming Yourself to C&#43;&#43;</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E8%B5%8B%E5%80%BC%E8%BF%90%E7%AE%97/" class="">构造、析构、赋值运算</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b6c1134fae0449f6c190514c96d9ab3a" class="toggle"  />
+    <label for="section-b6c1134fae0449f6c190514c96d9ab3a" class="flex justify-between">
+      <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Advanced-Qt-Programming/" class="">Advanced Qt Programming</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Advanced-Qt-Programming/Table-Model/" class="">Table Model</a>
+  
+
+        </li>
+      
+    
+      
+    
+  </ul>
+
+        </li>
+      
+    
   </ul>
 
         </li>
@@ -283,6 +366,19 @@ https://github.com/alex-shpak/hugo-book
 
           
   <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E4%B9%B1%E7%A0%81/" class="">乱码</a>
+  
+
+        </li>
+      
     
       
         <li>
@@ -362,6 +458,19 @@ https://github.com/alex-shpak/hugo-book
 
   
     <a href="/docs/Qt%E6%80%BB%E7%BB%93/QSS%E6%A0%B7%E5%BC%8F/" class="">QSS样式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Qt%E6%80%BB%E7%BB%93/%E6%95%B4%E7%90%86Qt-snippet/" class="">整理 Qt Snippet</a>
   
 
         </li>
@@ -725,6 +834,14 @@ outline: none; width, height 两个属性, 设置的均是盒子的内容的宽�
 指示器设置样式 #   可以对整体的指示器设置样式，而不需要单独对每个控件的指示器设置，  *::down-arrow{}*::menu-indicator{}*::up-arrow:disabled{}*::up-arrow:off{} QPushButton左对齐文字 #    QPushButton左对齐文字，需要设置样式表
 QPushButton{text-align:left;}   三种设置文本的方法 #  QLabel有三种设置文本的方法，掌握好Qt的属性系统，举一反三，可以做出很多效果。
 //常规办法 ui-&gt;label-&gt;setText(&#34;hello&#34;); //取巧办法 ui-&gt;label-&gt;setProperty(&#34;text&#34;, &#34;hello&#34;); //属性大法 ui-&gt;label-&gt;setStyleSheet(&#34;qproperty-text:hello;&#34;); 样式表不起作用 #   Qt中继承QWidget之后，样式表不起作用，解决办法有三个。强烈推荐方法一。   方法一：设置属性 this-&gt;setAttribute(Qt::WA_StyledBackground, true); 方法二：改成继承QFrame，因为QFrame自带paintEvent函数已做了实现，在使用样式表时会进行解析和绘制。 方法三：重新实现QWidget的paintEvent函数时，使用QStylePainter绘制。  void Widget::paintEvent(QPaintEvent *){QStyleOption option;option.
+  </dd>
+
+  <dt>
+    <a href="/docs/Qt%E6%80%BB%E7%BB%93/%E6%95%B4%E7%90%86Qt-snippet/">整理 Qt Snippet</a>
+  </dt>
+  <dd class="markdown-inner">
+    延时异步加载 #  用QTimer::singleShot单次定时器和QMetaObject::invokeMethod可以解决意想不到的问题。比如在窗体初始化的时候加载一个耗时的操作，很容易卡主界面的显示，要在加载完以后才会显示界面，这就导致了体验很卡不友好的感觉，此时你可以将耗时的加载（有时候这些加载又必须在主线程，比如用QStackWidget堆栈窗体加载一些子窗体），延时或者异步进行加载，这样就会在界面显示后去执行，而不是卡住主界面。
+//异步执行load函数QMetaObject::invokeMethod(this, &#34;load&#34;, Qt::QueuedConnection);//延时10毫秒执行load函数QTimer::singleShot(10, this, SLOT(load())); 获取类的属性和方法 #  //拿到控件元对象 const QMetaObject *metaObject = widget-&gt;metaObject();  //所有属性的数量 int propertyCount = metaObject-&gt;propertyCount(); //propertyOffset是自定义的属性开始的位置 int propertyOffset = metaObject-&gt;propertyOffset(); //循环取出控件的自定义属性, int i = 0 表示所有属性 for (int i = propertyOffset; i &lt; propertyCount; ++i) {  QMetaProperty metaProperty = metaObject-&gt;property(i);  const char *name = metaProperty.name();  const char *type = metaProperty.typeName();  QVariant value = widget-&gt;property(name);  qDebug() &lt;&lt; name &lt;&lt; type &lt;&lt; value; }  //所有方法的数量 int methodCount = metaObject-&gt;methodCount(); //methodOffset是自定义的方法开始的位置 int methodOffset = metaObject-&gt;methodOffset(); //循环取出控件的自定义方法, int i = 0 表示所有方法 for (int i = methodOffset; i &lt; methodCount; ++i) {  QMetaMethod metaMethod = metaObject-&gt;method(i);  const char *name = metaMethod.
   </dd>
 
 </dl>
