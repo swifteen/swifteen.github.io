@@ -19,13 +19,15 @@
     </item>
     
     <item>
-      <title>Accustoming Yourself to C&#43;&#43;</title>
-      <link>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/%E8%AE%A9%E8%87%AA%E5%B7%B1%E4%B9%A0%E6%83%AFC&#43;&#43;/</link>
+      <title>1.让自己习惯C&#43;&#43;</title>
+      <link>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/1.%E8%AE%A9%E8%87%AA%E5%B7%B1%E4%B9%A0%E6%83%AFC&#43;&#43;/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/%E8%AE%A9%E8%87%AA%E5%B7%B1%E4%B9%A0%E6%83%AFC&#43;&#43;/</guid>
+      <guid>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/1.%E8%AE%A9%E8%87%AA%E5%B7%B1%E4%B9%A0%E6%83%AFC&#43;&#43;/</guid>
       <description>将构造函数声明为explicit，可阻止被用来执行隐式类型转换，仍可被用来进行显示类型转换
-class C{ public:  explicit C(int x); } 区分copy构造和copy赋值 #  class Widget{ public:  Widget();//default构造  Widget(const Widget&amp;amp; rhs);//copy构造  Widget&amp;amp; operator=(const Widget&amp;amp; rhs);//copy assignment操作符 }; Widget w1;//default构造 Widget w2(w1);//copy构造 w1 = w2;//copy assignment操作符 Widget w3 = w2;//copy构造 通过是否真正产生新的对象来区分copy构造和拷贝赋值 Accustoming Yourself to C++ #  View C++ as a federation of languages #   C Object-Oriented C++ Template C++ STL  Perfer consts,enums,and inlines to#defines #  一旦宏被定义，在其后的编译过程中一直有效，除非在某处被#undef</description>
+class C{ public:  explicit C(int x); } Accustoming Yourself to C++ #  1.View C++ as a federation of languages #   C Object-Oriented C++ Template C++ STL  2.Perfer consts,enums,and inlines to#defines #  一旦宏被定义，在其后的编译过程中一直有效，除非在某处被#undef
+const double AspectRatio = 1.653; const char* const authorName = &amp;#34;Scott Meyers&amp;#34;; const std::string authorName(&amp;#34;Scott Meyers&amp;#34;); 对于单纯常量，最好以const对象或者enums替换#defines
+class GamePlayer{ private: 	static const int NumTurns = 5;//新一点的编译器才支持声明时定义  int scores[NumTurns]; } class GamePlayer{ private: 	enum{ NumTurns = 5};  int scores[NumTurns]; } 对于形似函数的宏（macros），最好改用inline函数替换#defines</description>
     </item>
     
     <item>
@@ -64,6 +66,18 @@ git代理 #  git config --global https.proxy &amp;#39;socks5://192.168.31.181:10
 测试程序 #  例子 1 #  #include &amp;lt;stdio.h&amp;gt;int main() { 	int a = 33800; 	long long b = 13*sizeof(short)*(a); 	printf(&amp;#34;[%lld]\n&amp;#34;,b); } 例子 2 #  #include &amp;lt;stdio.h&amp;gt;int main() { 	int a = 33800; 	long long b = 13*1000*sizeof(short)* (double)(a/1000.0); 	printf(&amp;#34;[%lld]\n&amp;#34;,b); } 例子1输出878800 例子2输出878799
 为何会产生差异呢，只能从汇编代码入手，一点一点分析浮点计算的过程
 例子1汇编代码 #  例子1不涉及浮点数，因此汇编代码比较简单，先通过例子1的汇编代码进行了解。</description>
+    </item>
+    
+    <item>
+      <title>2.构造、析构、赋值运算</title>
+      <link>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/2.%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E8%B5%8B%E5%80%BC%E8%BF%90%E7%AE%97/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/2.%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E8%B5%8B%E5%80%BC%E8%BF%90%E7%AE%97/</guid>
+      <description>Constructors,Destructors,and Assignment Operators #  5.Know what functions C++ silently writes and calls #    编译器可以暗自为class创建default构造函数 、copy构造函数、copy assignment操作符，以及析构函数
+区分copy构造和copy赋值
+class Widget{ public:  Widget();//default构造  Widget(const Widget&amp;amp; rhs);//copy构造  Widget&amp;amp; operator=(const Widget&amp;amp; rhs);//copy assignment操作符 }; Widget w1;//default构造 Widget w2(w1);//copy构造 w1 = w2;//copy assignment操作符 Widget w3 = w2;//copy构造 通过是否真正产生新的对象来区分copy构造和拷贝赋值   6.Explicitly disallow the use of compiler-generated functions you do not want #    所有编译器产出的函数都是public，为驳回编译器自动提供的机能，可将相应的成员函数声明为Private并且不予实现
+#define Q_DISABLE_COPY(Class) \ 	Class(const Class &amp;amp;) = delete;\ 	Class &amp;amp;operator=(const Class &amp;amp;) = delete; class Uncopyable { protected://允许derived对象构造和析构  Uncopyable(){}  ~Uncopyable(){} private:  Uncopyable(const Uncopyable&amp;amp;);  Uncopyable&amp;amp; operator=(const Uncopyable&amp;amp;); } //继承Uncopyable可以阻止HomeForSale对象被拷贝 class HomeForSale:private Uncopyable {  .</description>
     </item>
     
     <item>
@@ -107,17 +121,6 @@ linus在google的演讲感悟 链接：https://www.zhihu.com/question/19601997/a
     </item>
     
     <item>
-      <title>构造、析构、赋值运算</title>
-      <link>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E8%B5%8B%E5%80%BC%E8%BF%90%E7%AE%97/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E8%B5%8B%E5%80%BC%E8%BF%90%E7%AE%97/</guid>
-      <description>Constructors,Destructors,and Assignment Operators #  6.Know what functions C++ silently writes and calls #    编译器可以暗自为class创建default构造函数 、copy构造函数、copy assignment操作符，以及析构函数
-  所有编译器产出的函数都是public，为驳回编译器自动提供的机能，可将相应的成员函数声明为Private并且不予实现
-#define Q_DISABLE_COPY(Class) \ 	Class(const Class &amp;amp;) = delete;\ 	Class &amp;amp;operator=(const Class &amp;amp;) = delete; class Uncopyable { protected://允许derived对象构造和析构  Uncopyable(){}  ~Uncopyable(){} private:  Uncopyable(const Uncopyable&amp;amp;);  Uncopyable&amp;amp; operator=(const Uncopyable&amp;amp;); } //继承Uncopyable可以阻止HomeForSale对象被拷贝 class HomeForSale:private Uncopyable {  ... }   7.Declare destructors virtual in polymorphic base classes #    只有当class内含至少一个virtual函数才为它声明virtual析构函数</description>
-    </item>
-    
-    <item>
       <title>目录共享配置</title>
       <link>https://swifteen.github.io/docs/Linux-World/Ubuntu/%E7%9B%AE%E5%BD%95%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -141,6 +144,19 @@ cd /usr/local/ti-sdk-am335x-evm-07.03.00.005/filesystem/ sudo mkdir tisdk-defaul
 透明代理 #   https://blog.a1253247.info/2020/01/shadowsocks.html
 代理转换 #  /etc/polipo/config
 /etc/polipo/config  systemctl status polipo  www.</description>
+    </item>
+    
+    <item>
+      <title>3.资源管理</title>
+      <link>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/3.%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/3.%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86/</guid>
+      <description>Resource Management #  13.Use objects tomanage resources #   获得资源后立刻放进管理对象，RAII(Resource Acquisition Is Initialization资源获取时机便是初始化时机) 管理对象运用析构函数确保资源被释放 auto_ptr和tr1::shared_ptr两者都在其析构函数内做delete而不是delete[]动作，vector和string几乎总是可以取代动态分配而得的数组，可以使用boost::scoped_array和boost::shared_array类  14.Think carefully about copying behavior in resource-managing classes #    如果复制动作对RAII class 并不合理，考虑禁止复制
+  复制RAII对象必须一并复制它所管理的资源，常见的RAII class copying行为是：抑制copying，施行引用计数法
+  15.Provide access to raw resources in resource-managing classes #    APIs往往要求访问原始资源，所以每个RAII class应该提供一个取得其所管理之资源的办法
+  通常通过调用abort结束程序，来阻止异常从析构函数传播出去
+  class Font{ public:  explicit Font(FontHandle fh):f(fh)  {}  ~Font()  {  releaseFont(f);  }  operator FontHandle() const;//隐式转换函数  {  return f;  } private:  FontHandle f; } 16.</description>
     </item>
     
     <item>
@@ -189,6 +205,32 @@ QPushButton{text-align:left;}   三种设置文本的方法 #  QLabel有三种�
       <description>ubuntu扩容 #   https://blog.csdn.net/qq_34160841/article/details/113058756
 linux命令 #   https://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/ldd.html
 安装armhf ubuntu #   https://wiki.ubuntu.com/ARM/RaspberryPi</description>
+    </item>
+    
+    <item>
+      <title>4.设计与声明</title>
+      <link>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/4.%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%A3%B0%E6%98%8E/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/4.%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%A3%B0%E6%98%8E/</guid>
+      <description>Designs and Declarations #  18.Make interfaces easy to use correctly and hard to use incorrectly #    好的接口容易被正确使用 ，不容易被误用
+  阻止误用的办法包括建立新类型、限制类型上的操作，束缚对象值，以及消除客户的资源管理责任
+  19.Treat class design as type design #    Class的设计就是type的设计
+  标准string和STL窗口都不被设计作为base classed使用，因为它们的析构函数都不带virtual
+  20.Prefer pass-by-reference-to-const to pass-by-value #    对于内置类型，以及STL的迭代器和函数对象，使用pass-by-value更合适
+  C++编译器底层中的references往往是以指针方式实现的，意味着真正传递的是指针
+  21.Don&amp;rsquo;t try to return a reference when you must return an object #  当必须返回新对象时，就让那个函数返回新对象，如下</description>
+    </item>
+    
+    <item>
+      <title>5.实现</title>
+      <link>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/5.%E5%AE%9E%E7%8E%B0/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/5.%E5%AE%9E%E7%8E%B0/</guid>
+      <description>Implementations #  26.Postpone variable definitions as long as possible #  std::string encryptPassword(const std::string&amp;amp; password) {  std::string encrypted;//默认构造 	encrypted = passwd;//赋值操作  encrypt(encrypted);  return encrypted; } 更推荐下面的做法，更高效
+std::string encryptPassword(const std::string&amp;amp; password) {  std::string encrypted(passwd);//copy构造  encrypt(encrypted);  return encrypted; } //1次构造，1次析构，n次赋值 Widget w; for(int i = 0;i &amp;lt; n; ++i) {  w = ... } 更推荐上面的做法，更高效
+//n次构造，n次析构 for(int i = 0;i &amp;lt; n; ++i) {  Widget w;  w = .</description>
     </item>
     
     <item>

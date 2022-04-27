@@ -8,7 +8,7 @@
     <loc>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/</loc>
     <lastmod>2022-04-20T00:59:50+08:00</lastmod>
   </url><url>
-    <loc>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/%E8%AE%A9%E8%87%AA%E5%B7%B1%E4%B9%A0%E6%83%AFC&#43;&#43;/</loc>
+    <loc>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/1.%E8%AE%A9%E8%87%AA%E5%B7%B1%E4%B9%A0%E6%83%AFC&#43;&#43;/</loc>
   </url><url>
     <loc>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/</loc>
     <lastmod>2022-04-22T00:16:26+08:00</lastmod>
@@ -25,6 +25,8 @@
     <loc>https://swifteen.github.io/posts/%E6%B5%AE%E7%82%B9%E6%95%B0%E8%AE%A1%E7%AE%97%E8%AF%AF%E5%B7%AE%E5%88%86%E6%9E%90/</loc>
     <lastmod>2022-04-20T01:17:24+08:00</lastmod>
   </url><url>
+    <loc>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/2.%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E8%B5%8B%E5%80%BC%E8%BF%90%E7%AE%97/</loc>
+  </url><url>
     <loc>https://swifteen.github.io/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/FalconMode/</loc>
     <lastmod>2022-04-20T00:59:50+08:00</lastmod>
   </url><url>
@@ -37,8 +39,6 @@
     <loc>https://swifteen.github.io/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/</loc>
     <lastmod>2022-04-22T00:16:26+08:00</lastmod>
   </url><url>
-    <loc>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E8%B5%8B%E5%80%BC%E8%BF%90%E7%AE%97/</loc>
-  </url><url>
     <loc>https://swifteen.github.io/docs/Linux-World/Ubuntu/%E7%9B%AE%E5%BD%95%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE/</loc>
     <lastmod>2022-04-20T00:59:50+08:00</lastmod>
   </url><url>
@@ -46,6 +46,8 @@
     <lastmod>2022-04-22T00:16:26+08:00</lastmod>
   </url><url>
     <loc>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/</loc>
+  </url><url>
+    <loc>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/3.%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86/</loc>
   </url><url>
     <loc>https://swifteen.github.io/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/BBB%E6%9D%BF%E4%BD%BF%E7%94%A8NFS%E6%8C%82%E8%BD%BD%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/</loc>
     <lastmod>2022-04-20T00:59:50+08:00</lastmod>
@@ -64,8 +66,12 @@
   </url><url>
     <loc>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Advanced-Qt-Programming/</loc>
   </url><url>
+    <loc>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/4.%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%A3%B0%E6%98%8E/</loc>
+  </url><url>
     <loc>https://swifteen.github.io/docs/Qt%E6%80%BB%E7%BB%93/</loc>
     <lastmod>2022-04-22T00:16:26+08:00</lastmod>
+  </url><url>
+    <loc>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/5.%E5%AE%9E%E7%8E%B0/</loc>
   </url><url>
     <loc>https://swifteen.github.io/docs/Linux-World/</loc>
     <lastmod>2022-04-20T00:59:50+08:00</lastmod>
