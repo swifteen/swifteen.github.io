@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Freedom Book</title>
+    <link>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/GDB/</link>
+    <description>Recent content on Freedom Book</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/GDB/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>利用Yocto工程生成debug符号</title>
+      <link>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/GDB/%E5%88%A9%E7%94%A8Yocto%E5%B7%A5%E7%A8%8B%E7%94%9F%E6%88%90debug%E7%AC%A6%E5%8F%B7/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/GDB/%E5%88%A9%E7%94%A8Yocto%E5%B7%A5%E7%A8%8B%E7%94%9F%E6%88%90debug%E7%AC%A6%E5%8F%B7/</guid>
+      <description>实现目的 #  嵌入式设备在进行gdb调试时，由于存储容量限制，文件系统中一般不会包含debug版本的libc库，导致总是会提示找不到符号表，如下
+(gdb) n  Program received signal SIGABRT, Aborted. 0xb6c0fbe6 in ?? () (gdb) bt #0 0xb6c0fbe6 in ?? () #1 0xb6c1ebce in ?? () 如果程序需要依赖多个库，就需要单独去编译每一个依赖的库为debug版本，不太现实，可以利用yocto工程一次性解决，轻松实现目标，生成debug版本的安装包或者debug版本的文件系统。
+利用Yocto工程生成debug符号 #  默认SDK包中并不包含debug版本的库和源码文件，为了让gdb找到符号表，需要重新编译SDK，开启debug相关选项，通过如下两步，可以获得一个debug安装包，安装之后，会在原有SDK安装目录下添加debug版本的库和源码文件，这样在执行GDB调试时，指定好相应的目录就能找到符号表了
+1、修改conf/local.conf文件 #  新增如下：
+#debug时添加以下选项 EXTRA_IMAGE_FEATURES ?= &amp;#34;tools-debug ssh-server-openssh&amp;#34;  #解决bitbake执行到打包时失败 RDEPENDS_packagegroup-core-standalone-sdk-target_remove = &amp;#34;libatomic-dev&amp;#34; 2、执行如下bitbake命令，生成带debug符号的SDK安装包 #  MACHINE=am335x-evm bitbake -c populate_sdk tisdk-base-image 在~/tool/tisdk/build/arago-tmp-external-arm-glibc/deploy/sdk/目录下，会生成arago-2020.09-toolchain-2020.09.sh和arago-2020.09-toolchain-2020.09.sharago-2020.09-armv7a-linux-gnueabi-tisdk.sh两个安装包，如下
+qq@ubuntu:~/tool/tisdk/build/arago-tmp-external-arm-glibc/deploy/sdk$ ls -lth total 1.2G -rwxr-xr-x 2 qq qq 646M Apr 2 02:36 arago-2020.09-armv7a-linux-gnueabi-tisdk.sh -rw-r--r-- 2 qq qq 7.</description>
+    </item>
+    
+    <item>
+      <title>GDB常用命令</title>
+      <link>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/GDB/GDB%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/GDB/GDB%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
+      <description>GDB调试常用命令 #  设置gdbinit初始环境 #  GDB reads commands from $HOME/.gdbinit, then from .gdbinit in the current directory, and then from files specified on the command line with the -x parameter.
+ https://wizardforcel.gitbooks.io/100-gdb-tips/content/config-gdbinit.html
+创建~/.gdbinit文件，添加如下内容，避免每次重复设置
+set sysroot /home/ubuntu/test_ti_sdk_debug/linux-devkit/sysroots/armv7at2hf-neon-linux-gnueabi/ #设置源码搜索目录 directory /home/ubuntu/targetNFS/test set environment LD_LIBRARY_PATH /usr/local/lib/  define bsave  save breakpoints ~/.breakpoints end  define brestore  source ~/.breakpoints end  # 保存历史命令 set history filename ~/.gdb_history set history save on  # 退出时不显示提示信息 set confirm off  # 按照派生类型打印对象 set print object on  # 打印数组的索引下标 set print array-indexes on  # 每行打印一个结构体成员 set print pretty on 运行时指定gdbinit文件,推荐使用</description>
+    </item>
+    
+    <item>
+      <title>Cross GDB</title>
+      <link>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/GDB/Cross-GDB/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/GDB/Cross-GDB/</guid>
+      <description>GBD调试方案选择 #  1、如果使用纯命令行方式，学习难度大，但占用资源低，操作起来更流畅
+2、选择IDE集成的GDB调试，需要个人电脑上安装虚拟机，搭建linux交叉编译环境，在虚拟机上编译，远程cross GDB，缺点是个人的电脑性能不够
+3、在性能强大的docker主机上，通过X11服务连接远程桌面，启动IDE进行GDB调试，当3个人同时操作时，docker服务器也会存在性能不够
+因此最终选择方案1，尽管难度更大
+Cross GDB #  需要告诉主机上的GDB在哪里去找debug符号和源码
+GDB, running on the host, needs to be told where to look for debug symbols and source code, especially for shared libraries
+You need debug symbols and source code for the binaries you want to debug on the host, but not on the target. Often, there is not enough storage space for them on the target, and they will need to be stripped before deploying to the target.</description>
+    </item>
+    
+    <item>
+      <title>Native GDB</title>
+      <link>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/GDB/Native-GDB/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/GDB/Native-GDB/</guid>
+      <description>GBD调试方案选择 #  1、如果使用纯命令行方式，学习难度大，但占用资源低，操作起来更流畅
+2、选择IDE集成的GDB调试，需要个人电脑上安装虚拟机，搭建linux交叉编译环境，在虚拟机上编译，远程cross GDB，缺点是个人的电脑性能不够
+3、在性能强大的docker主机上，通过X11服务连接远程桌面，启动IDE进行GDB调试，当3个人同时操作时，docker服务器也会存在性能不够
+因此最终选择方案1，尽管难度更大
+Native GDB #  使用yocto编译文件系统时，修改配置文件
+add gdb to the target image by adding this to conf/local.conf
+EXTRA_IMAGE_FEATURES ?= &amp;#34;tools-debug dbg-pkgs&amp;#34; 搭建opkg管理服务端安装gdb #   https://blog.csdn.net/lqjjdx/article/details/112170199
+ https://e2e.ti.com/support/processors-group/processors/f/processors-forum/266848/opkg-updation
+执行bitbake命令生成包索引文件
+MACHINE=am335x-evm bitbake package-index 在deploy目录下，生成Packages.gz文件，如下
+ubuntu:~/tool/tisdk/build/arago-tmp-external-arm-glibc/deploy$find . -name Packages.gz ./ipk/x86_64-nativesdk/Packages.gz ./ipk/armv7at2hf-neon/Packages.gz ./ipk/am335x_evm/Packages.gz ./ipk/armv7ahf-neon/Packages.gz ./ipk/all/Packages.gz 搭建opkg管理服务端
+cd ~/tool/tisdk/build/arago-tmp-external-arm-glibc/deploy/ipk #启动服务 python3 -m http.server --bind 0.0.0.0 5499 访问http://192.168.7.170:5499/，可以看到如下目录
+Directory listing for / all/ am335x_evm/ arago/ armv5e/ armv7ahf-neon/ armv7at2hf-neon/ buildtools-dummy-nativesdk/ Packages sdk-provides-dummy-nativesdk/ sdk-provides-dummy-target/ x86_64-nativesdk/ 设置arm机器上的opkg配置 #  根据上面存在的目录，修改两个配置文件/etc/opkg/arch.</description>
+    </item>
+    
+    <item>
+      <title>GDB tui模式</title>
+      <link>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/GDB/GDB-tui%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/GDB/GDB-tui%E6%A8%A1%E5%BC%8F/</guid>
+      <description>编译GDB支持TUI模式 #  方法1：按照下面两个参考链接中尝试无效 #   https://eastrivervillage.com/debugging-application-with-cross-gdb-yocto/
+ https://mikeframpo.net/notes/2021/06/20/yocto-debugging-gdb.html
+$ cat meta-kaba-hacks/recipes-devtools/gdb/gdb-%.bbappend EXTRA_OECONF += &amp;#34; --enable-tui&amp;#34; 方法2：更换顺序tui的配置顺序，重新编译 #   vi ../sources/oe-core/meta/recipes-devtools/gdb/gdb-common.inc +40   40 #PACKAGECONFIG[tui] = &amp;#34;--enable-tui,--disable-tui&amp;#34;  41 PACKAGECONFIG[tui] = &amp;#34;--disable-tui,--enable-tui&amp;#34; MACHINE=am335x-evm bitbake -c clean gdb MACHINE=am335x-evm bitbake -c cleansstate gdb MACHINE=am335x-evm bitbake -k gdb MACHINE=am335x-evm bitbake package-index 提示出错 #  Cannot enable the TUI: terminal doesn&amp;rsquo;t support cursor addressing [TERM=dumb]
+解决办法
+export TERM=linux Beej&amp;rsquo;s Quick Guide to GDB #     command Note     Window Commands    info win Shows current window info   focus winname Set focus to a particular window bby name (&amp;ldquo;SRC&amp;rdquo;, &amp;ldquo;CMD&amp;rdquo;, &amp;ldquo;ASM&amp;rdquo;, or &amp;ldquo;REG&amp;rdquo;) or by position (&amp;ldquo;next&amp;rdquo; or &amp;ldquo;prev&amp;rdquo;)   fs Alias for focus   layout type Set the window layout (&amp;ldquo;src&amp;rdquo;, &amp;ldquo;asm&amp;rdquo;, &amp;ldquo;split&amp;rdquo;, or &amp;ldquo;reg&amp;rdquo;)   tui reg type Set the register window layout (&amp;ldquo;general&amp;rdquo;, &amp;ldquo;float&amp;rdquo;, &amp;ldquo;system&amp;rdquo;, or &amp;ldquo;next&amp;rdquo;)   winheight val Set the window height (either an absolute value, or a relative value prefaced with &amp;ldquo;+&amp;rdquo; or &amp;ldquo;-&amp;rdquo;)   wh Alias for winheight   set disassembly-flavor flavor Set the look-and-feel of the disassembly.</description>
+    </item>
+    
+    <item>
+      <title>Core文件调试</title>
+      <link>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/GDB/Core%E6%96%87%E4%BB%B6%E8%B0%83%E8%AF%95/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/GDB/Core%E6%96%87%E4%BB%B6%E8%B0%83%E8%AF%95/</guid>
+      <description>Core files使用 #  配置core文件生成 #  去掉限制，生成core文件，在shell中执行，或者添加到/etc/profile文件中
+ulimit -c unlimited 配置core文件名规则 #  设置core文件名，附带进程号
+Writing a 1 to it causes the PID number of the dying process to be appended to the filename, which is somewhat useful as long as you can associate the PID number with a program name from log files
+echo 1 &amp;gt; /proc/sys/kernel/core_uses_pid 设置core文件名称，更高级的用法是使用管道符，进行重定向到自定义的程序中，验证是否能将core文件输出到U盘目录下，参考man core
+#创建core文件保存目录 mkdir /corefiles/ echo /corefiles/core.%e.%s.%p.%t &amp;gt; /proc/sys/kernel/core_pattern  %e The process or thread&amp;#39;s comm value, which typically is the same as the executable filename (without path prefix,  and truncated to a maximum of 15 characters), but may have been modified to be something different; see the  discussion of /proc/[pid]/comm and /proc/[pid]/task/[tid]/comm in proc(5).</description>
+    </item>
+    
+    <item>
+      <title>GDB高级用法</title>
+      <link>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/GDB/GDB%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/GDB/GDB%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95/</guid>
+      <description>Just-in-time debugging #  在目标板子上运行gdbserver，其中109为进程号
+# gdbserver --attach :10000 109 Attached; pid = 109 Listening on port 10000 在目标板子上执行完成后，执行detach，使程序继续运行
+(gdb) detach Detaching from program: /home/chris/MELP/helloworld/helloworld, process 109 Ending remote debugging. Debugging forks and threads #  多进程调试 #  多进程程序在执行debug时，debug session默认是进入父进程，可以通过follow-fork-mode选项修改为进入子进程.Unfortunately,current versions (10.1) of gdbserver do not support this option, so it only works for native debugging. If you really need to debug the child process while using gdbserver, a workaround is to modify the code so that the child loops on a variable immediately after the fork, giving you the opportunity to attach a new gdbserver session to it and then to set the variable so that it drops out of the loop</description>
+    </item>
+    
+  </channel>
+</rss>

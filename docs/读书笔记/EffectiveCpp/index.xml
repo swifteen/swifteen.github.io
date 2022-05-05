@@ -68,5 +68,16 @@ std::string encryptPassword(const std::string&amp;amp; password) {  std::string 
 //n次构造，n次析构 for(int i = 0;i &amp;lt; n; ++i) {  Widget w;  w = .</description>
     </item>
     
+    <item>
+      <title>6.继承与面向对象</title>
+      <link>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/6.%E7%BB%A7%E6%89%BF%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/6.%E7%BB%A7%E6%89%BF%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/</guid>
+      <description>Inheritance and Object-Oriented Design #  32.Make sure public inheritance models &amp;ldquo;is-a&amp;rdquo; #  public inheritance(公开继承)意味&amp;quot;is-a&amp;quot;（是一种）的关系
+33.Avoid hideing inherited names #  derived classed 内的名称会遮掩base classed内的名称
+class Base{ private:  int x; public:  virtual void mf1() = 0;  virtual void mf1(int);  void mf3();  void mf3(double); } class Derived : public Base{ public:  virtual void mf1();  void mf3();  void mf4(); }  Derived d; int x; .</description>
+    </item>
+    
   </channel>
 </rss>

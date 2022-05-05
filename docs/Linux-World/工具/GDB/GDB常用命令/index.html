@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="GDB调试常用命令 #  设置gdbinit初始环境 #  GDB reads commands from $HOME/.gdbinit, then from .gdbinit in the current directory, and then from files specified on the command line with the -x parameter.
+ https://wizardforcel.gitbooks.io/100-gdb-tips/content/config-gdbinit.html
+创建~/.gdbinit文件，添加如下内容，避免每次重复设置
+set sysroot /home/ubuntu/test_ti_sdk_debug/linux-devkit/sysroots/armv7at2hf-neon-linux-gnueabi/ #设置源码搜索目录 directory /home/ubuntu/targetNFS/test set environment LD_LIBRARY_PATH /usr/local/lib/  define bsave  save breakpoints ~/.breakpoints end  define brestore  source ~/.breakpoints end  # 保存历史命令 set history filename ~/.gdb_history set history save on  # 退出时不显示提示信息 set confirm off  # 按照派生类型打印对象 set print object on  # 打印数组的索引下标 set print array-indexes on  # 每行打印一个结构体成员 set print pretty on 运行时指定gdbinit文件,推荐使用">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="GDB常用命令" />
+<meta property="og:description" content="GDB调试常用命令 #  设置gdbinit初始环境 #  GDB reads commands from $HOME/.gdbinit, then from .gdbinit in the current directory, and then from files specified on the command line with the -x parameter.
+ https://wizardforcel.gitbooks.io/100-gdb-tips/content/config-gdbinit.html
+创建~/.gdbinit文件，添加如下内容，避免每次重复设置
+set sysroot /home/ubuntu/test_ti_sdk_debug/linux-devkit/sysroots/armv7at2hf-neon-linux-gnueabi/ #设置源码搜索目录 directory /home/ubuntu/targetNFS/test set environment LD_LIBRARY_PATH /usr/local/lib/  define bsave  save breakpoints ~/.breakpoints end  define brestore  source ~/.breakpoints end  # 保存历史命令 set history filename ~/.gdb_history set history save on  # 退出时不显示提示信息 set confirm off  # 按照派生类型打印对象 set print object on  # 打印数组的索引下标 set print array-indexes on  # 每行打印一个结构体成员 set print pretty on 运行时指定gdbinit文件,推荐使用" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://swifteen.github.io/docs/Linux-World/%E5%B7%A5%E5%85%B7/GDB/GDB%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" /><meta property="article:section" content="docs" />
+
+
+
+<title>GDB常用命令 | Freedom Book</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.8af359f8b4ff91864838b7225239a34a4ca449e60ef99ab88e33c978c8685391.css" integrity="sha256-ivNZ&#43;LT/kYZIOLciUjmjSkykSeYO&#43;Zq4jjPJeMhoU5E=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.7445bbe793a3cc0e5920ca9eba7c2ca3c6af1ae9b17fe43767e80a5a22f8da8d.js" integrity="sha256-dEW755OjzA5ZIMqeunwso8avGumxf&#43;Q3Z&#43;gKWiL42o0=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Freedom Book</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" class="">读书笔记</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="toggle"  />
+    <label for="section-4c7a8762e11234f0d57f7ddf2ca93f4b" class="flex justify-between">
+      <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/" class="">深入理解计算机系统</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/" class="">第一章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/4th-level/" class="">4th Level</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/" class="">5th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%B8%80%E7%AB%A0/5th-level/6th-level/" class="">6th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/" class="">第二章</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/" class="">7th Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/7th-level/12th-level/" class="">12th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/%E7%AC%AC%E4%BA%8C%E7%AB%A0/8th-level/" class="">8th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-dd5f1074ae82c341625837814d568aa3" class="toggle"  />
+    <label for="section-dd5f1074ae82c341625837814d568aa3" class="flex justify-between">
+      <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/" class="">Effective Cpp</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/1.%E8%AE%A9%E8%87%AA%E5%B7%B1%E4%B9%A0%E6%83%AFC&#43;&#43;/" class="">1.让自己习惯C&#43;&#43;</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/2.%E6%9E%84%E9%80%A0%E6%9E%90%E6%9E%84%E8%B5%8B%E5%80%BC%E8%BF%90%E7%AE%97/" class="">2.构造、析构、赋值运算</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/3.%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86/" class="">3.资源管理</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/4.%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%A3%B0%E6%98%8E/" class="">4.设计与声明</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/5.%E5%AE%9E%E7%8E%B0/" class="">5.实现</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/6.%E7%BB%A7%E6%89%BF%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="">6.继承与面向对象</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b6c1134fae0449f6c190514c96d9ab3a" class="toggle"  />
+    <label for="section-b6c1134fae0449f6c190514c96d9ab3a" class="flex justify-between">
+      <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Advanced-Qt-Programming/" class="">Advanced Qt Programming</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Advanced-Qt-Programming/Table-Model/" class="">Table Model</a>
+  
+
+        </li>
+      
+    
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/" class="">工程实践</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/FalconMode/" class="">FalconMode模式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/BBB%E6%9D%BF%E4%BD%BF%E7%94%A8NFS%E6%8C%82%E8%BD%BD%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" class="">BBB板使用NFS挂载文件系统</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/" class="">工作总结</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E4%B9%B1%E7%A0%81/" class="">乱码</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">数据库</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF/" class="">日志模块实现思路</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/Qt%E6%80%BB%E7%BB%93/" class="">Qt总结</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Qt%E6%80%BB%E7%BB%93/%E5%B8%B8%E7%94%A8%E7%B1%BB%E4%BD%BF%E7%94%A8/" class="">常见类使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Qt%E6%80%BB%E7%BB%93/snippet/" class="">snippet</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Qt%E6%80%BB%E7%BB%93/QSS%E6%A0%B7%E5%BC%8F/" class="">QSS样式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Qt%E6%80%BB%E7%BB%93/%E6%95%B4%E7%90%86Qt-snippet/" class="">整理 Qt Snippet</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/" class="">Linux World</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/" class="">工具</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-f67d5457c2a7968846f5c501082b1554" class="toggle" checked />
+    <label for="section-f67d5457c2a7968846f5c501082b1554" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/GDB/" class="">Gdb</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/GDB/%E5%88%A9%E7%94%A8Yocto%E5%B7%A5%E7%A8%8B%E7%94%9F%E6%88%90debug%E7%AC%A6%E5%8F%B7/" class="">利用Yocto工程生成debug符号</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/GDB/GDB%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class=" active">GDB常用命令</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/GDB/Cross-GDB/" class="">Cross GDB</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/GDB/Native-GDB/" class="">Native GDB</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/GDB/GDB-tui%E6%A8%A1%E5%BC%8F/" class="">GDB tui模式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/GDB/Core%E6%96%87%E4%BB%B6%E8%B0%83%E8%AF%95/" class="">Core文件调试</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/GDB/GDB%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95/" class="">GDB高级用法</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="toggle"  />
+    <label for="section-83b60d0d5385ebdbc58106dfadf6f8ec" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Git常用配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" class="">git基本使用</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Git/git%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8/" class="">git高级使用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-d5b311234c6410083508e37cc63fc1b6" class="toggle"  />
+    <label for="section-d5b311234c6410083508e37cc63fc1b6" class="flex justify-between">
+      <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/" class="">Vim</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/Vim/%E9%85%8D%E7%BD%AE/" class="">配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/%E5%B7%A5%E5%85%B7/%E5%B8%B8%E7%94%A8Linux%E5%91%BD%E4%BB%A4/" class="">常用 Linux命令</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4a2fe1f775a45aa533a141965b5ef749" class="toggle"  />
+    <label for="section-4a2fe1f775a45aa533a141965b5ef749" class="flex justify-between">
+      <a href="/docs/Linux-World/Raspberry/" class="">Raspberry</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Raspberry/%E5%B8%B8%E7%94%A8/" class="">常用</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-23ec4bc7089b12961617b50da77ae792" class="toggle"  />
+    <label for="section-23ec4bc7089b12961617b50da77ae792" class="flex justify-between">
+      <a href="/docs/Linux-World/Ubuntu/" class="">Ubuntu</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%9B%AE%E5%BD%95%E5%85%B1%E4%BA%AB%E9%85%8D%E7%BD%AE/" class="">目录共享配置</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%90%86%E5%92%8C%E8%AF%81%E4%B9%A6/" class="">系统代理和证书</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/Linux-World/Ubuntu/%E5%85%B6%E5%AE%83/" class="">其它</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        Blog
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://github.com/swifteen/" target="_blank" rel="noopener">
+        Github
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://themes.gohugo.io/hugo-book/" target="_blank" rel="noopener">
+        Hugo Themes
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>GDB常用命令</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#gdb调试常用命令">GDB调试常用命令</a>
+      <ul>
+        <li><a href="#设置gdbinit初始环境">设置gdbinit初始环境</a></li>
+        <li><a href="#设置断点">设置断点</a></li>
+        <li><a href="#保存断点">保存断点</a></li>
+        <li><a href="#删除断点">删除断点</a></li>
+        <li><a href="#查看断点">查看断点</a></li>
+        <li><a href="#查看变量值">查看变量值</a></li>
+        <li><a href="#传入运行参数">传入运行参数</a></li>
+        <li><a href="#beejs-quick-guide-to-gdb">Beej&rsquo;s Quick Guide to GDB</a></li>
+      </ul>
+    </li>
+    <li><a href="#参考链接">参考链接</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="gdb调试常用命令">
+  GDB调试常用命令
+  <a class="anchor" href="#gdb%e8%b0%83%e8%af%95%e5%b8%b8%e7%94%a8%e5%91%bd%e4%bb%a4">#</a>
+</h1>
+<h2 id="设置gdbinit初始环境">
+  设置gdbinit初始环境
+  <a class="anchor" href="#%e8%ae%be%e7%bd%aegdbinit%e5%88%9d%e5%a7%8b%e7%8e%af%e5%a2%83">#</a>
+</h2>
+<p>GDB reads commands from $HOME/.gdbinit, then from .gdbinit in the current directory, and then from files specified on the command line with the -x parameter.</p>
+<p>
+  <a href="https://wizardforcel.gitbooks.io/100-gdb-tips/content/config-gdbinit.html">https://wizardforcel.gitbooks.io/100-gdb-tips/content/config-gdbinit.html</a></p>
+<p>创建~/.gdbinit文件，添加如下内容，避免每次重复设置</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>set sysroot /home/ubuntu/test_ti_sdk_debug/linux-devkit/sysroots/armv7at2hf-neon-linux-gnueabi/
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#设置源码搜索目录</span>
+</span></span><span style="display:flex;"><span>directory /home/ubuntu/targetNFS/test
+</span></span><span style="display:flex;"><span>set environment LD_LIBRARY_PATH /usr/local/lib/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>define bsave
+</span></span><span style="display:flex;"><span>    save breakpoints ~/.breakpoints
+</span></span><span style="display:flex;"><span>end
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>define brestore
+</span></span><span style="display:flex;"><span>   source ~/.breakpoints
+</span></span><span style="display:flex;"><span>end
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 保存历史命令</span>
+</span></span><span style="display:flex;"><span>set history filename ~/.gdb_history
+</span></span><span style="display:flex;"><span>set history save on
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 退出时不显示提示信息</span>
+</span></span><span style="display:flex;"><span>set confirm off
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 按照派生类型打印对象</span>
+</span></span><span style="display:flex;"><span>set print object on
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 打印数组的索引下标</span>
+</span></span><span style="display:flex;"><span>set print array-indexes on
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 每行打印一个结构体成员</span>
+</span></span><span style="display:flex;"><span>set print pretty on
+</span></span></code></pre></div><p>运行时指定gdbinit文件,推荐使用</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">[</span>linux-devkit<span style="color:#f92672">]</span>:~&gt; arm-none-linux-gnueabihf-gdb test_main -x ../.gdbinit 
+</span></span></code></pre></div><h2 id="设置断点">
+  设置断点
+  <a class="anchor" href="#%e8%ae%be%e7%bd%ae%e6%96%ad%e7%82%b9">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#filename:linenum</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> break /Full/path/to/service.cpp:45
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#function</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> b NamespaceA::ClassA::foo
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#filename:function</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> b object5.cpp:test
+</span></span></code></pre></div><h2 id="保存断点">
+  保存断点
+  <a class="anchor" href="#%e4%bf%9d%e5%ad%98%e6%96%ad%e7%82%b9">#</a>
+</h2>
+<p>
+  <a href="https://stackoverflow.com/questions/501486/getting-gdb-to-save-a-list-of-breakpoints">https://stackoverflow.com/questions/501486/getting-gdb-to-save-a-list-of-breakpoints</a></p>
+<p>As of GDB 7.2 (2011-08-23) you can now use the <em>
+  <a href="https://sourceware.org/gdb/onlinedocs/gdb/Save-Breakpoints.html">save breakpoints</a></em> command.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-vhdl" data-lang="vhdl"><span style="display:flex;"><span>(gdb) save breakpoints <span style="color:#f92672">&lt;</span>filename<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>  Save <span style="color:#66d9ef">all</span> current breakpoint definitions <span style="color:#66d9ef">to</span> a <span style="color:#66d9ef">file</span> suitable <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">use</span>
+</span></span><span style="display:flex;"><span>  in a later debugging session.  <span style="color:#66d9ef">To</span> read the saved breakpoint
+</span></span><span style="display:flex;"><span>  definitions, <span style="color:#66d9ef">use</span> the <span style="color:#960050;background-color:#1e0010">`</span>source&#39; command.
+</span></span></code></pre></div><p>Use source command  to restore the saved breakpoints from the file.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> source  &lt;filename&gt;
+</span></span></code></pre></div><p>测试</p>
+<pre tabindex="0"><code class="language-shell(gdb)" data-lang="shell(gdb)">(gdb) save breakpoints br_file
+Saved to file &#39;br_file&#39;.
+(gdb) source br_file
+Breakpoint 1 at 0x43ccea: file /home/ubuntu/targetNFS/test/TestMain.cpp, line 219.
+Breakpoint 2 at 0x43ccf6: file /home/ubuntu/targetNFS/test/TestMain.cpp, line 220.
+</code></pre><h2 id="删除断点">
+  删除断点
+  <a class="anchor" href="#%e5%88%a0%e9%99%a4%e6%96%ad%e7%82%b9">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>clear
+</span></span><span style="display:flex;"><span>clear <span style="color:#66d9ef">function</span>
+</span></span><span style="display:flex;"><span>clear filename:function
+</span></span><span style="display:flex;"><span>clear linenum
+</span></span><span style="display:flex;"><span>clear filename:linenum
+</span></span><span style="display:flex;"><span>delete <span style="color:#f92672">[</span>breakpoints<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>range...<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>d    <span style="color:#75715e">#清空所有</span>
+</span></span></code></pre></div><h2 id="查看断点">
+  查看断点
+  <a class="anchor" href="#%e6%9f%a5%e7%9c%8b%e6%96%ad%e7%82%b9">#</a>
+</h2>
+<p>设置记录日志</p>
+<pre tabindex="0"><code class="language-delphi" data-lang="delphi">(gdb) b main
+Breakpoint 1 at 0x8049329
+(gdb) info break
+Num     Type           Disp Enb Address    What
+1       breakpoint     keep y   0x08049329 &lt;main+16&gt;
+(gdb) set logging file breaks.txt
+(gdb) set logging on
+Copying output to breaks.txt.
+(gdb) info break
+Num     Type           Disp Enb Address    What
+1       breakpoint     keep y   0x08049329 &lt;main+16&gt;
+(gdb) q
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> i b
+</span></span><span style="display:flex;"><span>Num     Type           Disp Enb Address            What
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span>       breakpoint     keep y   0x000000000043ccea in main<span style="color:#f92672">()</span> at /home/ubuntu/targetNFS/test/TestMain.cpp:219
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">2</span>       breakpoint     keep y   0x000000000043ccf6 in main<span style="color:#f92672">()</span> at /home/ubuntu/targetNFS/test/TestMain.cpp:220
+</span></span></code></pre></div><h2 id="查看变量值">
+  查看变量值
+  <a class="anchor" href="#%e6%9f%a5%e7%9c%8b%e5%8f%98%e9%87%8f%e5%80%bc">#</a>
+</h2>
+<p>1、每次停在断点时，自动打印变量值</p>
+<p>Use the <code>display</code> command:</p>
+<pre tabindex="0"><code>(gdb&gt; display decoder.m_msg
+</code></pre><p>2、打印所有变量</p>
+<p>This will cause <code>decoder.m_msg</code> to be printed every time that the prompt is shown (not only after a breakpoint).</p>
+<p>Type 
+  <a href="http://sourceware.org/gdb/current/onlinedocs/gdb/Symbols.html#index-info-variables-918"><code>info variables</code></a> to list &ldquo;All global and static variable names&rdquo;.</p>
+<p>Type 
+  <a href="http://sourceware.org/gdb/current/onlinedocs/gdb/Frame-Info.html#index-info-locals-435"><code>info locals</code></a> to list &ldquo;Local variables of current stack frame&rdquo; (names and values), including static variables in that function.</p>
+<p>Type 
+  <a href="https://sourceware.org/gdb/current/onlinedocs/gdb/Frame-Info.html#index-info-args"><code>info args</code></a> to list &ldquo;Arguments of the current stack frame&rdquo; (names and values).</p>
+<h2 id="传入运行参数">
+  传入运行参数
+  <a class="anchor" href="#%e4%bc%a0%e5%85%a5%e8%bf%90%e8%a1%8c%e5%8f%82%e6%95%b0">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>gdb --args executablename arg1 arg2 arg3
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> set args a b c
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> show args
+</span></span><span style="display:flex;"><span>Argument list to give program being debugged when it is started is <span style="color:#e6db74">&#34;a b c&#34;</span>.
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">(</span>gdb<span style="color:#f92672">)</span> r a b
+</span></span><span style="display:flex;"><span>Starting program: /home/xmj/tmp/a.out a b
+</span></span></code></pre></div><h2 id="beejs-quick-guide-to-gdb">
+  Beej&rsquo;s Quick Guide to GDB
+  <a class="anchor" href="#beejs-quick-guide-to-gdb">#</a>
+</h2>
+<table>
+<thead>
+<tr>
+<th><strong>command</strong></th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>help <em>command</em></strong></td>
+<td>Get help on a certain command</td>
+</tr>
+<tr>
+<td><strong>apropos <em>keyword</em></strong></td>
+<td>Search help for a particular keyword</td>
+</tr>
+<tr>
+<td><strong>Starting and Quitting</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>gdb <em>[-tui] [-c core] [exename]</em></strong></td>
+<td><strong>(Unix Command)</strong> Start <strong>gdb</strong> on an executable or standalone; specify &ldquo;-tui&rdquo; to start the TUI GUI; specify &ldquo;-c&rdquo; with a corefile name to see where a crash occurred</td>
+</tr>
+<tr>
+<td><strong>run <em>[arg1] [arg2] [&hellip;]</em></strong></td>
+<td>Run the currently loaded program with the given command line arguments</td>
+</tr>
+<tr>
+<td><strong>quit</strong></td>
+<td>Exit the debugger</td>
+</tr>
+<tr>
+<td><strong>file <em>exename</em></strong></td>
+<td>Load an executable file by name</td>
+</tr>
+<tr>
+<td><strong>Breakpoints and Watchpoints</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>break <em>location</em></strong></td>
+<td>Set a breakpoint at a location, line number, or file (e.g. &ldquo;main&rdquo;, &ldquo;5&rdquo;, or &ldquo;hello.c:23&rdquo;)</td>
+</tr>
+<tr>
+<td><strong>watch <em>expression</em></strong></td>
+<td>Break when a variable is written to</td>
+</tr>
+<tr>
+<td><strong>rwatch <em>expression</em></strong></td>
+<td>Break when a variable is read from</td>
+</tr>
+<tr>
+<td><strong>awatch <em>expression</em></strong></td>
+<td>Break when a variable is written to or read from</td>
+</tr>
+<tr>
+<td><strong>info break</strong></td>
+<td>Display breakpoint and watchpoint information and numbers</td>
+</tr>
+<tr>
+<td><strong>info watch</strong></td>
+<td>Same as <strong>info break</strong></td>
+</tr>
+<tr>
+<td><strong>clear <em>location</em></strong></td>
+<td>Clear a breakpoint from a location</td>
+</tr>
+<tr>
+<td><strong>delete <em>num</em></strong></td>
+<td>Delete a breakpoint or watchpoint by number</td>
+</tr>
+<tr>
+<td><strong>Stepping and Running</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>next</strong></td>
+<td>Run to the next line of this function</td>
+</tr>
+<tr>
+<td><strong>step</strong></td>
+<td>Step into the function on this line, if possible</td>
+</tr>
+<tr>
+<td><strong>stepi</strong></td>
+<td>Step a single assembly instruction</td>
+</tr>
+<tr>
+<td><strong>continue</strong></td>
+<td>Keep running from here</td>
+</tr>
+<tr>
+<td><strong>CTRL-C</strong></td>
+<td>Stop running, wherever you are</td>
+</tr>
+<tr>
+<td><strong>finish</strong></td>
+<td>Run until the end of the current function</td>
+</tr>
+<tr>
+<td><strong>advance <em>location</em></strong></td>
+<td>Advance to a location, line number, or file (e.g. &ldquo;somefunction&rdquo;, &ldquo;5&rdquo;, or &ldquo;hello.c:23&rdquo;)</td>
+</tr>
+<tr>
+<td><strong>jump <em>location</em></strong></td>
+<td>Just like <strong>continue</strong>, except jump to a particular location first.</td>
+</tr>
+<tr>
+<td><strong>Examining and Modifying Variables</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>display <em>expression</em></strong></td>
+<td>Display the value of a variable or expression every step of the program—the expression must make sense in the current scope</td>
+</tr>
+<tr>
+<td><strong>info display</strong></td>
+<td>Show a list of expressions currently being displayed and their numbers</td>
+</tr>
+<tr>
+<td><strong>undisplay <em>num</em></strong></td>
+<td>Stop showing an expression identified by its number (see <strong>info display</strong>)</td>
+</tr>
+<tr>
+<td><strong>print <em>expression</em></strong></td>
+<td>Print the value of a variable or expression</td>
+</tr>
+<tr>
+<td><strong>printf <em>formatstr</em> <em>expressionlist</em></strong></td>
+<td>Do some formatted output with <code>printf()</code> e.g. <code>printf &quot;i = %d, p = %s\n&quot;, i, p</code></td>
+</tr>
+<tr>
+<td><strong>set variable <em>expression</em></strong></td>
+<td>Set a variable to value, e.g. <code>set variable x=20</code></td>
+</tr>
+<tr>
+<td><strong>set (<em>expression</em>)</strong></td>
+<td>Works like <strong>set variable</strong></td>
+</tr>
+<tr>
+<td><strong>Window Commands</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>info win</strong></td>
+<td>Shows current window info</td>
+</tr>
+<tr>
+<td><strong>focus <em>winname</em></strong></td>
+<td>Set focus to a particular window bby name (&ldquo;SRC&rdquo;, &ldquo;CMD&rdquo;, &ldquo;ASM&rdquo;, or &ldquo;REG&rdquo;) or by position (&ldquo;next&rdquo; or &ldquo;prev&rdquo;)</td>
+</tr>
+<tr>
+<td><strong>fs</strong></td>
+<td>Alias for <strong>focus</strong></td>
+</tr>
+<tr>
+<td><strong>layout <em>type</em></strong></td>
+<td>Set the window layout (&ldquo;src&rdquo;, &ldquo;asm&rdquo;, &ldquo;split&rdquo;, or &ldquo;reg&rdquo;)</td>
+</tr>
+<tr>
+<td><strong>tui reg <em>type</em></strong></td>
+<td>Set the register window layout (&ldquo;general&rdquo;, &ldquo;float&rdquo;, &ldquo;system&rdquo;, or &ldquo;next&rdquo;)</td>
+</tr>
+<tr>
+<td><strong>winheight <em>val</em></strong></td>
+<td>Set the window height (either an absolute value, or a relative value prefaced with &ldquo;+&rdquo; or &ldquo;-&rdquo;)</td>
+</tr>
+<tr>
+<td><strong>wh</strong></td>
+<td>Alias for <strong>winheight</strong></td>
+</tr>
+<tr>
+<td><strong>set disassembly-flavor <em>flavor</em></strong></td>
+<td>Set the look-and-feel of the disassembly. On Intel machines, valid flavors are <strong>intel</strong> and <strong>att</strong></td>
+</tr>
+<tr>
+<td><strong>Misc Commands</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>RETURN</strong></td>
+<td>Hit RETURN to repeat the last command</td>
+</tr>
+<tr>
+<td><strong>backtrace</strong></td>
+<td>Show the current stack</td>
+</tr>
+<tr>
+<td><strong>bt</strong></td>
+<td>Alias for <strong>backtrace</strong></td>
+</tr>
+<tr>
+<td><strong>attach <em>pid</em></strong></td>
+<td>Attach to an already-running process by its PID</td>
+</tr>
+<tr>
+<td><strong>info registers</strong></td>
+<td>Dump integer registers to screen</td>
+</tr>
+<tr>
+<td><strong>info all-registers</strong></td>
+<td>Dump all registers to screen</td>
+</tr>
+</tbody>
+</table>
+<h1 id="参考链接">
+  参考链接
+  <a class="anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">#</a>
+</h1>
+<p>
+  <a href="https://visualgdb.com/gdbreference/commands/">https://visualgdb.com/gdbreference/commands/</a></p>
+<p>
+  <a href="https://wizardforcel.gitbooks.io/100-gdb-tips">https://wizardforcel.gitbooks.io/100-gdb-tips</a></p>
+<p>
+  <a href="https://beej.us/guide/bggdb/">https://beej.us/guide/bggdb/</a></p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/swifteen/swifteen.github.io/edit/main/exampleSite/content/docs/Linux%20World/%e5%b7%a5%e5%85%b7/GDB/GDB%e5%b8%b8%e7%94%a8%e5%91%bd%e4%bb%a4.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function e(n){const e=window.getSelection(),t=document.createRange();t.selectNodeContents(n),e.removeAllRanges(),e.addRange(t)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#gdb调试常用命令">GDB调试常用命令</a>
+      <ul>
+        <li><a href="#设置gdbinit初始环境">设置gdbinit初始环境</a></li>
+        <li><a href="#设置断点">设置断点</a></li>
+        <li><a href="#保存断点">保存断点</a></li>
+        <li><a href="#删除断点">删除断点</a></li>
+        <li><a href="#查看断点">查看断点</a></li>
+        <li><a href="#查看变量值">查看变量值</a></li>
+        <li><a href="#传入运行参数">传入运行参数</a></li>
+        <li><a href="#beejs-quick-guide-to-gdb">Beej&rsquo;s Quick Guide to GDB</a></li>
+      </ul>
+    </li>
+    <li><a href="#参考链接">参考链接</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
