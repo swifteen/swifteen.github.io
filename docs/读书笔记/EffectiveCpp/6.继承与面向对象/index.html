@@ -14,14 +14,14 @@ class Base{ private:  int x; public:  virtual void mf1() = 0;  virtual void mf1(
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://swifteen.github.io/docs/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/EffectiveCpp/6.%E7%BB%A7%E6%89%BF%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" /><meta property="article:section" content="docs" />
 
-
+<meta property="article:modified_time" content="2022-05-06T01:47:17+08:00" />
 
 <title>6.继承与面向对象 | Freedom Book</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.8af359f8b4ff91864838b7225239a34a4ca449e60ef99ab88e33c978c8685391.css" integrity="sha256-ivNZ&#43;LT/kYZIOLciUjmjSkykSeYO&#43;Zq4jjPJeMhoU5E=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.7445bbe793a3cc0e5920ca9eba7c2ca3c6af1ae9b17fe43767e80a5a22f8da8d.js" integrity="sha256-dEW755OjzA5ZIMqeunwso8avGumxf&#43;Q3Z&#43;gKWiL42o0=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.4e55b581532c4601a74b8fb46194584be3e435a02424af4f8615c01529ec60f9.js" integrity="sha256-TlW1gVMsRgGnS4&#43;0YZRYS&#43;PkNaAkJK9PhhXAFSnsYPk=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <!--
@@ -519,19 +519,6 @@ https://github.com/alex-shpak/hugo-book
         </li>
       
     
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="/docs/Qt%E6%80%BB%E7%BB%93/%E6%95%B4%E7%90%86Qt-snippet/" class="">整理 Qt Snippet</a>
-  
-
-        </li>
-      
-    
   </ul>
 
         </li>
@@ -968,6 +955,11 @@ https://github.com/alex-shpak/hugo-book
         <li><a href="#33avoid-hideing-inherited-names">33.Avoid hideing inherited names</a></li>
         <li><a href="#34differentiate-between-inheritance-of-interface-and-inheritance-of-implementation">34.Differentiate between inheritance of interface and inheritance of implementation</a></li>
         <li><a href="#35consider-alternatives-to-virtual-functions">35.Consider alternatives to virtual functions</a></li>
+        <li><a href="#36never-redefine-an-inherited-non-virtual-function">36.Never redefine an inherited non-virtual function</a></li>
+        <li><a href="#37never-redefine-a-functions-inherited-default-parameter-value">37.Never redefine a function&rsquo;s inherited default parameter value</a></li>
+        <li><a href="#38model-has-a-or-is-implemented-in-terms-of-through-composition">38.Model &ldquo;has-a&rdquo; or &ldquo;is-implemented-in-terms-of&rdquo; through composition</a></li>
+        <li><a href="#39use-private-inheritance-judiciously">39.Use private inheritance judiciously</a></li>
+        <li><a href="#40use-multiple-inheritance-judiciously">40.Use multiple inheritance judiciously</a></li>
       </ul>
     </li>
   </ul>
@@ -1194,6 +1186,94 @@ https://github.com/alex-shpak/hugo-book
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div></li>
 </ul>
+<h2 id="36never-redefine-an-inherited-non-virtual-function">
+  36.Never redefine an inherited non-virtual function
+  <a class="anchor" href="#36never-redefine-an-inherited-non-virtual-function">#</a>
+</h2>
+<p>声明了virtual函数是动态绑定的(dynamically bound)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">B</span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> mf();
+</span></span><span style="display:flex;"><span>    ...
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">D</span><span style="color:#f92672">:</span><span style="color:#66d9ef">public</span> B{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> mf();
+</span></span><span style="display:flex;"><span>    ...  
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>D x;
+</span></span><span style="display:flex;"><span>B<span style="color:#f92672">*</span> pB <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>x;
+</span></span><span style="display:flex;"><span>pB<span style="color:#f92672">-&gt;</span>mf();<span style="color:#75715e">//调用B::mf
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>D<span style="color:#f92672">*</span> pD <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>x;
+</span></span><span style="display:flex;"><span>pD<span style="color:#f92672">-&gt;</span>mf();<span style="color:#75715e">//调用D::mf
+</span></span></span></code></pre></div><ul>
+<li>绝对不要重新定义继承而来的non-virtual函数</li>
+</ul>
+<h2 id="37never-redefine-a-functions-inherited-default-parameter-value">
+  37.Never redefine a function&rsquo;s inherited default parameter value
+  <a class="anchor" href="#37never-redefine-a-functions-inherited-default-parameter-value">#</a>
+</h2>
+<p>缺省参数值是静态绑定的。如果缺省参数值是动态绑定的，编译器就必须有某种办法在运行期为virtual函数决定适当的参数缺省值,为了运行期效率和编译器实现上的简易度,C++做了取舍。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Shape</span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">ShapeColor</span>{Red,Green,Blue};
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">draw</span>(ShapeColor color <span style="color:#f92672">=</span> Red) <span style="color:#66d9ef">const</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Rectangle</span><span style="color:#f92672">:</span><span style="color:#66d9ef">public</span> Shape{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> draw(ShapeColor color <span style="color:#f92672">=</span> Green) <span style="color:#66d9ef">const</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Circle</span><span style="color:#f92672">:</span><span style="color:#66d9ef">public</span> Shape{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> draw(ShapeColor color) <span style="color:#66d9ef">const</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Shape<span style="color:#f92672">*</span> ps;
+</span></span><span style="display:flex;"><span>Shape<span style="color:#f92672">*</span> pc <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Circle;
+</span></span><span style="display:flex;"><span>Shape<span style="color:#f92672">*</span> pr <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Rectangle;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pr<span style="color:#f92672">-&gt;</span>draw();<span style="color:#75715e">//调用Rectangle::draw(Shape::Red);
+</span></span></span></code></pre></div><p>可以参考条款35中NVI（non-virtual interface）手法：令base class内的一个public non-virtual函数调用private virtual 函数，后者可被derived classes重新定义</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Shape</span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">ShapeColor</span>{Red,Green,Blue};
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">draw</span>(ShapeColor color <span style="color:#f92672">=</span> Red) <span style="color:#75715e">//这样设计可以保证draw方法的默认参数总为Red
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    {
+</span></span><span style="display:flex;"><span>        doDraw(color);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> doDraw(ShapeColor color) <span style="color:#66d9ef">const</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Rectangle</span><span style="color:#f92672">:</span><span style="color:#66d9ef">public</span> Shape{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    ...
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> doDraw(ShapeColor color) <span style="color:#66d9ef">const</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h2 id="38model-has-a-or-is-implemented-in-terms-of-through-composition">
+  38.Model &ldquo;has-a&rdquo; or &ldquo;is-implemented-in-terms-of&rdquo; through composition
+  <a class="anchor" href="#38model-has-a-or-is-implemented-in-terms-of-through-composition">#</a>
+</h2>
+<p>复合(composition)意味着有一个(has-a)或者根据某物实现出(is-implemented-in-terms-of)</p>
+<p>在应用域（application domain），复合意味has-a（有一个），在实现域(implementation domain)复合意味is-implemented-in-terms-of（根据某物实现出）</p>
+<h2 id="39use-private-inheritance-judiciously">
+  39.Use private inheritance judiciously
+  <a class="anchor" href="#39use-private-inheritance-judiciously">#</a>
+</h2>
+<p>如果classes之间的继承关系是private,编译器不会自动将一个derived class对象(例如Student)转换为一个base class对象(例如Person)</p>
+<p>由private base class继承而来的所有成员，在derived class中都会变成private属性，纵使它们在base class 中原本是protected或public属性</p>
+<p>复合和private继承都意味is-implemented-in-terms-of，无论什么时候，只要可以，你还是应该选择复合</p>
+<h2 id="40use-multiple-inheritance-judiciously">
+  40.Use multiple inheritance judiciously
+  <a class="anchor" href="#40use-multiple-inheritance-judiciously">#</a>
+</h2>
+<p>virtual继承会增加大小、速度、初始化复杂度等等成本</p>
+<p>尽量不要使用多继承</p>
 </article>
  
       
@@ -1202,6 +1282,12 @@ https://github.com/alex-shpak/hugo-book
         
   <div class="flex flex-wrap justify-between">
 
+
+  <div><a class="flex align-center" href="https://github.com/swifteen/swifteen.github.io/commit/bba2162de6e3bef2d0e1c9278ea1d94cdd33cfd5" title='Last modified by swifteen | May 6, 2022' target="_blank" rel="noopener">
+      <img src="/svg/calendar.svg" class="book-icon" alt="Calendar" />
+      <span>May 6, 2022</span>
+    </a>
+  </div>
 
 
 
@@ -1248,6 +1334,11 @@ https://github.com/alex-shpak/hugo-book
         <li><a href="#33avoid-hideing-inherited-names">33.Avoid hideing inherited names</a></li>
         <li><a href="#34differentiate-between-inheritance-of-interface-and-inheritance-of-implementation">34.Differentiate between inheritance of interface and inheritance of implementation</a></li>
         <li><a href="#35consider-alternatives-to-virtual-functions">35.Consider alternatives to virtual functions</a></li>
+        <li><a href="#36never-redefine-an-inherited-non-virtual-function">36.Never redefine an inherited non-virtual function</a></li>
+        <li><a href="#37never-redefine-a-functions-inherited-default-parameter-value">37.Never redefine a function&rsquo;s inherited default parameter value</a></li>
+        <li><a href="#38model-has-a-or-is-implemented-in-terms-of-through-composition">38.Model &ldquo;has-a&rdquo; or &ldquo;is-implemented-in-terms-of&rdquo; through composition</a></li>
+        <li><a href="#39use-private-inheritance-judiciously">39.Use private inheritance judiciously</a></li>
+        <li><a href="#40use-multiple-inheritance-judiciously">40.Use multiple inheritance judiciously</a></li>
       </ul>
     </li>
   </ul>

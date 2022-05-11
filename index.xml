@@ -407,16 +407,6 @@ vim设置colorSchema #  mkdir -p ~/.vim/colors  https://github.com/tomasr/moloka
     
     <item>
       <title></title>
-      <link>https://swifteen.github.io/docs/Qt%E6%80%BB%E7%BB%93/%E6%95%B4%E7%90%86Qt-snippet/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://swifteen.github.io/docs/Qt%E6%80%BB%E7%BB%93/%E6%95%B4%E7%90%86Qt-snippet/</guid>
-      <description>延时异步加载 #  用QTimer::singleShot单次定时器和QMetaObject::invokeMethod可以解决意想不到的问题。比如在窗体初始化的时候加载一个耗时的操作，很容易卡主界面的显示，要在加载完以后才会显示界面，这就导致了体验很卡不友好的感觉，此时你可以将耗时的加载（有时候这些加载又必须在主线程，比如用QStackWidget堆栈窗体加载一些子窗体），延时或者异步进行加载，这样就会在界面显示后去执行，而不是卡住主界面。
-//异步执行load函数QMetaObject::invokeMethod(this, &amp;#34;load&amp;#34;, Qt::QueuedConnection);//延时10毫秒执行load函数QTimer::singleShot(10, this, SLOT(load())); 获取类的属性和方法 #  //拿到控件元对象 const QMetaObject *metaObject = widget-&amp;gt;metaObject();  //所有属性的数量 int propertyCount = metaObject-&amp;gt;propertyCount(); //propertyOffset是自定义的属性开始的位置 int propertyOffset = metaObject-&amp;gt;propertyOffset(); //循环取出控件的自定义属性, int i = 0 表示所有属性 for (int i = propertyOffset; i &amp;lt; propertyCount; ++i) {  QMetaProperty metaProperty = metaObject-&amp;gt;property(i);  const char *name = metaProperty.name();  const char *type = metaProperty.typeName();  QVariant value = widget-&amp;gt;property(name);  qDebug() &amp;lt;&amp;lt; name &amp;lt;&amp;lt; type &amp;lt;&amp;lt; value; }  //所有方法的数量 int methodCount = metaObject-&amp;gt;methodCount(); //methodOffset是自定义的方法开始的位置 int methodOffset = metaObject-&amp;gt;methodOffset(); //循环取出控件的自定义方法, int i = 0 表示所有方法 for (int i = methodOffset; i &amp;lt; methodCount; ++i) {  QMetaMethod metaMethod = metaObject-&amp;gt;method(i);  const char *name = metaMethod.</description>
-    </item>
-    
-    <item>
-      <title></title>
       <link>https://swifteen.github.io/docs/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/%E4%B9%B1%E7%A0%81/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
